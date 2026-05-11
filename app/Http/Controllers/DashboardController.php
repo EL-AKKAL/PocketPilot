@@ -32,8 +32,8 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
-            'income' => $monthly->income ?? 0,
-            'expense' => abs($monthly->expense ?? 0),
+            'income' => (float) ($monthly->income ?? 0),
+            'expense' => (float) abs($monthly->expense ?? 0),
         ]);
     }
 }
