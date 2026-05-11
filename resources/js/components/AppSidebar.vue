@@ -15,8 +15,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index as transactions } from '@/routes/transactions';
 import { index as periodicTransactions } from '@/routes/periodic_transactions';
+import { index as transactions } from '@/routes/transactions';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import { columns } from '@/components/transactions/columns';
-import DataTable from '@/components/transactions/dataTable.vue';
 import Form from '@/components/transactions/Form.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';

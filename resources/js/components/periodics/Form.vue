@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
-import { getLocalTimeZone, today ,parseDate} from '@internationalized/date';
+import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import InputError from '@/components/InputError.vue';
+import {
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RangeCalendar } from '@/components/ui/range-calendar';
@@ -18,16 +27,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/periodic_transactions';
-
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import type { PeriodicTransaction } from '@/types';
 
 const props = defineProps<{
     periodic?: PeriodicTransaction;
@@ -45,13 +45,10 @@ const dateRange = ref({
     start,
     end,
 }) as Ref<DateRange>;
-
-
 </script>
 
 <template>
     <AlertDialogContent class="max-w-xl!">
-        <pre>{{periodic}}</pre>
         <AlertDialogHeader>
             <AlertDialogTitle>New Transaction</AlertDialogTitle>
             <AlertDialogDescription>
@@ -72,7 +69,7 @@ const dateRange = ref({
                         id="amount"
                         type="number"
                         name="amount"
-                         :default-value="periodic?.amount"
+                        :default-value="periodic?.amount"
                         required
                         autofocus
                         :tabindex="1"
@@ -111,7 +108,10 @@ const dateRange = ref({
                     <div class="flex items-center justify-between">
                         <Label for="start_date">Frequency</Label>
                     </div>
-                    <Select name="frequency"     :default-value="periodic?.frequency">
+                    <Select
+                        name="frequency"
+                        :default-value="periodic?.frequency"
+                    >
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a frequency" />
                         </SelectTrigger>
@@ -133,7 +133,10 @@ const dateRange = ref({
                     <div class="flex items-center justify-between">
                         <Label for="start_date">Status</Label>
                     </div>
-                    <Select name="is_active"     :default-value="periodic?.is_active">
+                    <Select
+                        name="is_active"
+                        :default-value="periodic?.is_active"
+                    >
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a status" />
                         </SelectTrigger>
@@ -141,9 +144,7 @@ const dateRange = ref({
                             <SelectGroup>
                                 <SelectLabel>Status</SelectLabel>
                                 <SelectItem :value="1"> Active </SelectItem>
-                                <SelectItem :value="0">
-                                    Inactive
-                                </SelectItem>
+                                <SelectItem :value="0"> Inactive </SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>

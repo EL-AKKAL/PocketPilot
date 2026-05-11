@@ -1,35 +1,35 @@
-<script setup>
+<script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
-import { store } from '@/routes/account';
-import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { store } from '@/routes/account';
 </script>
 
 <template>
-  <div class="p-6 max-w-md mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Create Your Account</h1>
+    <div class="mx-auto max-w-md p-6">
+        <h1 class="mb-4 text-2xl font-bold">Create Your Account</h1>
 
-      <Form
-        v-bind="store.form()"
-        v-slot="{ errors, processing }"
-        class="flex flex-col gap-6"
-    >
- <input
- name="name"
-        type="text"
-        placeholder="Account name"
-        class="w-full border p-2 rounded"
-      />
+        <Form
+            v-bind="store.form()"
+            v-slot="{ processing }"
+            class="flex flex-col gap-6"
+        >
+            <input
+                name="name"
+                type="text"
+                placeholder="Account name"
+                class="w-full rounded border p-2"
+            />
 
-      <input
-        name="starting_balance"
-        type="number"
-        step="0.01"
-        placeholder="Starting balance"
-        class="w-full border p-2 rounded"
-      />
+            <input
+                name="starting_balance"
+                type="number"
+                step="0.01"
+                placeholder="Starting balance"
+                class="w-full rounded border p-2"
+            />
 
-      <Button
+            <Button
                 type="submit"
                 class="mt-4 w-full"
                 :tabindex="4"
@@ -39,8 +39,6 @@ import { Button } from '@/components/ui/button';
                 <Spinner v-if="processing" />
                 Create Account
             </Button>
-
-</Form>
-
-  </div>
+        </Form>
+    </div>
 </template>

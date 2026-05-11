@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { MoreHorizontal } from 'lucide-vue-next'
 import { Form } from '@inertiajs/vue3'
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { MoreHorizontal } from 'lucide-vue-next'
+import TransactionForm from '@/components/periodics/Form.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -12,10 +11,11 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import TransactionForm from '@/components/periodics/Form.vue';
-import type { PeriodicTransaction } from '@/types';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { destroy } from '@/routes/periodic_transactions';
+import type { PeriodicTransaction } from '@/types';
 defineProps<{
   periodic:PeriodicTransaction
 }>()

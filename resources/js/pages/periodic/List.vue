@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { columns } from '@/components/periodics/columns';
-import DataTable from '@/components/periodics/dataTable.vue';
 import Form from '@/components/periodics/Form.vue';
+import DataTable from '@/components/ReusableDatatable/dataTable.vue';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import type { PeriodicTransaction } from '@/types';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 defineProps<{ periodics: PeriodicTransaction[] }>();
 </script>
@@ -24,6 +24,6 @@ defineProps<{ periodics: PeriodicTransaction[] }>();
                 <Form class="w-3xl!" />
             </AlertDialog>
         </div>
-        <DataTable :columns="columns" :data="periodics" />
+        <dataTable :columns="columns" :data="periodics" />
     </div>
 </template>

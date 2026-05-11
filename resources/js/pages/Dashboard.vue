@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
+import type { Transaction } from '@/types';
 defineProps({
     balance: Number,
     income: Number,
     expense: Number,
-    recentTransactions: Array,
+    recentTransactions: Array<Transaction>,
 });
 </script>
 
@@ -19,7 +20,7 @@ defineProps({
         <div class="grid grid-cols-2 gap-4">
             <div class="rounded-xl bg-green-100 p-4">
                 <h3 class="text-green-700">Income</h3>
-                <p class="text-xl font-bold">{{ income.toFixed(2) }}MAD</p>
+                <p class="text-xl font-bold">{{ income?.toFixed(2) }}MAD</p>
             </div>
 
             <div class="rounded-xl bg-red-100 p-4">
