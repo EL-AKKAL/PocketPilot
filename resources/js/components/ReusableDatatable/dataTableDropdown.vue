@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import type { Method } from '@inertiajs/core';
 import { Form } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
-import TransactionForm from '@/components/transactions/Form.vue';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -12,6 +11,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -21,11 +21,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { destroy } from '@/routes/transactions';
-import type { Transaction } from '@/types';
 
 defineProps<{
-    transaction: Transaction;
+    deleteRoute: {
+        method: Method;
+        url: string;
+        action?: string;
+    };
+    item: string;
 }>();
 </script>
 
@@ -41,33 +44,26 @@ defineProps<{
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem @select.prevent>
                 <AlertDialog>
-                    <AlertDialogTrigger> Edit transaction </AlertDialogTrigger>
-                    <TransactionForm :transaction="transaction" />
+                    <AlertDialogTrigger> Edit {{ item }} </AlertDialogTrigger>
+                    <slot name="edit" />
                 </AlertDialog>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @select.prevent>
                 <AlertDialog>
-                    <AlertDialogTrigger>Delete transaction</AlertDialogTrigger>
+                    <AlertDialogTrigger>Delete {{ item }}</AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle
-                                >Are you absolutely sure?</AlertDialogTitle
-                            >
+                            <AlertDialogTitle>
+                                Are you absolutely sure?
+                            </AlertDialogTitle>
                             <AlertDialogDescription>
                                 This action cannot be undone. This will
-                                permanently delete the transaction.
+                                permanently delete the {{ item }}.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <Form
-                            v-bind="{
-                                ...destroy({ transaction: transaction.id }),
-                                action: destroy({
-                                    transaction: transaction.id,
-                                }).url,
-                            }"
-                            v-slot="{ processing }"
-                            ><AlertDialogFooter>
+                        <Form v-bind="deleteRoute" v-slot="{ processing }">
+                            <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
                                     type="submit"

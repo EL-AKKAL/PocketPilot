@@ -1,6 +1,8 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
-import DropdownAction from '@/components/transactions/dataTableDropdown.vue';
+import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
+import Form from '@/components/transactions/Form.vue';
+import { destroy } from '@/routes/transactions';
 import type { Transaction } from '@/types';
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -46,9 +48,26 @@ export const columns: ColumnDef<Transaction>[] = [
             return h(
                 'div',
                 { class: 'relative' },
-                h(DropdownAction, {
-                    transaction: transaction,
-                }),
+                h(
+                    DropdownAction,
+                    {
+                        item: 'Transaction',
+                        deleteRoute: {
+                            ...destroy({
+                                transaction: transaction.id,
+                            }),
+                            action: destroy({
+                                transaction: transaction.id,
+                            }).url,
+                        },
+                    },
+                    {
+                        edit: () =>
+                            h(Form, {
+                                transaction,
+                            }),
+                    },
+                ),
             );
         },
     },

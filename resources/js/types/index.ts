@@ -13,7 +13,7 @@ export interface Transaction {
 }
 
 export interface PeriodicTransaction {
-    id: string;
+    id: number;
     amount: number;
     description: string;
     account_id: string;

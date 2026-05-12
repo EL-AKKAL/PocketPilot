@@ -2,7 +2,8 @@
 import { Form } from '@inertiajs/vue3';
 import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
-import { Ref, ref } from 'vue';
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
@@ -26,7 +27,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
-import { store } from '@/routes/periodic_transactions';
+import { store, update } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
 
 const props = defineProps<{
@@ -57,7 +58,15 @@ const dateRange = ref({
             </AlertDialogDescription>
         </AlertDialogHeader>
         <Form
-            v-bind="store.form()"
+            v-bind="
+                periodic
+                    ? {
+                          ...update({ periodic_transaction: periodic.id }),
+                          action: update({ periodic_transaction: periodic.id })
+                              .url,
+                      }
+                    : store.form()
+            "
             :reset-on-success="['amount', 'description']"
             v-slot="{ errors, processing }"
             class="flex flex-col gap-6"
