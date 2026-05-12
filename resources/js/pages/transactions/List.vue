@@ -13,6 +13,6 @@ defineProps<{ transactions: Transaction[] }>();
         <dataTableTitle title="Transactions" action="Create Transaction">
             <Form />
         </dataTableTitle>
-        <DataTable :columns="columns" :data="transactions" />
+        <DataTable :columns :data="transactions" />
     </div>
 </template>

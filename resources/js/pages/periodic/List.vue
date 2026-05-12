@@ -17,6 +17,6 @@ defineProps<{ periodics: PeriodicTransaction[] }>();
         >
             <Form />
         </dataTableTitle>
-        <dataTable :columns="columns" :data="periodics" />
+        <dataTable :columns :data="periodics" />
     </div>
 </template>
