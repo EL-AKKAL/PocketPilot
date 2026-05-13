@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { dashboard, login } from '@/routes';
 import { Link } from '@inertiajs/vue3';
 import { Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
@@ -20,6 +19,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import { dashboard, login } from '@/routes';
 
 import GithubIcon from './GithubIcon.vue';
 import ToggleTheme from './ToggleTheme.vue';

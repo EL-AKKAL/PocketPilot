@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useColorMode } from '@vueuse/core';
-const mode = useColorMode();
+import { Link } from '@inertiajs/vue3';
 
+import { ArrowRight } from 'lucide-vue-next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-vue-next';
+import { dashboard, login } from '@/routes';
 </script>
 
 <template>
-    <section class="container mx-auto">
+    <section class="container mx-auto px-4">
         <div
             class="mx-auto! grid place-items-center gap-8 py-20 md:py-32 lg:max-w-7xl"
         >
@@ -17,112 +17,63 @@ import { ArrowRight } from 'lucide-vue-next';
                     <span class="mr-2 text-primary">
                         <Badge>New</Badge>
                     </span>
-                    <span> Design is out now! </span>
+                    <span> Smart recurring transactions</span>
                 </Badge>
 
                 <div
-                    class="mx-auto max-w-screen-md text-center text-5xl font-bold md:text-6xl"
+                    class="mx-auto max-w-3xl text-center text-5xl font-bold md:text-6xl"
                 >
                     <h1>
-                        Experience the
+                        Take Control of your
                         <span
-                            class="bg-gradient-to-r from-[#D247BF] to-primary bg-clip-text text-transparent"
-                            >Shadcn/Vue
+                            class="bg-linear-to-r from-[#D247BF] to-primary bg-clip-text text-transparent"
+                        >
+                            Personal Finances
                         </span>
-                        landing page
+                        Without the Chaos
                     </h1>
                 </div>
 
                 <p
                     class="mx-auto max-w-screen-sm text-xl text-muted-foreground"
                 >
-                    We're more than just a tool, we're a community of passionate
-                    creators. Get access to exclusive resources, tutorials, and
-                    support.
+                    Track expenses, manage recurring transactions, and
+                    understand your financial habits with a clean and powerful
+                    dashboard built for everyday use.
                 </p>
 
                 <div class="space-y-4 md:space-y-0 md:space-x-4">
-                    <Button class="group/arrow w-5/6 font-bold md:w-1/4">
-                        Get Started
-                        <ArrowRight
-                            class="ml-2 size-5 transition-transform group-hover/arrow:translate-x-1"
-                        />
+                    <Button
+                        as-child
+                        class="group/arrow w-5/6 font-bold md:w-1/4"
+                    >
+                        <Link v-if="$page.props.auth.user" :href="dashboard()">
+                            Launch Dashboard
+                            <ArrowRight
+                                class="ml-2 size-5 transition-transform group-hover/arrow:translate-x-1"
+                            />
+                        </Link>
+                        <Link v-else :href="login()">
+                            Start Tracking
+                            <ArrowRight
+                                class="ml-2 size-5 transition-transform group-hover/arrow:translate-x-1"
+                            />
+                        </Link>
                     </Button>
-
                     <Button
                         as-child
                         variant="secondary"
                         class="w-5/6 font-bold md:w-1/4"
                     >
                         <a
-                            href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
+                            href="https://github.com/EL-AKKAL/PocketPilot"
                             target="_blank"
-                            >Github respository</a
                         >
+                            View on GitHub
+                        </a>
                     </Button>
                 </div>
-            </div>
-
-            <div class="group relative mt-14">
-                <!-- gradient shadow -->
-                <div
-                    class="img-shadow-animation absolute -top-6 right-12 h-12 w-[90%] rounded-full bg-primary/50 blur-3xl lg:h-[80%]"
-                ></div>
-
-                <img
-                    class="rouded-lg img-border-animation relative mx-auto flex w-full items-center rounded-lg border border-t-2 border-t-primary/30 leading-none md:w-[1200px]"
-                    :src="
-                        mode == 'light'
-                            ? 'hero-image-light.jpg'
-                            : 'hero-image-dark.jpg'
-                    "
-                    alt="dashboard using shadcn-vue"
-                />
-
-                <!-- gradient effect img -->
-                <div
-                    class="absolute bottom-0 left-0 h-20 w-full rounded-lg bg-linear-to-b from-background/0 via-background/50 to-background md:h-28"
-                ></div>
             </div>
         </div>
     </section>
 </template>
-
-<style scoped>
-.img-shadow-animation {
-    animation-name: img-shadow-animation;
-    animation-iteration-count: infinite;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-direction: alternate;
-}
-
-.img-border-animation {
-    animation-name: img-border-animation;
-    animation-iteration-count: infinite;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-direction: alternate;
-}
-
-@keyframes img-shadow-animation {
-    from {
-        opacity: 0.5;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-@keyframes img-border-animation {
-    from {
-        border-top-color: hsl(var(--primary) / 0.1);
-    }
-
-    to {
-        border-top-color: hsl(var(--primary) / 0.6);
-    }
-}
-</style>
