@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .logo-primary { fill: #fed7aa; }
+        .logo-accent { fill: #f97316; }
+      }
+      @media (prefers-color-scheme: light) {
+        .logo-primary { fill: #f97316; }
+        .logo-accent { fill: #fed7aa; }
+      }
+    </style>
+  </defs>
+
+  <!-- Wallet card shape -->
+  <rect x="8" y="18" width="48" height="32" rx="6" ry="6" class="logo-primary" opacity="0.9"/>
+
+  <!-- Wallet highlight/top fold -->
+  <rect x="8" y="18" width="48" height="10" rx="6" ry="6" class="logo-accent" opacity="0.7"/>
+
+  <!-- Card line accent -->
+  <line x1="12" y1="32" x2="52" y2="32" stroke="currentColor" stroke-width="1.2" opacity="0.2"/>
+
+  <!-- Coin detail -->
+  <circle cx="50" cy="44" r="5" class="logo-primary" opacity="0.6"/>
+  <circle cx="50" cy="44" r="3.5" class="logo-accent" opacity="0.5"/>
+
+  <!-- Arrow/uptrend indicator - minimalist -->
+  <g transform="translate(16, 28)">
+    <!-- Arrow shaft -->
+    <line x1="0" y1="8" x2="0" y2="0" stroke="#f97316" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Arrow head -->
+    <polyline points="-2,2 0,0 2,2" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+</svg>
