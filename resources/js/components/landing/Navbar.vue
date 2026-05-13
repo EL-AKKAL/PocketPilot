@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import { dashboard, login } from '@/routes';
 import { Link } from '@inertiajs/vue3';
-import { useColorMode } from '@vueuse/core';
 import { Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
-
-const mode = useColorMode();
-mode.value = 'dark';
 
 import { Button } from '@/components/ui/button';
 import {
