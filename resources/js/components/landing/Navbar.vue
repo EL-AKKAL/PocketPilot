@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { dashboard, login } from '@/routes';
+import { Link } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
@@ -108,7 +110,20 @@ const isOpen = ref<boolean>(false);
                     <SheetFooter
                         class="flex-col items-start justify-start sm:flex-col"
                     >
-                        <Button size="sm" class="w-full"> Sign in </Button>
+                        <Link
+                            v-if="$page.props.auth.user"
+                            :href="dashboard()"
+                            class="px-5 py-1.5 text-sm"
+                        >
+                            Dashboard
+                        </Link>
+                        <Link
+                            v-else
+                            :href="login()"
+                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                        >
+                            Sign in
+                        </Link>
                         <Separator class="mb-2" />
 
                         <ToggleTheme />
@@ -139,7 +154,20 @@ const isOpen = ref<boolean>(false);
         </NavigationMenu>
 
         <div class="hidden lg:flex">
-            <Button size="sm" class=""> Sign in </Button>
+            <Link
+                v-if="$page.props.auth.user"
+                :href="dashboard()"
+                class="flex items-center rounded-sm border border-primary px-5 text-sm text-primary"
+            >
+                Dashboard
+            </Link>
+            <Link
+                v-else
+                :href="login()"
+                class="flex items-center rounded-sm border border-primary px-5 text-sm text-primary"
+            >
+                Sign in
+            </Link>
             <ToggleTheme />
 
             <Button
