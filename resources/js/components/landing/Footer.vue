@@ -110,7 +110,7 @@ import Separator from '@/components/ui/separator/Separator.vue';
             <Separator class="my-6" />
             <section className="">
                 <h3 class="">
-                    &copy; 2024 Landing. Designed by
+                    &copy; {{ new Date().getFullYear() }} Landing. Designed by
                     <a
                         target="_blank"
                         href="https://github.com/leoMirandaa"
