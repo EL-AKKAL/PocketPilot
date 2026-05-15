@@ -25,83 +25,124 @@ import Separator from '@/components/ui/separator/Separator.vue';
                 <div class="flex flex-col gap-2">
                     <h3 class="text-lg font-bold">Contact</h3>
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
+                        <a
+                            href="https://github.com/EL-AKKAL"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
                             Github
                         </a>
                     </div>
 
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Twitter
+                        <a
+                            href="https://www.linkedin.com/in/ayoub-akkal/"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            LinkedIn
                         </a>
                     </div>
 
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Instagram
-                        </a>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-lg font-bold">Platforms</h3>
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            iOS
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Android
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Web
+                        <a
+                            href="mailto:akkalayoub3@gmail.com"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Gmail
                         </a>
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-lg font-bold">Help</h3>
+                    <h3 class="text-lg font-bold">Tech Stack</h3>
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Contact Us
+                        <a
+                            href="https://laravel.com"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Laravel
                         </a>
                     </div>
 
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
+                        <a
+                            href="https://inertiajs.com"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Inertia.js
+                        </a>
+                    </div>
+
+                    <div>
+                        <a
+                            href="https://vuejs.org"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Vue.js
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-lg font-bold">Resources</h3>
+
+                    <div>
+                        <a
+                            href="#features"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Features
+                        </a>
+                    </div>
+
+                    <div>
+                        <a
+                            href="#how-it-works"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            How It Works
+                        </a>
+                    </div>
+
+                    <div>
+                        <a
+                            href="#community"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-lg font-bold">Support</h3>
+                    <div>
+                        <a
+                            href="mailto:akkalayoub3@gmail.com"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Contact
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="#faq" class="opacity-60 hover:opacity-100">
                             FAQ
                         </a>
                     </div>
 
                     <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Feedback
-                        </a>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-lg font-bold">Socials</h3>
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Twitch
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Discord
-                        </a>
-                    </div>
-
-                    <div>
-                        <a href="#" class="opacity-60 hover:opacity-100">
-                            Dribbble
+                        <a
+                            href="https://github.com/EL-AKKAL/PocketPilot/issues"
+                            target="_blank"
+                            class="opacity-60 hover:opacity-100"
+                        >
+                            Report Issue
                         </a>
                     </div>
                 </div>
