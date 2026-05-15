@@ -13,7 +13,7 @@ import { dashboard, login } from '@/routes';
 </script>
 
 <template>
-    <section id="community" class="py-12">
+    <section id="join-us" class="py-12">
         <hr />
         <div
             class="container mx-auto w-[90%] py-20 sm:py-20 md:w-[70%] lg:w-[75%] lg:max-w-7xl"

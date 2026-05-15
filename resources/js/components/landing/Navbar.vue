@@ -2,7 +2,6 @@
 import { Link } from '@inertiajs/vue3';
 import { Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
-
 import { Button } from '@/components/ui/button';
 import {
     NavigationMenu,
@@ -10,7 +9,6 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
@@ -19,10 +17,8 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { dashboard, login } from '@/routes';
-
-import GithubIcon from './GithubIcon.vue';
-import ToggleTheme from './ToggleTheme.vue';
+import { home } from '@/routes';
+import Controls from './Controls.vue';
 
 interface RouteProps {
     href: string;
@@ -31,16 +27,20 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
     {
-        href: '#testimonials',
-        label: 'Testimonials',
+        href: '#benefits',
+        label: 'Benefits',
     },
     {
-        href: '#team',
-        label: 'Team',
+        href: '#features',
+        label: 'Features',
     },
     {
-        href: '#contact',
-        label: 'Contact',
+        href: '#how-it-works',
+        label: 'How It Works',
+    },
+    {
+        href: '#join-us',
+        label: 'Join Us',
     },
     {
         href: '#faq',
@@ -55,11 +55,14 @@ const isOpen = ref<boolean>(false);
     <header
         class="shadow-light dark:shdow-dark sticky top-5 z-40 mx-auto flex w-[90%] items-center justify-between rounded-2xl border bg-card p-2 shadow-md md:w-[70%] lg:w-[75%] lg:max-w-7xl"
     >
-        <a href="/" class="flex h-10! items-center text-xl font-extrabold!">
+        <Link
+            :to="home()"
+            class="flex h-10! items-center text-xl font-extrabold!"
+        >
             <img src="./logo.svg" class="w-10 px-0! lg:w-16" />
             <span class="hidden font-extrabold lg:inline">Pocket</span
             ><span class="hidden text-primary lg:inline">Pilot</span>
-        </a>
+        </Link>
         <!-- Mobile -->
         <div class="flex items-center lg:hidden">
             <Sheet v-model:open="isOpen">
@@ -74,8 +77,8 @@ const isOpen = ref<boolean>(false);
                     <div>
                         <SheetHeader class="mb-2">
                             <SheetTitle class="flex items-center">
-                                <a
-                                    href="/"
+                                <Link
+                                    :to="home()"
                                     class="flex h-10! items-center text-xl font-extrabold!"
                                 >
                                     <img
@@ -84,7 +87,7 @@ const isOpen = ref<boolean>(false);
                                     />
                                     <span class="font-extrabold">Pocket</span
                                     ><span class="text-primary">Pilot</span>
-                                </a>
+                                </Link>
                             </SheetTitle>
                         </SheetHeader>
 
@@ -96,33 +99,17 @@ const isOpen = ref<boolean>(false);
                                 variant="ghost"
                                 class="justify-start text-base"
                             >
-                                <a @click="isOpen = false" :href="href">
+                                <Link @click="isOpen = false" :href="href">
                                     {{ label }}
-                                </a>
+                                </Link>
                             </Button>
                         </div>
                     </div>
 
                     <SheetFooter
-                        class="flex-col items-start justify-start sm:flex-col"
+                        class="flex flex-row items-center justify-center"
                     >
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="dashboard()"
-                            class="px-5 py-1.5 text-sm"
-                        >
-                            Dashboard
-                        </Link>
-                        <Link
-                            v-else
-                            :href="login()"
-                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                        >
-                            Sign in
-                        </Link>
-                        <Separator class="mb-2" />
-
-                        <ToggleTheme />
+                        <Controls />
                     </SheetFooter>
                 </SheetContent>
             </Sheet>
@@ -140,9 +127,9 @@ const isOpen = ref<boolean>(false);
                             variant="ghost"
                             class="justify-start text-base"
                         >
-                            <a :href="href">
+                            <Link :href="href">
                                 {{ label }}
-                            </a>
+                            </Link>
                         </Button>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -150,36 +137,7 @@ const isOpen = ref<boolean>(false);
         </NavigationMenu>
 
         <div class="hidden lg:flex">
-            <Link
-                v-if="$page.props.auth.user"
-                :href="dashboard()"
-                class="flex items-center rounded-sm border border-primary px-5 text-sm text-primary"
-            >
-                Dashboard
-            </Link>
-            <Link
-                v-else
-                :href="login()"
-                class="flex items-center rounded-sm border border-primary px-5 text-sm text-primary"
-            >
-                Sign in
-            </Link>
-            <ToggleTheme />
-
-            <Button
-                as-child
-                size="sm"
-                variant="ghost"
-                aria-label="View on GitHub"
-            >
-                <a
-                    aria-label="View on GitHub"
-                    href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
-                    target="_blank"
-                >
-                    <GithubIcon class="size-5" />
-                </a>
-            </Button>
+            <Controls />
         </div>
     </header>
 </template>

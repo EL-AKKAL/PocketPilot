@@ -47,7 +47,7 @@ const HowItWorksList: HowItWorksProps[] = [
 
 <template>
     <section
-        id="features"
+        id="how-it-works"
         class="container mx-auto w-[90%] py-24 sm:py-32 md:w-[70%] lg:w-[75%] lg:max-w-7xl"
     >
         <div class="mb-8 text-center">
