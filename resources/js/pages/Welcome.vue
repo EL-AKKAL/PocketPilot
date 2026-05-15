@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Benefits from '@/components/landing/Benefits.vue';
+import FAQ from '@/components/landing/FAQ.vue';
 import Features from '@/components/landing/Features.vue';
 import Footer from '@/components/landing/Footer.vue';
 import Hero from '@/components/landing/Hero.vue';
@@ -15,5 +16,6 @@ import Navbar from '@/components/landing/Navbar.vue';
     <Features />
     <HowItWorks />
     <JoinUs />
+    <FAQ />
     <Footer />
 </template>

@@ -108,7 +108,7 @@ import Separator from '@/components/ui/separator/Separator.vue';
             </div>
 
             <Separator class="my-6" />
-            <section className="">
+            <section>
                 <h3 class="">
                     &copy; {{ new Date().getFullYear() }} Landing. Designed by
                     <a
