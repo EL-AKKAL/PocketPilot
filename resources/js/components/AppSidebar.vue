@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
-import AppLogo from '@/components/AppLogo.vue';
+import {
+    BookOpen,
+    CalendarSync,
+    FolderGit2,
+    LayoutGrid,
+    Receipt,
+} from 'lucide-vue-next';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -25,26 +30,27 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-        {
+    {
         title: 'Transactions',
         href: transactions(),
-        icon: LayoutGrid,
-    },    {
+        icon: Receipt,
+    },
+    {
         title: 'Periodic Transactions',
         href: periodicTransactions(),
-        icon: LayoutGrid,
+        icon: CalendarSync,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        href: 'https://github.com/EL-AKKAL/PocketPilot',
         icon: FolderGit2,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        title: 'Portfolio',
+        href: 'https://elakkalayoub.cloud',
         icon: BookOpen,
     },
 ];
@@ -56,8 +62,16 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
-                            <AppLogo />
+                        <Link :href="dashboard()" class="text-xl!">
+                            <img
+                                src="../components/landing/logo.svg"
+                                class="w-10 px-0! lg:w-16"
+                            />
+                            <span class="hidden font-extrabold lg:inline"
+                                >Pocket</span
+                            ><span class="hidden text-primary lg:inline"
+                                >Pilot</span
+                            >
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
