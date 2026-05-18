@@ -54,7 +54,7 @@ class DashboardController extends Controller
     {
         $transactions = $account->transactions()
             ->orderBy('created_at')
-            ->where('created_at', '>=', now()->subDays(30))
+            ->where('created_at', '>=', now()->subDays(10))
             ->get(['amount', 'created_at']);
 
         $balance = $account->starting_balance;
