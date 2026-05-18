@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use Carbon\CarbonPeriod;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -52,24 +53,37 @@ class DashboardController extends Controller
 
     private function balanceHistory(Account $account)
     {
-        $transactions = $account->transactions()
-            ->orderBy('created_at')
-            ->where('created_at', '>=', now()->subDays(10))
-            ->get(['amount', 'created_at']);
+        $startDate = now()->subDays(10)->startOfDay();
+        $endDate = now()->endOfDay();
 
-        $balance = $account->starting_balance;
+        // 1. Get daily sums
+        $dailyTransactions = $account->transactions()
+            ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->pluck('total', 'date');
 
-        $balanceHistory = [];
+        // 2. Initialize balance BEFORE the period
+        $initialBalance = $account->starting_balance +
+            $account->transactions()
+                ->where('created_at', '<', $startDate)
+                ->sum('amount');
 
-        foreach ($transactions as $transaction) {
-            $balance += $transaction->amount;
+        $history = [];
 
-            $balanceHistory[] = [
-                'date' => $transaction->created_at->format('Y-m-d'),
-                'balance' => $balance,
+        $period = CarbonPeriod::create($startDate, $endDate);
+        foreach ($period as $date) {
+            $day = $date->format('Y-m-d');
+
+            $initialBalance += $dailyTransactions->get($day, 0);
+
+            $history[] = [
+                'date' => $day,
+                'balance' => $initialBalance,
             ];
         }
 
-        return $balanceHistory;
+        return $history;
     }
 }

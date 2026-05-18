@@ -77,14 +77,12 @@ const FAQList: FAQProps[] = [
 
         <h3 class="mx-auto mt-4! max-w-2xl font-medium">
             Still have questions?
-            <a href="#" class="text-muted-foreground">
-                <a
-                    href="mailto:akkalayoub3@gmail.com"
-                    target="_blank"
-                    class="underline"
-                    >Contact us</a
-                >
-            </a>
+            <a
+                href="mailto:akkalayoub3@gmail.com"
+                target="_blank"
+                class="text-muted-foreground underline"
+                >Contact us</a
+            >
         </h3>
     </section>
 </template>
