@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
     private function recentTransactions(Account $account)
     {
-        return $account->transactions()->latest()->take(5)->get();
+        return $account->transactions()->latest()->take(4)->get();
     }
 
     private function monthlyIncomeVsExpense(Account $account)
