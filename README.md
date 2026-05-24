@@ -1,60 +1,56 @@
-# PocketPilot 24h Challenge
+# Overview 
+This document lists a minimal, human-readable set of system requirements for a 24‑hour MVP finance management web app built with laravel-vuejs. The focus is intentionally small: simple register/login, persistent accounts, one‑time and recurring transactions, a basic dashboard, and a few practical non‑functional targets.
 
-## 🚀 Description and overview
+## Plan Details
 
-PocketPilot is a personal finance web application built during a 24-hour development challenge, designed to help users efficiently track their income, expenses, and recurring transactions in a simple and intuitive interface.
+1. **Authentication (MUST)**
+   - Users can register/login with email and password.
 
-## 🧩 Features
+2. **User data isolation (MUST)**
+   - Each user only sees their own accounts and transactions.
 
-The goal of the project was to focus on core financial tracking features, strong usability, and rapid full-stack execution within a strict time constraint, simulating a real-world MVP development cycle.
+3. **Accounts (MUST)**
+   - A user can create one account with a specific email and starting balance.
 
-## 🚀 Project Highlights
+4. **One‑time transactions (MUST)**
+   - Users can add, view, edit, and delete individual transactions.
 
-- Built in ~23 hours of focused development  
-- Full-stack financial tracking system  
-- Real-time transaction management (income & expenses)  
-- Support for periodic / recurring transactions  
-- Interactive dashboard with charts and insights  
-- Clean, responsive UI with reusable components  
+5. **Recurring transactions (MUST — simple)**
+   - Users can create a recurring rule with frequency options: daily, weekly, or monthly; start date and optional end date.
+   - Recurring instances are generated on demand for display.
+   - Users can edit or cancel the recurring rule; edits apply to future occurrences.
 
-Deployed with custom subdomain and production setup  
+6. **Balances and dashboard (MUST)**
+   - Dashboard shows per‑account balance (starting balance + transactions), consolidated total, and a short list of recent transactions.
+   - Show a simple income vs expense summary for the current month.
 
-## 🧠 Development Breakdown
+7. **Performance & demo readiness (SHOULD)**
+    - Pages should load quickly for normal single‑user use; aim for visible content within a few seconds on a typical connection.
+    - The app must be runnable locally and deployable to a simple host within the 24‑hour window.
 
-The project was executed in structured phases to simulate real production workflow:
+8. **Optional but recommended (MAY)**
+    - Use of single default currency (e.g., USD) to avoid currency conversion complexity.
+    - Basic export of transactions (CSV) may be added only if time remains.
 
-- Planning & Analysis: 3h 30min  
-- Setup & Project Initialization: 1h  
-- Backend Development (Transactions + Recurring Transactions + Background Job System): 3h  
-- Auth + Minimal Dashboard: 30min  
-- Frontend (Reusable DataTable): 1h  
-- Complete Transaction UI + Recurring Transactions UI (Forms + Table): 2h  
-- CRUD Front + Backend Tweak (Transactions + Recurring): 2h  
-- Deployment Setup GitHub + Server + Subdomain Configuration: 1h 30min  
-- Code Optimization: 1h  
-- Reusable Components Refactoring: 45min  
-- Landing page (Template Research & Config Setup + Implementation): 4h  
-- Dashboard Improvements + Charts Integration: 2h  
-- Bug Fix: 45min  
+### Acceptance criteria (top priorities)
+- A user can register, log in, and only see their own data.
+- A user can add/edit/delete a one‑time transaction, and see balances update.
+- A user can create a recurring rule and view the upcoming instances for a requested date range.
+- The dashboard shows per‑account balance, total balance, and a month income/expense summary.
+- The app can be started locally and demonstrated within the 24‑hour timebox.
 
-**Total Time: ~23 hours**
+# User Journey map
+<img width="1401" height="503" alt="image" src="https://github.com/user-attachments/assets/a2cc4e17-4c47-44d8-a9d9-9721f38d4f72" />
 
-## 📊 Key Features
+# Data Models
+<img width="710" height="602" alt="image" src="https://github.com/user-attachments/assets/61aeab40-7967-471a-b82a-02e41a1f867a" />
 
-- User authentication and account creation  
-- Income & expense tracking system  
-- Recurring (periodic) transaction automation  
-- Editable and deletable transaction history  
-- Dashboard with financial charts and summaries  
-- Responsive UI with reusable components  
+# Api Routes
+<img width="1355" height="347" alt="image" src="https://github.com/user-attachments/assets/5591da5e-0e83-47dc-a78e-071af4a315f5" />
 
-Fully deployed production-ready application  
+# Full version
 
-## 🎯 Purpose of the Project
+<img width="9128" height="4367" alt="visily-multicomponents" src="https://github.com/user-attachments/assets/c1941968-156c-4b1d-ab68-084786f1cc2d" />
 
-PocketPilot was built as a time-constrained MVP challenge to simulate real startup conditions. The focus was on:
 
-- Rapid full-stack development  
-- Prioritizing essential features  
-- Clean architecture under pressure  
-- Delivering a complete, usable product in under 24 hours  
+
