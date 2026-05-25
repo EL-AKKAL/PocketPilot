@@ -23,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('settings/security', [SecurityController::class, 'edit'])->name('security.edit');
 
+    Route::inertia('settings/backup', 'settings/Backup')->name('backup.edit');
+
     Route::put('settings/password', [SecurityController::class, 'update'])
         ->middleware('throttle:6,1')
         ->name('user-password.update');
