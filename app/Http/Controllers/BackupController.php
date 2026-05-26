@@ -10,9 +10,9 @@ class BackupController extends Controller
     {
         $user = Auth::user();
 
-        $account = $user->account;
-        $transactions = $account->transactions()->get();
-        $periodicTransactions = $account->periodicTransactions()->get();
+        $account = $user->account->makeHidden(['user_id']);
+        $transactions = $account->transactions()->get()->makeHidden(['account_id']);
+        $periodicTransactions = $account->periodicTransactions()->get()->makeHidden(['account_id']);
 
         $data = [
             'version' => '1.0',
