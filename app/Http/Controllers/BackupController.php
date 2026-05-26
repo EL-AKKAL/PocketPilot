@@ -114,9 +114,9 @@ class BackupController extends Controller
 
         $allowed = match ($modelClass) {
             Account::class => ['name', 'starting_balance', 'created_at', 'updated_at'],
-            Transaction::class => ['amount', 'description', 'created_at', 'updated_at'],
+            Transaction::class => ['amount', 'category', 'description', 'created_at', 'updated_at'],
             PeriodicTransaction::class => [
-                'amount', 'start_date', 'end_date', 'frequency',
+                'amount', 'category', 'start_date', 'end_date', 'frequency',
                 'description', 'is_active', 'next_apply_date',
                 'created_at', 'updated_at',
             ],
