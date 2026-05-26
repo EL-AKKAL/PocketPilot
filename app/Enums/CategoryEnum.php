@@ -12,6 +12,10 @@ enum CategoryEnum: string
     case EMERGENCIES = 'Emergencies';
     case FIXES = 'Fixes';
 
+    case BUSINESS = 'Business';
+    case INVESTMENTS = 'Investments';
+    case SALARY = 'Salary';
+
     public static function values(): array
     {
         return array_map(fn ($case) => $case->value, self::cases());
