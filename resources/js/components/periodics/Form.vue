@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from '@inertiajs/vue3';
+import { Form, usePage } from '@inertiajs/vue3';
 import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
 import type { Ref } from 'vue';
@@ -46,6 +46,8 @@ const dateRange = ref({
     start,
     end,
 }) as Ref<DateRange>;
+
+const categories = usePage().props.categories;
 </script>
 
 <template>
@@ -86,7 +88,29 @@ const dateRange = ref({
                     />
                     <InputError :message="errors.amount" />
                 </div>
-
+                <div class="grid gap-2">
+                    <div class="flex items-center justify-between">
+                        <Label for="start_date">Category</Label>
+                    </div>
+                    <Select name="category" :default-value="periodic?.category">
+                        <SelectTrigger class="w-full">
+                            <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Categories</SelectLabel>
+                                <SelectItem
+                                    v-for="category in categories"
+                                    :key="category"
+                                    :value="category"
+                                >
+                                    {{ category }}
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <InputError :message="errors.category" />
+                </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="description">Description</Label>

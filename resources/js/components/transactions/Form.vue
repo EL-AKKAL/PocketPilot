@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from '@inertiajs/vue3';
+import { Form, usePage } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
@@ -12,6 +12,15 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
 import type { Transaction } from '@/types';
@@ -19,6 +28,8 @@ import type { Transaction } from '@/types';
 defineProps<{
     transaction?: Transaction;
 }>();
+
+const categories = usePage().props.categories;
 </script>
 
 <template>
@@ -58,6 +69,32 @@ defineProps<{
                         placeholder="500.00MAD"
                     />
                     <InputError :message="errors.amount" />
+                </div>
+                <div class="grid gap-2">
+                    <div class="flex items-center justify-between">
+                        <Label for="start_date">Category</Label>
+                    </div>
+                    <Select
+                        name="category"
+                        :default-value="transaction?.category"
+                    >
+                        <SelectTrigger class="w-full">
+                            <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Categories</SelectLabel>
+                                <SelectItem
+                                    v-for="category in categories"
+                                    :key="category"
+                                    :value="category"
+                                >
+                                    {{ category }}
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <InputError :message="errors.category" />
                 </div>
 
                 <div class="grid gap-2">
