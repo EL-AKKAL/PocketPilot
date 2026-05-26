@@ -23,13 +23,13 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
-import type { Transaction } from '@/types';
+import type { Category, Transaction } from '@/types';
 
 defineProps<{
     transaction?: Transaction;
 }>();
 
-const categories = usePage().props.categories;
+const categories = usePage().props.categories as Category;
 </script>
 
 <template>
@@ -83,13 +83,23 @@ const categories = usePage().props.categories;
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Categories</SelectLabel>
+                                <SelectLabel>Income</SelectLabel>
                                 <SelectItem
-                                    v-for="category in categories"
-                                    :key="category"
-                                    :value="category"
+                                    v-for="income in categories.income"
+                                    :key="income"
+                                    :value="income"
                                 >
-                                    {{ category }}
+                                    {{ income }}
+                                </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                                <SelectLabel>Expense</SelectLabel>
+                                <SelectItem
+                                    v-for="expense in categories.expense"
+                                    :key="expense"
+                                    :value="expense"
+                                >
+                                    {{ expense }}
                                 </SelectItem>
                             </SelectGroup>
                         </SelectContent>

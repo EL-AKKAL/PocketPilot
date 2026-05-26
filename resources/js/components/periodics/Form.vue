@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/periodic_transactions';
-import type { PeriodicTransaction } from '@/types';
+import type { Category, PeriodicTransaction } from '@/types';
 
 const props = defineProps<{
     periodic?: PeriodicTransaction;
@@ -47,7 +47,7 @@ const dateRange = ref({
     end,
 }) as Ref<DateRange>;
 
-const categories = usePage().props.categories;
+const categories = usePage().props.categories as Category;
 </script>
 
 <template>
@@ -98,13 +98,23 @@ const categories = usePage().props.categories;
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Categories</SelectLabel>
+                                <SelectLabel>Income</SelectLabel>
                                 <SelectItem
-                                    v-for="category in categories"
-                                    :key="category"
-                                    :value="category"
+                                    v-for="income in categories.income"
+                                    :key="income"
+                                    :value="income"
                                 >
-                                    {{ category }}
+                                    {{ income }}
+                                </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                                <SelectLabel>Expense</SelectLabel>
+                                <SelectItem
+                                    v-for="expense in categories.expense"
+                                    :key="expense"
+                                    :value="expense"
+                                >
+                                    {{ expense }}
                                 </SelectItem>
                             </SelectGroup>
                         </SelectContent>

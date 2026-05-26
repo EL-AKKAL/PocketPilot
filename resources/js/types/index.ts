@@ -27,3 +27,8 @@ export interface PeriodicTransaction {
     created_at: string;
     updated_at: string;
 }
+
+export interface Category {
+    expense: string[];
+    income: string[];
+}

@@ -42,7 +42,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'categories' => CategoryEnum::values(),
+            'categories' => [
+                'expense' => CategoryEnum::expense(),
+                'income' => CategoryEnum::income(),
+            ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }
