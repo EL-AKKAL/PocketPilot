@@ -30,6 +30,12 @@ export const columns: ColumnDef<Transaction>[] = [
         },
     },
     {
+        accessorKey: 'Category',
+        cell: ({ row }) => {
+            return h('div', { class: ' font-medium' }, row.original.category);
+        },
+    },
+    {
         accessorKey: 'Description',
         cell: ({ row }) => {
             return h(
