@@ -14,6 +14,8 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { edit } from '@/routes/appearance';
+import backup from '@/routes/backup';
+
 defineOptions({
     layout: {
         breadcrumbs: [
@@ -24,19 +26,18 @@ defineOptions({
         ],
     },
 });
+
+const downloadBackup = () => (window.location.href = backup.export().url);
 </script>
 
 <template>
     <Head title="Data & Backup" />
-
-    <h1 class="sr-only">Data & Backup</h1>
-
     <div class="space-y-6">
         <!-- IMPORT -->
         <Heading
             variant="small"
-            title="Import data"
-            description="Restore your data from a backup file."
+            title="Data management settings"
+            description="Here you can download or restore your data from a backup file."
         />
 
         <div
@@ -98,67 +99,19 @@ defineOptions({
                 </DialogContent>
             </Dialog>
         </div>
-
-        <!-- EXPORT -->
-        <Heading
-            variant="small"
-            title="Export data"
-            description="Download a full backup of your data."
-        />
-
         <div
-            class="w-lg space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800"
+            class="w-lg space-y-6 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800"
         >
-            <div class="space-y-0.5 text-gray-700 dark:text-gray-200">
-                <p class="font-medium">Backup recommended</p>
-                <p class="text-sm">
-                    Export your data regularly to keep a safe copy on your
-                    device.
-                </p>
+            <div class="space-y-4 text-gray-700 dark:text-gray-200">
+                <div class="space-y-0.5">
+                    <p class="font-medium">Backup recommended</p>
+                    <p class="text-sm">
+                        Export your data regularly to keep a safe copy on your
+                        device.
+                    </p>
+                </div>
+                <Button @click="downloadBackup"> Download backup </Button>
             </div>
-
-            <Dialog>
-                <DialogTrigger as-child>
-                    <Button>Export data</Button>
-                </DialogTrigger>
-
-                <DialogContent>
-                    <Form
-                        reset-on-success
-                        :options="{ preserveScroll: true }"
-                        class="space-y-6"
-                        v-slot="{ processing, reset, clearErrors }"
-                    >
-                        <DialogHeader class="space-y-3">
-                            <DialogTitle> Export your data </DialogTitle>
-                            <DialogDescription>
-                                A JSON file containing all your data will be
-                                downloaded to your device.
-                            </DialogDescription>
-                        </DialogHeader>
-
-                        <DialogFooter class="gap-2">
-                            <DialogClose as-child>
-                                <Button
-                                    variant="secondary"
-                                    @click="
-                                        () => {
-                                            clearErrors();
-                                            reset();
-                                        }
-                                    "
-                                >
-                                    Cancel
-                                </Button>
-                            </DialogClose>
-
-                            <Button type="submit" :disabled="processing">
-                                Download backup
-                            </Button>
-                        </DialogFooter>
-                    </Form>
-                </DialogContent>
-            </Dialog>
         </div>
     </div>
 </template>

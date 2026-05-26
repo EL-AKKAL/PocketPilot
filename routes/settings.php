@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('settings/security', [SecurityController::class, 'edit'])->name('security.edit');
 
     Route::inertia('settings/backup', 'settings/Backup')->name('backup.edit');
+    Route::get('/backup/export', [BackupController::class, 'export'])->name('backup.export');
 
     Route::put('settings/password', [SecurityController::class, 'update'])
         ->middleware('throttle:6,1')
