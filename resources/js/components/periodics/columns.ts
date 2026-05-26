@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
 import Form from '@/components/periodics/Form.vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
+import { categoryStyles } from '@/lib/utils';
 import { destroy } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
 
@@ -32,7 +33,19 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
     {
         accessorKey: 'Category',
         cell: ({ row }) => {
-            return h('div', { class: ' font-medium' }, row.original.category);
+            const category = row.original.category;
+
+            return h(
+                'span',
+                {
+                    class: [
+                        'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium',
+                        categoryStyles[category] ??
+                            'bg-gray-100 text-gray-700 dark:bg-gray-500/10 dark:text-gray-300',
+                    ],
+                },
+                category,
+            );
         },
     },
     {
