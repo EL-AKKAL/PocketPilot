@@ -13,6 +13,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import Input from '@/components/ui/input/Input.vue';
 import { edit } from '@/routes/appearance';
 import backup from '@/routes/backup';
 
@@ -53,11 +54,12 @@ const downloadBackup = () => (window.location.href = backup.export().url);
 
             <Dialog>
                 <DialogTrigger as-child>
-                    <Button variant="destructive">Import data</Button>
+                    <Button variant="destructive">Import backup</Button>
                 </DialogTrigger>
-
                 <DialogContent>
                     <Form
+                        v-bind="backup.import.form()"
+                        enctype="multipart/form-data"
                         reset-on-success
                         :options="{ preserveScroll: true }"
                         class="space-y-6"
@@ -71,7 +73,13 @@ const downloadBackup = () => (window.location.href = backup.export().url);
                                 undone.
                             </DialogDescription>
                         </DialogHeader>
-
+                        <Input
+                            type="file"
+                            name="file"
+                            accept="application/json"
+                            required
+                            class="block w-full text-sm"
+                        />
                         <DialogFooter class="gap-2">
                             <DialogClose as-child>
                                 <Button
