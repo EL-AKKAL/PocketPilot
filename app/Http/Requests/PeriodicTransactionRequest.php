@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CategoryEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class PeriodicTransactionRequest extends FormRequest
 {
@@ -25,6 +27,7 @@ class PeriodicTransactionRequest extends FormRequest
             'start_date' => 'required|date',
             'end_date' => 'nullable|date',
             'frequency' => 'required|in:daily,weekly,monthly,yearly',
+            'category' => ['required', 'string', new Enum(CategoryEnum::class)],
             'description' => 'nullable|string',
             'is_active' => 'required|boolean',
         ];
