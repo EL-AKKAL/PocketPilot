@@ -66,6 +66,7 @@ class ApplyPeriodicTransactionsJob implements ShouldQueue
     {
         $periodic->account->transactions()->create([
             'amount' => $periodic->amount,
+            'category' => $periodic->category,
             'description' => $periodic->description,
             'periodic_transaction_id' => $periodic->id,
         ]);
