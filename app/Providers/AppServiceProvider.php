@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
+use App\Observers\TransactionObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         Route::bind('periodic_transaction', function ($value) {
             return PeriodicTransaction::mine()->findOrFail($value);
         });
+
+        Transaction::observe(TransactionObserver::class);
     }
 
     /**
