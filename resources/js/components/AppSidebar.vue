@@ -6,6 +6,7 @@ import {
     FolderGit2,
     LayoutGrid,
     Receipt,
+    Target,
 } from 'lucide-vue-next';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -23,6 +24,7 @@ import { dashboard } from '@/routes';
 import { index as periodicTransactions } from '@/routes/periodic_transactions';
 import { index as transactions } from '@/routes/transactions';
 import type { NavItem } from '@/types';
+import { index as goals } from '@/routes/goals';
 
 const mainNavItems: NavItem[] = [
     {
@@ -39,6 +41,11 @@ const mainNavItems: NavItem[] = [
         title: 'Periodic Transactions',
         href: periodicTransactions(),
         icon: CalendarSync,
+    },
+    {
+        title: 'Goals History',
+        href: goals(),
+        icon: Target,
     },
 ];
 
