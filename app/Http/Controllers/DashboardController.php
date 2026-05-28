@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Services\GoalProgressService;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(GoalProgressService $goalService)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $account = $user->account;
 
         $balance = $this->totalBalance($account);
@@ -21,12 +23,16 @@ class DashboardController extends Controller
 
         $balanceHistory = $this->balanceHistory($account);
 
+        [$goalData,$canCreateGoal] = $this->currentGoal($account, $goalService);
+
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
             'income' => (float) ($monthlyIncomeVsExpense->income ?? 0),
             'expense' => (float) abs($monthlyIncomeVsExpense->expense ?? 0),
             'balanceHistory' => $balanceHistory,
+            'goal' => $goalData,
+            'canCreateGoal' => $canCreateGoal,
         ]);
     }
 
@@ -85,5 +91,37 @@ class DashboardController extends Controller
         }
 
         return $history;
+    }
+
+    private function currentGoal(Account $account, GoalProgressService $goalService)
+    {
+        $goal = $account->goals()
+            ->orderByDesc('starts_at')
+            ->first();
+        $goalData = null;
+        $canCreateGoal = true;
+
+        if ($goal) {
+            $progressData = $goalService->calculate($goal);
+
+            $goalData = [
+                'value' => (float) $goal->value,
+                'period' => $goal->period,
+                'progress' => $progressData['progress'],
+                'percentage' => $progressData['percentage'],
+                'status' => $progressData['status'],
+                'ends_at' => $goal->ends_at,
+                'type' => $goal->type,
+                'starts_at' => $goal->starts_at,
+                'account_id' => $goal->account_id,
+                'id' => $goal->id,
+            ];
+
+            $canCreateGoal = $goal->status !== 'in_progress';
+        }
+
+        return [
+            $goalData, $canCreateGoal,
+        ];
     }
 }

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { Plus } from 'lucide-vue-next';
+import GoalForm from '@/components/goals/Form.vue';
+import GoalWidget from '@/components/goals/GoalWidget.vue';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import Button from '@/components/ui/button/Button.vue';
 import {
     Card,
     CardContent,
@@ -6,14 +11,17 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import type { Transaction } from '@/types';
-const props = defineProps({
-    balance: Number,
-    income: Number,
-    expense: Number,
-    recentTransactions: Array<Transaction>,
-    balanceHistory: Array,
-});
+import type { Transaction, GoalStatistic } from '@/types';
+
+const props = defineProps<{
+    balance: number;
+    income: number;
+    expense: number;
+    recentTransactions: Array<Transaction>;
+    balanceHistory: Array<object>;
+    goal: GoalStatistic;
+    canCreateGoal: boolean;
+}>();
 
 const series = [
     {
@@ -109,6 +117,38 @@ const options = {
                 </ul>
             </div>
         </div>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <Card>
+                <CardContent>
+                    <div v-if="goal">
+                        <GoalWidget :goal="goal" />
+                    </div>
+
+                    <div
+                        v-else-if="canCreateGoal"
+                        class="flex w-full items-center justify-between"
+                    >
+                        No active goal.
+                        <AlertDialog class="w-3xl!">
+                            <AlertDialogTrigger as-child>
+                                <Button
+                                    size="icon-sm"
+                                    variant="outline"
+                                    class="rounded-full"
+                                >
+                                    <Plus class="h-5 w-5" />
+                                </Button>
+                            </AlertDialogTrigger>
+                            <GoalForm />
+                        </AlertDialog>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardContent> Coming soon </CardContent>
+            </Card>
+        </div>
+
         <Card class="w-full text-2xl">
             <CardHeader>
                 <CardTitle class="flex gap-3"> Balance history </CardTitle>
