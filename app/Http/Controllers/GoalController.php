@@ -21,8 +21,8 @@ class GoalController extends Controller
         $goalsHistory = $account->goals()
             ->where('status', '!=', 'in_progress')
             ->latest('starts_at')
-            ->limit(20)
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('goals/List', [
             'goalsHistory' => $goalsHistory,

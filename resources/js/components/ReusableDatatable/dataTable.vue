@@ -1,11 +1,7 @@
 <script setup lang="ts" generic="TData, TValue">
+import { router } from '@inertiajs/vue3';
 import type { ColumnDef } from '@tanstack/vue-table';
-import {
-    FlexRender,
-    getCoreRowModel,
-    getPaginationRowModel,
-    useVueTable,
-} from '@tanstack/vue-table';
+import { FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
 import { Button } from '@/components/ui/button';
 import {
     Table,
@@ -19,7 +15,19 @@ import {
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    links?: {
+        prev?: string | null;
+        next?: string | null;
+    };
 }>();
+
+const goTo = (url: string | null) => {
+    if (!url) {
+        return;
+    }
+
+    router.visit(url, { preserveScroll: true });
+};
 
 const table = useVueTable({
     get data() {
@@ -29,7 +37,6 @@ const table = useVueTable({
         return props.columns;
     },
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
 });
 </script>
 
@@ -93,16 +100,16 @@ const table = useVueTable({
             <Button
                 variant="outline"
                 size="sm"
-                :disabled="!table.getCanPreviousPage()"
-                @click="table.previousPage()"
+                :disabled="!links?.prev"
+                @click="goTo(links?.prev ?? null)"
             >
                 Previous
             </Button>
             <Button
                 variant="outline"
                 size="sm"
-                :disabled="!table.getCanNextPage()"
-                @click="table.nextPage()"
+                :disabled="!links?.next"
+                @click="goTo(links?.next ?? null)"
             >
                 Next
             </Button>

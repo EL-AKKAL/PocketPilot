@@ -6,7 +6,13 @@ import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
 
 import type { PeriodicTransaction } from '@/types';
 
-defineProps<{ periodics: PeriodicTransaction[] }>();
+defineProps<{
+    periodics: {
+        data: PeriodicTransaction[];
+        prev_page_url?: string | null;
+        next_page_url?: string | null;
+    };
+}>();
 </script>
 
 <template>
@@ -17,6 +23,13 @@ defineProps<{ periodics: PeriodicTransaction[] }>();
         >
             <Form />
         </dataTableTitle>
-        <dataTable :columns :data="periodics" />
+        <dataTable
+            :columns
+            :data="periodics.data"
+            :links="{
+                prev: periodics.prev_page_url,
+                next: periodics.next_page_url,
+            }"
+        />
     </div>
 </template>

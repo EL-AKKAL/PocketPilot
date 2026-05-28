@@ -6,12 +6,25 @@ import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
 
 import type { Goal } from '@/types';
 
-defineProps<{ goalsHistory: Goal[] }>();
+defineProps<{
+    goalsHistory: {
+        data: Goal[];
+        prev_page_url?: string | null;
+        next_page_url?: string | null;
+    };
+}>();
 </script>
 
 <template>
     <div class="container mx-auto py-10">
         <dataTableTitle title="Goals History" :action="null" />
-        <dataTable :columns :data="goalsHistory" />
+        <dataTable
+            :columns
+            :data="goalsHistory.data"
+            :links="{
+                prev: goalsHistory.prev_page_url,
+                next: goalsHistory.next_page_url,
+            }"
+        />
     </div>
 </template>

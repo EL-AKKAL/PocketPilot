@@ -14,7 +14,8 @@ class PeriodicTransactionController extends Controller
             ->account
             ->periodicTransactions()
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('periodic/List', [
             'periodics' => $periodics,

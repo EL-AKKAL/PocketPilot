@@ -5,7 +5,13 @@ import { columns } from '@/components/transactions/columns';
 import Form from '@/components/transactions/Form.vue';
 import type { Transaction } from '@/types';
 
-defineProps<{ transactions: Transaction[] }>();
+defineProps<{
+    transactions: {
+        data: Transaction[];
+        prev_page_url?: string | null;
+        next_page_url?: string | null;
+    };
+}>();
 </script>
 
 <template>
@@ -13,6 +19,13 @@ defineProps<{ transactions: Transaction[] }>();
         <dataTableTitle title="Transactions" action="Create Transaction">
             <Form />
         </dataTableTitle>
-        <DataTable :columns :data="transactions" />
+        <DataTable
+            :columns
+            :data="transactions.data"
+            :links="{
+                prev: transactions.prev_page_url,
+                next: transactions.next_page_url,
+            }"
+        />
     </div>
 </template>

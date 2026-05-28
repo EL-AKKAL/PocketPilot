@@ -14,7 +14,8 @@ class TransactionController extends Controller
             ->account
             ->transactions()
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('transactions/List', [
             'transactions' => $transactions,
