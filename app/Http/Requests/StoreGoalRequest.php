@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Enums\GoalPeriodEnum;
-use App\Enums\GoalStatusEnum;
+use App\Enums\GoalTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class GoalRequest extends FormRequest
+class StoreGoalRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,9 +17,9 @@ class GoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => ['required', 'numeric', 'min:0.01'],
+            'value' => ['required', 'numeric', 'between:5,999999.99'],
             'period' => ['required', new Enum(GoalPeriodEnum::class)],
-            'status' => ['nullable', new Enum(GoalStatusEnum::class)],
+            'type' => ['required', new Enum(GoalTypeEnum::class)],
         ];
     }
 }
