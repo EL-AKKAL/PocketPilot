@@ -22,4 +22,9 @@ class Account extends Model
     {
         return $this->hasMany(PeriodicTransaction::class);
     }
+
+    public function goals()
+    {
+        return $this->hasMany(Goal::class);
+    }
 }
