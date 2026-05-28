@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Goal;
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class BackupController extends Controller
         $account = $user->account->makeHidden(['user_id', 'id']);
         $transactions = $account->transactions()->get()->makeHidden(['account_id']);
         $periodicTransactions = $account->periodicTransactions()->get()->makeHidden(['account_id']);
+        $goals = $account->goals()->get()->makeHidden(['account_id']);
 
         $data = [
             'version' => '1.0',
@@ -31,6 +33,7 @@ class BackupController extends Controller
             'account' => $account,
             'transactions' => $transactions,
             'periodic_transactions' => $periodicTransactions,
+            'goals' => $goals,
         ];
 
         $json = json_encode($data, JSON_PRETTY_PRINT);
@@ -69,7 +72,8 @@ class BackupController extends Controller
         if (
             ! isset($data['account']) ||
             ! isset($data['transactions']) ||
-            ! isset($data['periodic_transactions'])
+            ! isset($data['periodic_transactions']) ||
+            ! isset($data['goals'])
         ) {
             Inertia::flash('toast', ['type' => 'error', 'message' => 'Invalid backup structure']);
 
@@ -79,6 +83,7 @@ class BackupController extends Controller
         DB::transaction(function () use ($oldAccount, $data, $user) {
 
             if ($oldAccount) {
+                $oldAccount->goals()->delete();
                 $oldAccount->transactions()->delete();
                 $oldAccount->periodicTransactions()->delete();
                 $oldAccount->delete();
@@ -86,6 +91,13 @@ class BackupController extends Controller
 
             // restore account
             $account = $this->restoreModel(Account::class, $data['account'], ['user_id' => $user->id]);
+
+            // restore goals
+            foreach ($data['goals'] as $g) {
+                $this->restoreModel(Goal::class, $g, [
+                    'account_id' => $account->id,
+                ]);
+            }
 
             // restore transactions
             foreach ($data['transactions'] as $t) {
@@ -114,6 +126,7 @@ class BackupController extends Controller
 
         $allowed = match ($modelClass) {
             Account::class => ['name', 'starting_balance', 'created_at', 'updated_at'],
+            Goal::class => ['value', 'period', 'status', 'starts_at', 'ends_at', 'type', 'created_at', 'updated_at'],
             Transaction::class => ['amount', 'category', 'description', 'created_at', 'updated_at'],
             PeriodicTransaction::class => [
                 'amount', 'category', 'start_date', 'end_date', 'frequency',
