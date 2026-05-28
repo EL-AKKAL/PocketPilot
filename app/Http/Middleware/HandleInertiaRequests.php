@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Enums\CategoryEnum;
+use App\Enums\GoalPeriodEnum;
+use App\Enums\GoalTypeEnum;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -46,6 +48,8 @@ class HandleInertiaRequests extends Middleware
                 'expense' => CategoryEnum::expense(),
                 'income' => CategoryEnum::income(),
             ],
+            'goalPeriods' => GoalPeriodEnum::cases(),
+            'goalTypes' => GoalTypeEnum::cases(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }
