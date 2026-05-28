@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();
-
+            $table->string('type')->default('Savings');
             $table->timestamps();
         });
     }
