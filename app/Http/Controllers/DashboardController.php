@@ -25,6 +25,8 @@ class DashboardController extends Controller
 
         [$goalData,$canCreateGoal] = $this->currentGoal($account, $goalService);
 
+        $expensesByCategory = $this->expensesByCategory($account);
+
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
@@ -33,6 +35,7 @@ class DashboardController extends Controller
             'balanceHistory' => $balanceHistory,
             'goal' => $goalData,
             'canCreateGoal' => $canCreateGoal,
+            'expensesByCategory' => $expensesByCategory,
         ]);
     }
 
@@ -53,6 +56,7 @@ class DashboardController extends Controller
                 SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) as income,
                 SUM(CASE WHEN amount < 0 THEN amount ELSE 0 END) as expense
             ')
+            ->whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
             ->first();
     }
@@ -123,5 +127,20 @@ class DashboardController extends Controller
         return [
             $goalData, $canCreateGoal,
         ];
+    }
+
+    private function expensesByCategory(Account $account)
+    {
+        return $account->transactions()
+            ->selectRaw('category, SUM(amount) as total')
+            ->where('amount', '<', 0) // only expenses
+            ->groupBy('category')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'category' => $item->category,
+                    'total' => abs((float) $item->total), // make positive
+                ];
+            });
     }
 }

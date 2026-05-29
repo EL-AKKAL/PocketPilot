@@ -21,10 +21,10 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as goals } from '@/routes/goals';
 import { index as periodicTransactions } from '@/routes/periodic_transactions';
 import { index as transactions } from '@/routes/transactions';
 import type { NavItem } from '@/types';
-import { index as goals } from '@/routes/goals';
 
 const mainNavItems: NavItem[] = [
     {

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Plus } from 'lucide-vue-next';
+import ExpensesByCategoryChart from '@/components/dashboard/ExpensesByCategoryChart.vue';
+import MonthlyIncomeVsExpenseChart from '@/components/dashboard/MonthlyIncomeVsExpenseChart.vue';
 import GoalForm from '@/components/goals/Form.vue';
 import GoalWidget from '@/components/goals/GoalWidget.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -21,6 +23,10 @@ const props = defineProps<{
     balanceHistory: Array<object>;
     goal: GoalStatistic;
     canCreateGoal: boolean;
+    expensesByCategory: {
+        category: string;
+        total: number;
+    }[];
 }>();
 
 const series = [
@@ -38,7 +44,7 @@ const options = {
         curve: 'smooth',
         width: 3,
     },
-    colors: ['#f97316'], // your brand color
+    colors: ['#f97316'],
     xaxis: {
         categories: props.balanceHistory.map((i) => i.date),
     },
@@ -162,6 +168,35 @@ const options = {
                     height="300"
                     :options="options"
                     :series="series"
+                />
+            </CardContent>
+        </Card>
+        <Card class="w-full text-2xl">
+            <CardHeader>
+                <CardTitle class="flex gap-3"> Expenses by Category </CardTitle>
+                <CardDescription class="text-lg">
+                    See where your money is going by viewing your expenses
+                    categorized.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ExpensesByCategoryChart :data="expensesByCategory" />
+            </CardContent>
+        </Card>
+        <Card class="w-full text-2xl">
+            <CardHeader>
+                <CardTitle class="flex gap-3">
+                    Income vs Expense this Month
+                </CardTitle>
+                <CardDescription class="text-lg">
+                    Compare your total income and expenses for the current month
+                    to see if you're on track with your financial goals.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <MonthlyIncomeVsExpenseChart
+                    :income="income"
+                    :expense="expense"
                 />
             </CardContent>
         </Card>

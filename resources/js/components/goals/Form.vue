@@ -22,8 +22,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
-import type { GoalStatistic } from '@/types';
 import { store, update } from '@/routes/goals';
+import type { GoalStatistic } from '@/types';
 
 defineProps<{
     goal?: GoalStatistic;
