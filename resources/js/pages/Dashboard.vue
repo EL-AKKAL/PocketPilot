@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next';
 import ExpensesByCategoryChart from '@/components/dashboard/ExpensesByCategoryChart.vue';
 import MonthlyIncomeVsExpenseChart from '@/components/dashboard/MonthlyIncomeVsExpenseChart.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
-import GoalForm from '@/components/goals/Form.vue';
 import GoalWidget from '@/components/goals/GoalWidget.vue';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import Button from '@/components/ui/button/Button.vue';
 import {
     Card,
     CardContent,
@@ -116,32 +112,7 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
             </div>
         </div>
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <Card class="shadow-none">
-                <CardContent>
-                    <div v-if="goal">
-                        <GoalWidget :goal="goal" />
-                    </div>
-
-                    <div
-                        v-else-if="canCreateGoal"
-                        class="flex w-full items-center justify-between"
-                    >
-                        No active goal.
-                        <AlertDialog class="w-3xl!">
-                            <AlertDialogTrigger as-child>
-                                <Button
-                                    size="icon-sm"
-                                    variant="outline"
-                                    class="rounded-full"
-                                >
-                                    <Plus class="h-5 w-5" />
-                                </Button>
-                            </AlertDialogTrigger>
-                            <GoalForm />
-                        </AlertDialog>
-                    </div>
-                </CardContent>
-            </Card>
+            <GoalWidget :canCreateGoal :goal="goal" />
             <MostUsedCategoriesWidget
                 :mostUsedCategories="mostUsedCategories"
                 :month="month"
