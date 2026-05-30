@@ -27,6 +27,8 @@ class DashboardController extends Controller
 
         $expensesByCategory = $this->expensesByCategory($account);
 
+        $mostUsed = $this->mostUsedCategories($account);
+
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
@@ -36,6 +38,7 @@ class DashboardController extends Controller
             'goal' => $goalData,
             'canCreateGoal' => $canCreateGoal,
             'expensesByCategory' => $expensesByCategory,
+            'mostUsedCategories' => $mostUsed,
         ]);
     }
 
@@ -142,5 +145,48 @@ class DashboardController extends Controller
                     'total' => abs((float) $item->total), // make positive
                 ];
             });
+    }
+
+    private function mostUsedCategories(Account $account): array
+    {
+        $baseQuery = $account->transactions()
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month);
+
+        $topIncome = (clone $baseQuery)
+            ->where('amount', '>', 0)
+            ->selectRaw('
+            category,
+            COUNT(*) as total,
+            SUM(amount) as total_amount
+        ')
+            ->groupBy('category')
+            ->orderByDesc('total_amount')
+            ->first();
+
+        $topExpense = (clone $baseQuery)
+            ->where('amount', '<', 0)
+            ->selectRaw('
+            category,
+            COUNT(*) as total,
+            SUM(ABS(amount)) as total_amount
+        ')
+            ->groupBy('category')
+            ->orderByDesc('total_amount')
+            ->first();
+
+        return [
+            'income' => $topIncome ? [
+                'category' => $topIncome->category,
+                'count' => $topIncome->total,
+                'total_amount' => (float) $topIncome->total_amount,
+            ] : null,
+
+            'expense' => $topExpense ? [
+                'category' => $topExpense->category,
+                'count' => $topExpense->total,
+                'total_amount' => (float) $topExpense->total_amount,
+            ] : null,
+        ];
     }
 }
