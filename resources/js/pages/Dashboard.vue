@@ -55,6 +55,7 @@ const options = {
         },
     },
 };
+const month = new Date().toLocaleString('en-US', { month: 'short' });
 </script>
 
 <template>
@@ -70,13 +71,13 @@ const options = {
                         variant="success"
                         size="sm"
                         :value="income"
-                        title="Income"
+                        :title="'Income : ' + month"
                     />
                     <StatsWidget
                         variant="danger"
                         size="sm"
                         :value="expense"
-                        title="Expense"
+                        :title="'Expense : ' + month"
                     />
                 </div>
             </div>

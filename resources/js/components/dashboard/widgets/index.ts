@@ -9,8 +9,8 @@ export const WidgetVariant = cva('', {
             danger: 'text-red-500',
         },
         size: {
-            default: 'text-2xl font-bold',
-            sm: 'text-xl font-bold',
+            default: 'text-lg font-bold lg:text-2xl',
+            sm: 'text-md font-bold lg:text-xl',
         },
     },
     defaultVariants: {

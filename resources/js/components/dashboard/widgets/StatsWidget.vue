@@ -13,6 +13,8 @@ defineProps<{
         <h2 :class="cn(WidgetVariant({ variant, size }))">
             {{ title }}
         </h2>
-        <p class="mt-2 text-2xl font-bold!">{{ value?.toFixed(2) }}MAD</p>
+        <p class="mt-2 text-lg font-bold! lg:text-2xl">
+            {{ value?.toFixed(2) }}MAD
+        </p>
     </div>
 </template>
