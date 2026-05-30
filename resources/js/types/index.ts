@@ -58,3 +58,15 @@ export interface GoalStatistic {
     starts_at: string;
     account_id: number;
 }
+export interface MostUsedCategories {
+    income: {
+        category: string;
+        count: number;
+        total_amount: number;
+    } | null;
+    expense: {
+        category: string;
+        count: number;
+        total_amount: number;
+    } | null;
+}
