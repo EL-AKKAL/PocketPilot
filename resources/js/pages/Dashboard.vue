@@ -2,6 +2,7 @@
 import { Plus } from 'lucide-vue-next';
 import ExpensesByCategoryChart from '@/components/dashboard/ExpensesByCategoryChart.vue';
 import MonthlyIncomeVsExpenseChart from '@/components/dashboard/MonthlyIncomeVsExpenseChart.vue';
+import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
 import GoalForm from '@/components/goals/Form.vue';
 import GoalWidget from '@/components/goals/GoalWidget.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -61,34 +62,22 @@ const options = {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div class="space-y-5">
                 <!-- Balance -->
-                <div class="rounded-2xl border p-6 shadow">
-                    <h2 class="text-2xl font-bold text-primary">
-                        Total Balance
-                    </h2>
-                    <p class="mt-2 text-3xl font-bold">
-                        {{ balance?.toFixed(2) }}MAD
-                    </p>
-                </div>
+                <StatsWidget :value="balance" title="Total Balance" />
 
                 <!-- Income vs Expense -->
                 <div class="grid grid-cols-2 gap-4">
-                    <div
-                        class="flex flex-col items-start justify-center gap-4 rounded-xl border p-4 shadow"
-                    >
-                        <h3 class="font-bold text-green-700">Income</h3>
-                        <p class="text-xl font-bold">
-                            {{ income?.toFixed(2) }}MAD
-                        </p>
-                    </div>
-
-                    <div
-                        class="flex flex-col items-start justify-center gap-4 rounded-xl border p-4 shadow"
-                    >
-                        <h3 class="font-bold text-red-700">Expense</h3>
-                        <p class="text-xl font-bold">
-                            {{ expense?.toFixed(2) }}MAD
-                        </p>
-                    </div>
+                    <StatsWidget
+                        variant="success"
+                        size="sm"
+                        :value="income"
+                        title="Income"
+                    />
+                    <StatsWidget
+                        variant="danger"
+                        size="sm"
+                        :value="expense"
+                        title="Expense"
+                    />
                 </div>
             </div>
 
