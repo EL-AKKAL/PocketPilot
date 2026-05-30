@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ExpensesByCategoryChart from '@/components/dashboard/ExpensesByCategoryChart.vue';
 import MonthlyIncomeVsExpenseChart from '@/components/dashboard/MonthlyIncomeVsExpenseChart.vue';
+import RecentTransactionsTable from '@/components/dashboard/tables/RecentTransactionsTable.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
 import GoalWidget from '@/components/goals/GoalWidget.vue';
@@ -79,37 +80,8 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
                     />
                 </div>
             </div>
-
             <!-- Recent Transactions -->
-            <div class="rounded-2xl border bg-accent/20 p-6 shadow">
-                <h2 class="mb-4 font-semibold text-primary">
-                    Recent Transactions
-                </h2>
-
-                <div v-if="recentTransactions?.length === 0">
-                    No transactions yet.
-                </div>
-
-                <ul v-else class="space-y-2">
-                    <li
-                        v-for="t in recentTransactions"
-                        :key="t.id"
-                        class="flex justify-between border-b pb-2"
-                    >
-                        <span>{{ t.description ?? 'No description' }}</span>
-
-                        <span
-                            :class="
-                                t?.amount > 0
-                                    ? 'text-green-600'
-                                    : 'text-red-600'
-                            "
-                        >
-                            {{ t?.amount }}MAD
-                        </span>
-                    </li>
-                </ul>
-            </div>
+            <RecentTransactionsTable :transactions="recentTransactions" />
         </div>
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <GoalWidget :canCreateGoal :goal="goal" />
