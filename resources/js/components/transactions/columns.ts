@@ -39,7 +39,6 @@ export const columns: ColumnDef<Transaction>[] = [
                 'span',
                 {
                     class: [
-                        'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium',
                         categoryStyles[category] ??
                             'bg-gray-100 text-gray-700 dark:bg-gray-500/10 dark:text-gray-300',
                     ],

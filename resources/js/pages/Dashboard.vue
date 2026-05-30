@@ -2,6 +2,7 @@
 import { Plus } from 'lucide-vue-next';
 import ExpensesByCategoryChart from '@/components/dashboard/ExpensesByCategoryChart.vue';
 import MonthlyIncomeVsExpenseChart from '@/components/dashboard/MonthlyIncomeVsExpenseChart.vue';
+import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
 import GoalForm from '@/components/goals/Form.vue';
 import GoalWidget from '@/components/goals/GoalWidget.vue';
@@ -14,7 +15,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import type { Transaction, GoalStatistic } from '@/types';
+import type { Transaction, GoalStatistic, MostUsedCategories } from '@/types';
 
 const props = defineProps<{
     balance: number;
@@ -28,6 +29,7 @@ const props = defineProps<{
         category: string;
         total: number;
     }[];
+    mostUsedCategories: MostUsedCategories;
 }>();
 
 const series = [
@@ -114,7 +116,7 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
             </div>
         </div>
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <Card>
+            <Card class="shadow-none">
                 <CardContent>
                     <div v-if="goal">
                         <GoalWidget :goal="goal" />
@@ -140,9 +142,10 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
                     </div>
                 </CardContent>
             </Card>
-            <Card>
-                <CardContent> Coming soon </CardContent>
-            </Card>
+            <MostUsedCategoriesWidget
+                :mostUsedCategories="mostUsedCategories"
+                :month="month"
+            />
         </div>
 
         <Card class="w-full text-2xl">

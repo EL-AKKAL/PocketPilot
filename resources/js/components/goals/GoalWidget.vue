@@ -15,7 +15,7 @@ defineProps<{
         <!-- Header -->
         <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold">
-                🎯 {{ goal.period }} Goal ({{ goal.type }})
+                {{ goal.period }} Goal ({{ goal.type }})
             </h3>
             <span
                 class="rounded px-2 py-1 text-xs"
