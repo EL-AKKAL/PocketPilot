@@ -13,9 +13,6 @@ use Inertia\Inertia;
 
 class BackupController extends Controller
 {
-    // chatgpt ideas for future improvments :
-    // 🔍 “import preview timeline” (see how old data looks before importing)
-    // 🧠 automatic “data migration versioning”
     private $VERSION = '1.0';
 
     public function export()
@@ -117,6 +114,25 @@ class BackupController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Data restored successfully']);
 
         return back()->with('success', 'Data restored successfully');
+    }
+
+    public function delete()
+    {
+        $user = Auth::user();
+        $account = $user->account;
+
+        if ($account) {
+            DB::transaction(function () use ($account) {
+                $account->goals()->delete();
+                $account->transactions()->delete();
+                $account->periodicTransactions()->delete();
+                $account->delete();
+            });
+        }
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'All data deleted successfully']);
+
+        return back()->with('success', 'All data deleted successfully');
     }
 
     private function restoreModel(string $modelClass, array $data, array $extra = []): mixed

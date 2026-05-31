@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('settings/backup', 'settings/Backup')->name('backup.edit');
     Route::get('/backup/export', [BackupController::class, 'export'])->name('backup.export');
     Route::post('/backup/import', [BackupController::class, 'import'])->name('backup.import');
+    Route::post('/backup/delete', [BackupController::class, 'delete'])->name('backup.delete');
 
     Route::put('settings/password', [SecurityController::class, 'update'])
         ->middleware('throttle:6,1')

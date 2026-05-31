@@ -34,13 +34,12 @@ const downloadBackup = () => (window.location.href = backup.export().url);
 <template>
     <Head title="Data & Backup" />
     <div class="space-y-6">
-        <!-- IMPORT -->
         <Heading
             variant="small"
             title="Data management settings"
             description="Here you can download or restore your data from a backup file."
         />
-
+        <!-- IMPORT -->
         <div
             class="w-lg space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
         >
@@ -107,6 +106,7 @@ const downloadBackup = () => (window.location.href = backup.export().url);
                 </DialogContent>
             </Dialog>
         </div>
+        <!-- EXPORT -->
         <div
             class="w-lg space-y-6 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800"
         >
@@ -120,6 +120,64 @@ const downloadBackup = () => (window.location.href = backup.export().url);
                 </div>
                 <Button @click="downloadBackup"> Download backup </Button>
             </div>
+        </div>
+        <!-- DELETE -->
+        <div
+            class="w-lg space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
+        >
+            <div class="space-y-0.5 text-red-600 dark:text-red-100">
+                <p class="font-medium">Important</p>
+                <p class="text-sm">
+                    This will permanently delete all your data. This action
+                    cannot be undone.
+                </p>
+            </div>
+
+            <Dialog>
+                <DialogTrigger as-child>
+                    <Button variant="destructive">Delete all data</Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <Form
+                        v-bind="backup.delete.form()"
+                        reset-on-success
+                        :options="{ preserveScroll: true }"
+                        class="space-y-6"
+                        v-slot="{ processing, reset, clearErrors }"
+                    >
+                        <DialogHeader class="space-y-3">
+                            <DialogTitle> Delete all data </DialogTitle>
+                            <DialogDescription>
+                                This will permanently delete all your data. This
+                                action cannot be undone.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter class="gap-2">
+                            <DialogClose as-child>
+                                <Button
+                                    variant="secondary"
+                                    @click="
+                                        () => {
+                                            clearErrors();
+                                            reset();
+                                        }
+                                    "
+                                >
+                                    Cancel
+                                </Button>
+                            </DialogClose>
+
+                            <Button
+                                type="submit"
+                                variant="destructive"
+                                :disabled="processing"
+                            >
+                                Confirm delete
+                            </Button>
+                        </DialogFooter>
+                    </Form>
+                </DialogContent>
+            </Dialog>
         </div>
     </div>
 </template>
