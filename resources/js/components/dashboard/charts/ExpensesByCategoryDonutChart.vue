@@ -6,6 +6,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useChartOptions } from '@/composables/useChartOptions';
+
+const { baseChart, tooltip } = useChartOptions();
+
 const props = defineProps<{
     data: {
         category: string;
@@ -13,22 +17,14 @@ const props = defineProps<{
     }[];
 }>();
 
-const isDark = document.documentElement.classList.contains('dark');
-
 const series = props.data.map((item) => item.total);
 
 const labels = props.data.map((item) => item.category);
 
 const options = {
     chart: {
-        height: 300,
         type: 'donut',
-        zoom: {
-            enabled: false,
-        },
-        toolbar: {
-            show: false,
-        },
+        ...baseChart,
     },
     labels,
     colors: ['#f97316', '#22c55e', '#3b82f6', '#eab308', '#ef4444', '#a855f7'],
@@ -42,12 +38,7 @@ const options = {
     dataLabels: {
         enabled: false,
     },
-    tooltip: {
-        theme: isDark ? 'dark' : 'light',
-        y: {
-            formatter: (val: number) => `${val.toFixed(2)} MAD`,
-        },
-    },
+    tooltip,
     plotOptions: {
         pie: {
             donut: {

@@ -6,6 +6,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useChartOptions } from '@/composables/useChartOptions';
+
+const { baseChart, tooltip, axis, yaxis, grid } = useChartOptions();
+
 const props = defineProps<{
     income: number;
     expense: number;
@@ -18,10 +22,6 @@ const incomeExpenseSeries = [
     },
 ];
 
-const isDark = document.documentElement.classList.contains('dark');
-const textColor = isDark ? '#e5e7eb' : '#374151';
-const gridColor = isDark ? '#374151' : '#e5e7eb';
-
 const options = {
     series: [
         {
@@ -29,14 +29,8 @@ const options = {
         },
     ],
     chart: {
-        height: 300,
         type: 'bar',
-        zoom: {
-            enabled: false,
-        },
-        toolbar: {
-            show: false,
-        },
+        ...baseChart,
     },
     colors: ['#00e396d9', '#ff4560d9'],
     plotOptions: {
@@ -54,30 +48,11 @@ const options = {
     },
     xaxis: {
         categories: ['Income', 'Expense'],
-        labels: {
-            style: {
-                colors: textColor,
-                fontSize: '12px',
-            },
-        },
+        ...axis,
     },
-    yaxis: {
-        labels: {
-            style: {
-                colors: textColor,
-            },
-            formatter: (val: number) => val.toFixed(0),
-        },
-    },
-    grid: {
-        borderColor: gridColor,
-    },
-    tooltip: {
-        theme: isDark ? 'dark' : 'light',
-        y: {
-            formatter: (val: number) => `${val.toFixed(2)} MAD`,
-        },
-    },
+    yaxis,
+    grid,
+    tooltip,
 };
 </script>
 <template>

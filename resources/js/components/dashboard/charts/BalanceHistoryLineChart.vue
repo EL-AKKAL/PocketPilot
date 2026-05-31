@@ -6,6 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useChartOptions } from '@/composables/useChartOptions';
+
+const { baseChart, tooltip, axis, yaxis, grid } = useChartOptions();
 
 const props = defineProps<{
     balanceHistory: Array<{
@@ -14,10 +17,6 @@ const props = defineProps<{
     }>;
 }>();
 
-const isDark = document.documentElement.classList.contains('dark');
-
-const textColor = isDark ? '#e5e7eb' : '#374151';
-const gridColor = isDark ? '#374151' : '#e5e7eb';
 const chartWidth = props.balanceHistory.length * 70;
 
 const series = [
@@ -30,13 +29,7 @@ const series = [
 const options = {
     chart: {
         type: 'line',
-        height: 300,
-        toolbar: {
-            show: false,
-        },
-        zoom: {
-            enabled: false,
-        },
+        ...baseChart,
     },
     stroke: {
         curve: 'smooth',
@@ -50,33 +43,11 @@ const options = {
                 month: 'short',
             }),
         ),
-        labels: {
-            style: {
-                colors: textColor,
-                fontSize: '12px',
-            },
-        },
+        ...axis,
     },
-    yaxis: {
-        labels: {
-            style: {
-                colors: textColor,
-            },
-            formatter: (val: number) => val.toFixed(0),
-        },
-    },
-    grid: {
-        borderColor: gridColor,
-    },
-    tooltip: {
-        theme: isDark ? 'dark' : 'light',
-        x: {
-            formatter: (val: string) => val,
-        },
-        y: {
-            formatter: (val: number) => `${val.toFixed(2)} MAD`,
-        },
-    },
+    yaxis,
+    grid,
+    tooltip,
 };
 </script>
 <template>
@@ -103,7 +74,11 @@ const options = {
                     :style="{ minWidth: chartWidth + 'px' }"
                     style="scroll-snap-align: center"
                 >
-                    <apexchart :options="options" :series="series" />
+                    <apexchart
+                        height="300"
+                        :options="options"
+                        :series="series"
+                    />
                 </div>
             </div>
         </CardContent>
