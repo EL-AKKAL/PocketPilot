@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Pen, Plus } from 'lucide-vue-next';
+import Form from '@/components/goals/Form.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent } from '@/components/ui/card';
 import type { GoalStatistic } from '@/types';
-import Button from '../ui/button/Button.vue';
-import Form from './Form.vue';
 defineProps<{
     goal: GoalStatistic;
     canCreateGoal: boolean;

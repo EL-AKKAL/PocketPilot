@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { computed } from 'vue';
 import { useChartOptions } from '@/composables/useChartOptions';
+import ChartCard from './ChartCard.vue';
 
 const { baseChart, tooltip, axis, yaxis, grid } = useChartOptions();
 
@@ -49,38 +44,27 @@ const options = {
     grid,
     tooltip,
 };
+const hasData = computed(() => series[0].data.length > 0);
 </script>
 <template>
-    <Card class="w-full shadow-none">
-        <CardHeader>
-            <CardTitle> Balance history </CardTitle>
-            <CardDescription>
-                The balance history over the last 10 days.
-            </CardDescription>
-        </CardHeader>
-        <CardContent>
-            <div v-if="!series[0].data.length" class="text-center">
-                No data yet.
-            </div>
+    <ChartCard
+        title="Balance History"
+        description="The balance history over the last 10 days."
+        :hasData
+    >
+        <div
+            class="no-scrollbar w-full overflow-x-auto overflow-y-hidden"
+            style="
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            "
+        >
             <div
-                class="no-scrollbar w-full overflow-x-auto overflow-y-hidden"
-                style="
-                    scroll-snap-type: x mandatory;
-                    -webkit-overflow-scrolling: touch;
-                "
-                v-else
+                :style="{ minWidth: chartWidth + 'px' }"
+                style="scroll-snap-align: center"
             >
-                <div
-                    :style="{ minWidth: chartWidth + 'px' }"
-                    style="scroll-snap-align: center"
-                >
-                    <apexchart
-                        height="300"
-                        :options="options"
-                        :series="series"
-                    />
-                </div>
+                <apexchart height="300" :options="options" :series="series" />
             </div>
-        </CardContent>
-    </Card>
+        </div>
+    </ChartCard>
 </template>

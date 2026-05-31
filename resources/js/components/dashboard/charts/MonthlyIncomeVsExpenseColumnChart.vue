@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { computed } from 'vue';
 import { useChartOptions } from '@/composables/useChartOptions';
+import ChartCard from './ChartCard.vue';
 
 const { baseChart, tooltip, axis, yaxis, grid } = useChartOptions();
 
@@ -54,26 +49,19 @@ const options = {
     grid,
     tooltip,
 };
+
+const hasData = computed(() => !(props.income === 0 && props.expense === 0));
 </script>
 <template>
-    <Card class="w-full shadow-none">
-        <CardHeader>
-            <CardTitle> Income vs Expense this Month </CardTitle>
-            <CardDescription>
-                Compare your total income and expenses for the current month to
-                see if you're on track with your financial goals.
-            </CardDescription>
-        </CardHeader>
-        <CardContent>
-            <div v-if="income === 0 && expense === 0" class="text-center">
-                No data yet.
-            </div>
-            <apexchart
-                v-else
-                :options="options"
-                height="300"
-                :series="incomeExpenseSeries"
-            />
-        </CardContent>
-    </Card>
+    <ChartCard
+        title="Income vs Expense this Month"
+        description="Compare your total income and expenses for the current month."
+        :hasData
+    >
+        <apexchart
+            :options="options"
+            height="300"
+            :series="incomeExpenseSeries"
+        />
+    </ChartCard>
 </template>
