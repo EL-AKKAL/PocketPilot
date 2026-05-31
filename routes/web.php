@@ -12,7 +12,7 @@ Route::middleware(['auth', 'verified', 'account'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('transactions', TransactionController::class)->except('show');
+    Route::resource('transactions', TransactionController::class)->except('show', 'edit');
     Route::resource('periodic_transactions', PeriodicTransactionController::class)->except('show');
 
     Route::resource('goals', GoalController::class)->except('show', 'create', 'edit', 'delete');

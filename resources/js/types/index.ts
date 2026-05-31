@@ -8,9 +8,7 @@ export interface Transaction {
     amount: number;
     category: string;
     description: string;
-    account_id: string;
     created_at: string;
-    updated_at: string;
 }
 
 export interface PeriodicTransaction {

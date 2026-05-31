@@ -72,7 +72,7 @@ const categories = usePage().props.categories as Category;
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="start_date">Category</Label>
+                        <Label for="category">Category</Label>
                     </div>
                     <Select
                         name="category"
@@ -125,8 +125,10 @@ const categories = usePage().props.categories as Category;
                     <AlertDialogCancel :tabindex="2">Cancel</AlertDialogCancel>
                     <AlertDialogAction type="submit" :disabled="processing">
                         <Spinner v-if="processing" />
-                        <span v-else>Create</span></AlertDialogAction
-                    >
+                        <span v-else>
+                            {{ transaction ? 'Update' : 'Create' }}
+                        </span>
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </div>
         </Form>
