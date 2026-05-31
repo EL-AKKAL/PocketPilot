@@ -3,9 +3,9 @@ import BalanceHistoryLineChart from '@/components/dashboard/charts/BalanceHistor
 import ExpensesByCategoryDonutChart from '@/components/dashboard/charts/ExpensesByCategoryDonutChart.vue';
 import MonthlyIncomeVsExpenseColumnChart from '@/components/dashboard/charts/MonthlyIncomeVsExpenseColumnChart.vue';
 import RecentTransactionsTable from '@/components/dashboard/tables/RecentTransactionsTable.vue';
+import GoalWidget from '@/components/dashboard/widgets/GoalWidget.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
-import GoalWidget from '@/components/goals/GoalWidget.vue';
 import type { Transaction, GoalStatistic, MostUsedCategories } from '@/types';
 
 defineProps<{
