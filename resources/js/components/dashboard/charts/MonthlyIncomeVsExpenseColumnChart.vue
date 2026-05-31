@@ -34,6 +34,9 @@ const options = {
         zoom: {
             enabled: false,
         },
+        toolbar: {
+            show: false,
+        },
     },
     colors: ['#00e396d9', '#ff4560d9'],
     plotOptions: {
@@ -93,6 +96,7 @@ const options = {
             <apexchart
                 v-else
                 :options="options"
+                height="300"
                 :series="incomeExpenseSeries"
             />
         </CardContent>

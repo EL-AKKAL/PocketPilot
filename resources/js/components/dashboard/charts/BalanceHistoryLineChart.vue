@@ -14,6 +14,12 @@ const props = defineProps<{
     }>;
 }>();
 
+const isDark = document.documentElement.classList.contains('dark');
+
+const textColor = isDark ? '#e5e7eb' : '#374151';
+const gridColor = isDark ? '#374151' : '#e5e7eb';
+const chartWidth = props.balanceHistory.length * 70;
+
 const series = [
     {
         name: 'Balance',
@@ -23,8 +29,14 @@ const series = [
 
 const options = {
     chart: {
-        toolbar: { show: false },
         type: 'line',
+        height: 300,
+        toolbar: {
+            show: false,
+        },
+        zoom: {
+            enabled: false,
+        },
     },
     stroke: {
         curve: 'smooth',
@@ -32,11 +44,37 @@ const options = {
     },
     colors: ['#f97316'],
     xaxis: {
-        categories: props.balanceHistory.map((i) => i.date),
+        categories: props.balanceHistory.map((i) =>
+            new Date(i.date).toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: 'short',
+            }),
+        ),
+        labels: {
+            style: {
+                colors: textColor,
+                fontSize: '12px',
+            },
+        },
+    },
+    yaxis: {
+        labels: {
+            style: {
+                colors: textColor,
+            },
+            formatter: (val: number) => val.toFixed(0),
+        },
+    },
+    grid: {
+        borderColor: gridColor,
     },
     tooltip: {
+        theme: isDark ? 'dark' : 'light',
+        x: {
+            formatter: (val: string) => val,
+        },
         y: {
-            formatter: (val: number) => val.toFixed(2) + ' MAD',
+            formatter: (val: number) => `${val.toFixed(2)} MAD`,
         },
     },
 };
@@ -53,12 +91,21 @@ const options = {
             <div v-if="!series[0].data.length" class="text-center">
                 No data yet.
             </div>
-            <apexchart
+            <div
+                class="no-scrollbar w-full overflow-x-auto overflow-y-hidden"
+                style="
+                    scroll-snap-type: x mandatory;
+                    -webkit-overflow-scrolling: touch;
+                "
                 v-else
-                height="300"
-                :options="options"
-                :series="series"
-            />
+            >
+                <div
+                    :style="{ minWidth: chartWidth + 'px' }"
+                    style="scroll-snap-align: center"
+                >
+                    <apexchart :options="options" :series="series" />
+                </div>
+            </div>
         </CardContent>
     </Card>
 </template>
