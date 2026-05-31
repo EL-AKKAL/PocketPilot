@@ -12,11 +12,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/account/create', [AccountController::class, 'create'])
-        ->name('account.create');
-
-    Route::post('/account', [AccountController::class, 'store'])
-        ->name('account.store');
+    Route::resource('account', AccountController::class)->only(['create', 'store']);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
