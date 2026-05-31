@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Pen, Plus } from 'lucide-vue-next';
 import Form from '@/components/goals/Form.vue';
+import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent } from '@/components/ui/card';
@@ -88,23 +89,23 @@ defineProps<{
                     </div>
                 </div>
             </div>
-
             <div
                 v-else-if="canCreateGoal"
-                class="flex w-full items-center justify-between"
+                class="relative flex aspect-video max-h-25! w-full! items-center justify-center gap-2 overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
             >
-                No active goal.
+                <PlaceholderPattern class="z-0" />
+                <span class="text-gray-400">No active goals.</span>
                 <AlertDialog class="w-3xl!">
                     <AlertDialogTrigger as-child>
                         <Button
                             size="icon-sm"
                             variant="outline"
-                            class="rounded-full"
+                            class="z-50 rounded-full"
                         >
                             <Plus class="h-5 w-5" />
                         </Button>
                     </AlertDialogTrigger>
-                    <GoalForm />
+                    <Form />
                 </AlertDialog>
             </div>
         </CardContent>
