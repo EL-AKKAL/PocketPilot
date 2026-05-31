@@ -56,10 +56,12 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
             <MostUsedCategoriesWidget :mostUsedCategories :month="month" />
         </div>
         <BalanceHistoryLineChart :balanceHistory />
-        <ExpensesByCategoryDonutChart :data="expensesByCategory" />
-        <MonthlyIncomeVsExpenseColumnChart
-            :income="income"
-            :expense="expense"
-        />
+        <div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
+            <ExpensesByCategoryDonutChart :data="expensesByCategory" />
+            <MonthlyIncomeVsExpenseColumnChart
+                :income="income"
+                :expense="expense"
+            />
+        </div>
     </div>
 </template>

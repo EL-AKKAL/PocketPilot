@@ -18,6 +18,10 @@ const incomeExpenseSeries = [
     },
 ];
 
+const isDark = document.documentElement.classList.contains('dark');
+const textColor = isDark ? '#e5e7eb' : '#374151';
+const gridColor = isDark ? '#374151' : '#e5e7eb';
+
 const options = {
     series: [
         {
@@ -25,14 +29,18 @@ const options = {
         },
     ],
     chart: {
-        height: '300px',
+        height: 300,
         type: 'bar',
+        zoom: {
+            enabled: false,
+        },
     },
     colors: ['#00e396d9', '#ff4560d9'],
     plotOptions: {
         bar: {
             columnWidth: '45%',
             distributed: true,
+            borderRadius: 6,
         },
     },
     dataLabels: {
@@ -45,9 +53,26 @@ const options = {
         categories: ['Income', 'Expense'],
         labels: {
             style: {
-                colors: ['#00e396d9', '#ff4560d9'],
+                colors: textColor,
                 fontSize: '12px',
             },
+        },
+    },
+    yaxis: {
+        labels: {
+            style: {
+                colors: textColor,
+            },
+            formatter: (val: number) => val.toFixed(0),
+        },
+    },
+    grid: {
+        borderColor: gridColor,
+    },
+    tooltip: {
+        theme: isDark ? 'dark' : 'light',
+        y: {
+            formatter: (val: number) => `${val.toFixed(2)} MAD`,
         },
     },
 };
@@ -62,13 +87,7 @@ const options = {
             </CardDescription>
         </CardHeader>
         <CardContent>
-            <div
-                v-if="
-                    !incomeExpenseSeries[0].data[0] &&
-                    !incomeExpenseSeries[0].data[1]
-                "
-                class="text-center"
-            >
+            <div v-if="income === 0 && expense === 0" class="text-center">
                 No data yet.
             </div>
             <apexchart
