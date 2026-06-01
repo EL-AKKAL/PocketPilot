@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
 use App\Models\Goal;
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
@@ -48,7 +47,7 @@ class BackupController extends Controller
         ]);
 
         $user = Auth::user();
-        $oldAccount = $user->account;
+        $account = $user->account;
 
         $content = file_get_contents($request->file('file')->getRealPath());
         $data = json_decode($content, true);
@@ -67,7 +66,6 @@ class BackupController extends Controller
 
         // Validate structure
         if (
-            ! isset($data['account']) ||
             ! isset($data['transactions']) ||
             ! isset($data['periodic_transactions']) ||
             ! isset($data['goals'])
@@ -77,17 +75,13 @@ class BackupController extends Controller
             return back()->withErrors(['file' => 'Invalid backup structure']);
         }
 
-        DB::transaction(function () use ($oldAccount, $data, $user) {
+        DB::transaction(function () use ($account, $data) {
 
-            if ($oldAccount) {
-                $oldAccount->goals()->delete();
-                $oldAccount->transactions()->delete();
-                $oldAccount->periodicTransactions()->delete();
-                $oldAccount->delete();
+            if ($account) {
+                $account->goals()->delete();
+                $account->transactions()->delete();
+                $account->periodicTransactions()->delete();
             }
-
-            // restore account
-            $account = $this->restoreModel(Account::class, $data['account'], ['user_id' => $user->id]);
 
             // restore goals
             foreach ($data['goals'] as $g) {
@@ -140,7 +134,6 @@ class BackupController extends Controller
         $model->timestamps = false;
 
         $allowed = match ($modelClass) {
-            Account::class => ['name', 'starting_balance', 'created_at', 'updated_at'],
             Goal::class => ['value', 'period', 'status', 'starts_at', 'ends_at', 'type', 'created_at', 'updated_at'],
             Transaction::class => ['amount', 'category', 'description', 'created_at', 'updated_at'],
             PeriodicTransaction::class => [
