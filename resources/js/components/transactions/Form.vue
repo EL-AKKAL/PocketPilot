@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
+import type { AcceptableValue } from 'reka-ui';
+import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
@@ -30,6 +32,19 @@ defineProps<{
 }>();
 
 const categories = usePage().props.categories as Category;
+
+const lastCategory = ref<string | null | AcceptableValue>(
+    typeof window !== 'undefined'
+        ? window.localStorage.getItem('last_category')
+        : null,
+);
+
+const setLastCategory = (val: string | AcceptableValue) => {
+    if (val) {
+        window.localStorage.setItem('last_category', val.toString());
+        lastCategory.value = val;
+    }
+};
 </script>
 
 <template>
@@ -76,7 +91,8 @@ const categories = usePage().props.categories as Category;
                     </div>
                     <Select
                         name="category"
-                        :default-value="transaction?.category"
+                        :default-value="transaction?.category || lastCategory"
+                        @update:modelValue="setLastCategory"
                     >
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a category" />
