@@ -5,7 +5,7 @@ import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent } from '@/components/ui/card';
-import { currency } from '@/lib/utils';
+import { currency, statusStyles } from '@/lib/utils';
 import type { GoalStatistic } from '@/types';
 defineProps<{
     goal: GoalStatistic;
@@ -25,14 +25,7 @@ defineProps<{
                         </h3>
                         <span
                             class="rounded px-2 py-1 text-xs"
-                            :class="{
-                                'bg-yellow-100 text-yellow-700':
-                                    goal.status === 'in_progress',
-                                'bg-green-100 text-green-700':
-                                    goal.status === 'achieved',
-                                'bg-red-100 text-red-700':
-                                    goal.status === 'failed',
-                            }"
+                            :class="statusStyles[goal.status] ?? ''"
                         >
                             {{ goal.status }}
                         </span>

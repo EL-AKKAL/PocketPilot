@@ -46,7 +46,7 @@ class GoalController extends Controller
 
             $period = GoalPeriodEnum::from($request->period);
             // 2. Create new goal
-            $goal = $account->goals()->create([
+            $account->goals()->create([
                 'value' => $request->value,
                 'period' => $period->value,
                 'type' => $request->type,
