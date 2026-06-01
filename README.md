@@ -1,60 +1,140 @@
-# PocketPilot 24h Challenge
+# PocketPilot — 48h Challenge
 
 ## 🚀 Description and overview
 
-PocketPilot is a personal finance web application built during a 24-hour development challenge, designed to help users efficiently track their income, expenses, and recurring transactions in a simple and intuitive interface.
+PocketPilot is a personal finance web application built through a **48-hour iterative development challenge** (24h v1 + 24h v2).
 
-## 🧩 Features
+The goal was to simulate real-world startup conditions by designing, building, and refining a complete financial tracking product under strict time constraints.
 
-The goal of the project was to focus on core financial tracking features, strong usability, and rapid full-stack execution within a strict time constraint, simulating a real-world MVP development cycle.
+## 🧩 What is PocketPilot?
 
-## 🚀 Project Highlights
+PocketPilot helps users:
 
-- Built in ~23 hours of focused development  
-- Full-stack financial tracking system  
-- Real-time transaction management (income & expenses)  
-- Support for periodic / recurring transactions  
-- Interactive dashboard with charts and insights  
-- Clean, responsive UI with reusable components  
+- Track income and expenses
+- Manage recurring transactions
+- Set and monitor financial goals
+- Visualize financial data through a clean dashboard
 
-Deployed with custom subdomain and production setup  
+All within a fast, intuitive, and production-ready interface.
 
-## 🧠 Development Breakdown
+## 🛠 Tech Stack
+- Laravel
+- Vue 3 + Inertia
+- TailwindCSS
+- ApexCharts
+- Shadcn-vue
 
-The project was executed in structured phases to simulate real production workflow:
+## ⚡ Challenge Concept
 
-- Planning & Analysis: 3h 30min  
-- Setup & Project Initialization: 1h  
-- Backend Development (Transactions + Recurring Transactions + Background Job System): 3h  
-- Auth + Minimal Dashboard: 30min  
-- Frontend (Reusable DataTable): 1h  
-- Complete Transaction UI + Recurring Transactions UI (Forms + Table): 2h  
-- CRUD Front + Backend Tweak (Transactions + Recurring): 2h  
-- Deployment Setup GitHub + Server + Subdomain Configuration: 1h 30min  
-- Code Optimization: 1h  
-- Reusable Components Refactoring: 45min  
-- Landing page (Template Research & Config Setup + Implementation): 4h  
-- Dashboard Improvements + Charts Integration: 2h  
-- Bug Fix: 45min  
+This project was built in **two intensive phases**:
 
-**Total Time: ~23 hours**
+### 🥇 V1 — 24h MVP
+Focus: Core functionality & full-stack delivery
 
+- Transactions system (income & expenses)
+- Recurring transactions (automation)
+- Basic dashboard
+- Reusable DataTable system
+- Authentication & deployment
+- 
 ## 📊 Key Features
 
 - User authentication and account creation  
 - Income & expense tracking system  
 - Recurring (periodic) transaction automation  
 - Editable and deletable transaction history  
-- Dashboard with financial charts and summaries  
+- Basic Dashboard with financial charts and summaries  
 - Responsive UI with reusable components  
 
 Fully deployed production-ready application  
+---
 
-## 🎯 Purpose of the Project
+### 🥈 V2 — 24h Expansion
+Focus: Features, performance, and UX polish
 
-PocketPilot was built as a time-constrained MVP challenge to simulate real startup conditions. The focus was on:
+- Backup & restore system
+- Categories system
+- Goals system with history tracking
+- Server-side pagination
+- Dashboard improvements (charts + insights)
+- Performance optimization
+- UX improvements (faster forms, better workflows)
+- Data reset feature (start fresh anytime)
+  
+## 📊 Key Features
 
-- Rapid full-stack development  
-- Prioritizing essential features  
-- Clean architecture under pressure  
-- Delivering a complete, usable product in under 24 hours  
+- 💰 Income & expense tracking  
+- 🎯 Periodic goals tracking with history  
+- 📊 Interactive dashboard with responsive charts 
+- 🗂️ Categories system included in transactions (income & expense)  
+- 💾 Backup & restore functionality  
+- ⚡ Optimized performance & server-side pagination  
+- 🧼 Clean UI with reusable components  
+- 🔄 “Reset all data” feature  
+
+---
+## 🧠 Development Breakdown
+
+### ⏱ Total Time: ~48 hours
+
+#### V1 (~23h)
+- Planning & Analysis: 3h 30min  
+- Setup & Initialization: 1h  
+- Backend Development: 3h  
+- Auth + Dashboard: 30min  
+- DataTable System: 1h  
+- Transactions + Recurring UI: 2h  
+- CRUD Improvements: 2h  
+- Deployment: 1h 30min  
+- Optimization: 1h  
+- Refactor: 45min  
+- Landing Page: 4h  
+- Dashboard + Charts: 2h  
+- Bug Fixes: 45min  
+
+---
+
+#### V2 (~20h+ focused execution)
+
+- Planning & Architecture: 2h  
+- Backup & Restore System: 3h+  
+- Categories System: ~2h  
+- Goals System + History: 4h 30min  
+- Server-Side Pagination: ~40min  
+- Dashboard Improvements: ~1h 30min  
+- Performance Optimization: ~1h  
+- UX Improvements (Forms): 2h  
+- Data Reset Feature: ~25min  
+- Refactor & UI Polish: ~3h+  
+
+---
+
+## 🎯 Key Takeaways
+
+This project demonstrates:
+
+- Ability to build **full-stack applications under pressure**
+- Strong focus on **MVP prioritization**
+- Designing **scalable and reusable components**
+- Iterating quickly from **v1 → v2**
+- Balancing **speed, performance, and UX**
+
+---
+## 🌍 Deployment
+
+Production-ready application deployed with:
+
+- Custom domain / subdomain
+- Backend + frontend integration
+- Real-world usage conditions
+
+---
+
+## 🧠 Final Thoughts
+
+PocketPilot is not just a finance app — it's a proof of execution.
+
+Built in 48 hours, it reflects the ability to:
+- Ship fast
+- Iterate quickly
+- Deliver real value under constraints
