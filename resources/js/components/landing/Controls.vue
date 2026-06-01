@@ -26,7 +26,7 @@ import ToggleTheme from './ToggleTheme.vue';
     <Button as-child size="sm" variant="ghost" aria-label="View on GitHub">
         <a
             aria-label="View on GitHub"
-            href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
+            href="https://github.com/EL-AKKAL/PocketPilot"
             target="_blank"
         >
             <GithubIcon class="size-5" />
