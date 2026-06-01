@@ -27,7 +27,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
 import type { Category, Transaction } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     transaction?: Transaction;
 }>();
 
@@ -39,10 +39,12 @@ const lastCategory = ref<string | null | AcceptableValue>(
         : null,
 );
 
+const selectedCategory = ref(props.transaction?.category || lastCategory.value);
 const setLastCategory = (val: string | AcceptableValue) => {
     if (val) {
-        window.localStorage.setItem('last_category', val.toString());
-        lastCategory.value = val;
+        const value = val.toString();
+        selectedCategory.value = value;
+        window.localStorage.setItem('last_category', value);
     }
 };
 </script>
@@ -91,7 +93,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                     </div>
                     <Select
                         name="category"
-                        :default-value="transaction?.category || lastCategory"
+                        :default-value="selectedCategory"
                         @update:modelValue="setLastCategory"
                     >
                         <SelectTrigger class="w-full">
