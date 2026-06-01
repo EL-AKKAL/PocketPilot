@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Goal;
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -146,6 +147,11 @@ class BackupController extends Controller
 
         foreach ($data as $key => $value) {
             if (! in_array($key, $allowed)) {
+                continue;
+            }
+            if (in_array($key, ['created_at', 'updated_at', 'starts_at', 'ends_at', 'start_date', 'end_date', 'next_apply_date']) && $value) {
+                $model->$key = Carbon::parse($value)->format('Y-m-d H:i:s');
+
                 continue;
             }
             $model->$key = $value;
