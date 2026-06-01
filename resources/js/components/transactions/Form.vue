@@ -83,7 +83,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                         :default-value="transaction?.amount"
                         required
                         :tabindex="1"
-                        placeholder="500.00MAD"
+                        placeholder="ex: 500$"
                     />
                     <InputError :message="errors.amount" />
                 </div>

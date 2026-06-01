@@ -11,6 +11,10 @@ export function toUrl(href: NonNullable<InertiaLinkProps['href']>) {
     return typeof href === 'string' ? href : href?.url;
 }
 
+export function currency(amount: number) {
+    return amount.toFixed(2) + 'MAD';
+}
+
 export const categoryStyles: Record<string, string> = {
     // expense
     Emergencies:

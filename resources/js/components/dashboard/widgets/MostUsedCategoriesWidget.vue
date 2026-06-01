@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categoryStyles } from '@/lib/utils';
+import { categoryStyles, currency } from '@/lib/utils';
 import type { MostUsedCategories } from '@/types';
 defineProps<{
     mostUsedCategories: MostUsedCategories;
@@ -25,8 +25,7 @@ defineProps<{
                     {{ mostUsedCategories.income.category }}
                 </span>
                 ({{ mostUsedCategories.income.count }} transactions •
-                {{ mostUsedCategories.income.total_amount.toFixed(2) }}
-                MAD)
+                {{ currency(mostUsedCategories.income.total_amount) }})
             </span>
 
             <span v-else class="text-sm text-gray-400"> No data </span>
@@ -45,8 +44,8 @@ defineProps<{
                     {{ mostUsedCategories.expense.category }}
                 </span>
                 ({{ mostUsedCategories.expense.count }} transactions •
-                {{ mostUsedCategories.expense.total_amount.toFixed(2) }}
-                MAD)
+                {{ currency(mostUsedCategories.expense.total_amount) }}
+                )
             </span>
 
             <span v-else class="text-sm text-gray-400"> No data </span>

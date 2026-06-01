@@ -1,3 +1,5 @@
+import { currency } from '@/lib/utils';
+
 export function useChartOptions() {
     const isDark = document.documentElement.classList.contains('dark');
     const textColor = isDark ? '#e5e7eb' : '#374151';
@@ -12,7 +14,7 @@ export function useChartOptions() {
     const tooltip = {
         theme: isDark ? 'dark' : 'light',
         y: {
-            formatter: (val: number) => `${val.toFixed(2)} MAD`,
+            formatter: (val: number) => currency(val),
         },
     };
 

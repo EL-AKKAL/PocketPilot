@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
-import { statusStyles } from '@/lib/utils';
+import { currency, statusStyles } from '@/lib/utils';
 import type { Goal } from '@/types';
 
 export const columns: ColumnDef<Goal>[] = [
@@ -17,14 +17,11 @@ export const columns: ColumnDef<Goal>[] = [
     {
         accessorKey: 'Value',
         cell: ({ row }) => {
-            const value = row.original.value;
-            const formatted =
-                new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                }).format(value) + ' MAD';
-
-            return h('div', { class: ' font-medium' }, formatted);
+            return h(
+                'div',
+                { class: ' font-medium' },
+                currency(row.original.value),
+            );
         },
     },
     {

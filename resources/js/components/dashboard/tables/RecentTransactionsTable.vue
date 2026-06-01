@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
+import { currency } from '@/lib/utils';
 import type { Transaction } from '@/types';
 defineProps<{
     transactions: Array<Transaction>;
@@ -29,7 +30,7 @@ defineProps<{
                 <span
                     :class="t?.amount > 0 ? 'text-green-600' : 'text-red-600'"
                 >
-                    {{ t?.amount }}MAD
+                    {{ currency(t?.amount) }}
                 </span>
             </li>
         </ul>

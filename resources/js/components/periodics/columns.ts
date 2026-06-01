@@ -2,7 +2,7 @@ import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
 import Form from '@/components/periodics/Form.vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
-import { categoryStyles } from '@/lib/utils';
+import { categoryStyles, currency } from '@/lib/utils';
 import { destroy } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
 
@@ -20,14 +20,11 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
     {
         accessorKey: 'Amount',
         cell: ({ row }) => {
-            const amount = row.original.amount;
-            const formatted =
-                new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                }).format(amount) + ' MAD';
-
-            return h('div', { class: ' font-medium' }, formatted);
+            return h(
+                'div',
+                { class: ' font-medium' },
+                currency(row.original.amount),
+            );
         },
     },
     {

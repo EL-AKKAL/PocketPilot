@@ -5,6 +5,7 @@ import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent } from '@/components/ui/card';
+import { currency } from '@/lib/utils';
 import type { GoalStatistic } from '@/types';
 defineProps<{
     goal: GoalStatistic;
@@ -41,7 +42,7 @@ defineProps<{
                     <div class="space-y-1">
                         <p class="text-sm">
                             {{ goal.progress.toFixed(2) }} /
-                            {{ goal.value }} MAD
+                            {{ currency(goal.value) }}
                         </p>
 
                         <div class="h-2 w-full rounded bg-accent">

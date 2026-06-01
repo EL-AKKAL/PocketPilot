@@ -70,7 +70,7 @@ const types = usePage().props.goalTypes as string[];
                         autofocus
                         min="0"
                         :tabindex="1"
-                        placeholder="500.00MAD"
+                        placeholder="ex: 500$"
                     />
                     <InputError :message="errors.value" />
                 </div>

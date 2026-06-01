@@ -84,7 +84,7 @@ const categories = usePage().props.categories as Category;
                         required
                         autofocus
                         :tabindex="1"
-                        placeholder="500.00MAD"
+                        placeholder="ex: 500$"
                     />
                     <InputError :message="errors.amount" />
                 </div>

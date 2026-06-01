@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useChartOptions } from '@/composables/useChartOptions';
+import { currency } from '@/lib/utils.js';
 import ChartCard from './ChartCard.vue';
 
 const { baseChart, tooltip } = useChartOptions();
@@ -80,7 +81,7 @@ const hasData = computed(() => props.data.length > 0);
                     </div>
 
                     <div class="text-right text-xs text-gray-400">
-                        {{ item.total.toFixed(2) }} MAD • {{ item.percentage }}%
+                        {{ currency(item.total) }} • {{ item.percentage }}%
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
 import Form from '@/components/transactions/Form.vue';
-import { categoryStyles } from '@/lib/utils';
+import { categoryStyles, currency } from '@/lib/utils';
 import { destroy } from '@/routes/transactions';
 import type { Transaction } from '@/types';
 
@@ -20,14 +20,11 @@ export const columns: ColumnDef<Transaction>[] = [
     {
         accessorKey: 'Amount',
         cell: ({ row }) => {
-            const amount = row.original.amount;
-            const formatted =
-                new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                }).format(amount) + ' MAD';
-
-            return h('div', { class: ' font-medium' }, formatted);
+            return h(
+                'div',
+                { class: ' font-medium' },
+                currency(row.original.amount),
+            );
         },
     },
     {

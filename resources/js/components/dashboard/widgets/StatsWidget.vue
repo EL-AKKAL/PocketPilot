@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
+import { cn, currency } from '@/lib/utils';
 import { WidgetVariant } from '.';
 defineProps<{
     value: number;
@@ -14,7 +14,7 @@ defineProps<{
             {{ title }}
         </h2>
         <p class="mt-2 text-lg font-bold! lg:text-2xl">
-            {{ value?.toFixed(2) }}MAD
+            {{ currency(value) }}
         </p>
     </div>
 </template>
