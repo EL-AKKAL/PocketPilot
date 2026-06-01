@@ -19,7 +19,22 @@ export const categoryStyles: Record<string, string> = {
     Investments:
         'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-300',
     'Other Income':
-        'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-mist-300 text-mist-700 dark:bg-mist-500/10 dark:text-mist-300',
+        'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-slate-300 text-slate-400 dark:bg-slate-500/10 dark:text-slate-300',
+};
+
+export const categoryChartColors: Record<string, string> = {
+    Emergencies: '#fca5a5',
+    Bills: '#fcd34d',
+    Food: '#bef264',
+    Needs: '#f9a8d4',
+    Transport: '#67e8f9',
+    Fixes: '#93c5fd',
+    Wants: '#c4b5fd',
+    Salary: '#f0abfc',
+    Freelance: '#86efac',
+    Business: '#d1d5db',
+    Investments: '#fde047',
+    'Other Income': '#cbd5e1',
 };
 
 export const statusStyles: Record<string, string> = {
