@@ -79,9 +79,9 @@ const setLastCategory = (val: string | AcceptableValue) => {
                         id="amount"
                         type="number"
                         name="amount"
+                        autofocus
                         :default-value="transaction?.amount"
                         required
-                        autofocus
                         :tabindex="1"
                         placeholder="500.00MAD"
                     />
@@ -96,7 +96,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                         :default-value="selectedCategory"
                         @update:modelValue="setLastCategory"
                     >
-                        <SelectTrigger class="w-full">
+                        <SelectTrigger class="w-full" :tabindex="2">
                             <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                         <SelectContent>
@@ -132,7 +132,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                     <Input
                         id="description"
                         name="description"
-                        :tabindex="2"
+                        :tabindex="3"
                         :default-value="transaction?.description"
                         placeholder="Description of the transaction"
                     />
@@ -140,8 +140,12 @@ const setLastCategory = (val: string | AcceptableValue) => {
                 </div>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel :tabindex="2">Cancel</AlertDialogCancel>
-                    <AlertDialogAction type="submit" :disabled="processing">
+                    <AlertDialogCancel :tabindex="4">Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                        :tabindex="5"
+                        type="submit"
+                        :disabled="processing"
+                    >
                         <Spinner v-if="processing" />
                         <span v-else>
                             {{ transaction ? 'Update' : 'Create' }}
