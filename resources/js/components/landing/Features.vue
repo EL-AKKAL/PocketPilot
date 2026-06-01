@@ -8,6 +8,7 @@ import {
     PictureInPicture,
     MousePointerClick,
     Newspaper,
+    CalendarRange,
 } from 'lucide-vue-next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -31,7 +32,7 @@ const featureList: FeaturesProps[] = [
             'Keep your financial records organized with accurate balance and transaction management.',
     },
     {
-        icon: 'goal',
+        icon: 'calendarRange',
         title: 'Recurring Transaction Automation',
         description:
             'Automate repetitive income and expense entries with flexible recurring schedules.',
@@ -43,10 +44,10 @@ const featureList: FeaturesProps[] = [
             'Enjoy a distraction-free UI designed to make financial management intuitive and enjoyable.',
     },
     {
-        icon: 'mousePointerClick',
-        title: 'Fast & Easy Workflow',
+        icon: 'goal',
+        title: 'Periodic Goals Tracking',
         description:
-            'Add, edit, and manage transactions quickly with a streamlined user experience.',
+            'Set monthly or custom goals and track your progress over time to stay in control of your finances.',
     },
     {
         icon: 'newspaper',
@@ -66,6 +67,7 @@ const iconMap: Record<
     | typeof MousePointerClick
     | typeof MessageCircle
     | typeof Newspaper
+    | typeof CalendarRange
 > = {
     tabletSmartphone: TabletSmartphone,
     badgeCheck: BadgeCheck,
@@ -75,6 +77,7 @@ const iconMap: Record<
     mousePointerClick: MousePointerClick,
     messageCircle: MessageCircle,
     newspaper: Newspaper,
+    calendarRange: CalendarRange,
 };
 </script>
 

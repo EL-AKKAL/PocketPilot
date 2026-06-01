@@ -24,19 +24,24 @@ const FAQList: FAQProps[] = [
         value: 'item-2',
     },
     {
+        question: 'How are goals tracked over time?',
+        answer: 'Once a goal is created, all upcoming transactions are included in its progress automatically. You can track completed and past goals with full history on the goals page.',
+        value: 'item-3',
+    },
+    {
         question: 'How is my balance calculated?',
         answer: 'Your balance is calculated using your starting account balance combined with all recorded transactions, giving you a real-time overview of your finances.',
-        value: 'item-3',
+        value: 'item-4',
     },
     {
         question: 'Can I use PocketPilot on mobile devices?',
         answer: 'Yes. The interface is fully responsive and works smoothly across desktops, tablets, and mobile devices.',
-        value: 'item-4',
+        value: 'item-5',
     },
     {
         question: 'Is PocketPilot free to use?',
         answer: 'Yes. PocketPilot is currently available as a free personal finance management solution.',
-        value: 'item-5',
+        value: 'item-6',
     },
 ];
 </script>
