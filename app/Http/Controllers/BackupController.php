@@ -118,8 +118,7 @@ class BackupController extends Controller
 
     public function delete()
     {
-        $user = Auth::user();
-        $account = $user->account;
+        $account = Auth::user()->account;
 
         if ($account) {
             DB::transaction(function () use ($account) {
@@ -132,7 +131,7 @@ class BackupController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'All data deleted successfully']);
 
-        return back()->with('success', 'All data deleted successfully');
+        return back();
     }
 
     private function restoreModel(string $modelClass, array $data, array $extra = []): mixed
