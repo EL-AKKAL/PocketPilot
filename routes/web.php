@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\PeriodicTransactionController;
@@ -14,7 +15,7 @@ Route::middleware(['auth', 'verified', 'account'])->group(function () {
 
     Route::resource('transactions', TransactionController::class)->except('show', 'edit');
     Route::resource('periodic_transactions', PeriodicTransactionController::class)->except('show', 'edit');
-
+    Route::resource('categories', CategoryController::class)->except('show', 'create', 'edit');
     Route::resource('goals', GoalController::class)->except('show', 'create', 'edit', 'delete');
 });
 
