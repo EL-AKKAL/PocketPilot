@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\CategoryEnum;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-#[Fillable(['start_date', 'end_date', 'frequency', 'amount', 'description', 'category', 'account_id', 'is_active', 'next_apply_date'])]
+#[Fillable(['start_date', 'end_date', 'frequency', 'amount', 'description', 'category_id', 'account_id', 'is_active', 'next_apply_date'])]
 class PeriodicTransaction extends Model
 {
-    protected function casts(): array
+    public function category()
     {
-        return [
-            'category' => CategoryEnum::class,
-        ];
+        return $this->belongsTo(Category::class);
     }
 
     public function account()
@@ -24,7 +22,7 @@ class PeriodicTransaction extends Model
     public function scopeMine($query)
     {
         return $query->whereHas('account', function ($q) {
-            $q->where('user_id', auth()->id());
+            $q->where('user_id', Auth::id());
         });
     }
 }

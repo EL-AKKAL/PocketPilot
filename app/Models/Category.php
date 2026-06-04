@@ -5,12 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'starting_balance'])]
-class Account extends Model
+#[Fillable(['account_id', 'value', 'description', 'type'])]
+class Category extends Model
 {
-    public function user()
+    protected $fillable = [
+        'account_id',
+        'value',
+        'description',
+        'type',
+    ];
+
+    public function account()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Account::class);
     }
 
     public function transactions()
@@ -21,15 +28,5 @@ class Account extends Model
     public function periodicTransactions()
     {
         return $this->hasMany(PeriodicTransaction::class);
-    }
-
-    public function goals()
-    {
-        return $this->hasMany(Goal::class);
-    }
-
-    public function categories()
-    {
-        return $this->hasMany(Category::class);
     }
 }
