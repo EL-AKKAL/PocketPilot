@@ -17,10 +17,7 @@ return new class extends Migration
             $table->string('value');
             $table->string('description')->nullable();
 
-            $table->enum('type', [
-                'income',
-                'expense',
-            ]);
+            $table->string('type')->default('income');
 
             $table->timestamps();
 
