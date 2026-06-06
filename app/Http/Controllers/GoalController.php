@@ -16,13 +16,7 @@ class GoalController extends Controller
 {
     public function index()
     {
-        $account = Auth::user()->account;
-
-        $goalsHistory = $account->goals()
-            ->where('status', '!=', 'in_progress')
-            ->latest('starts_at')
-            ->paginate(10)
-            ->withQueryString();
+        $goalsHistory = Goal::dataTable()->getResponse();
 
         return Inertia::render('goals/List', [
             'goalsHistory' => $goalsHistory,
