@@ -21,6 +21,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as categories } from '@/routes/categories';
 import { index as goals } from '@/routes/goals';
 import { index as periodicTransactions } from '@/routes/periodic_transactions';
 import { index as transactions } from '@/routes/transactions';
@@ -46,6 +47,11 @@ const mainNavItems: NavItem[] = [
         title: 'Goals History',
         href: goals(),
         icon: Target,
+    },
+    {
+        title: 'Categories',
+        href: categories(),
+        icon: BookOpen,
     },
 ];
 
