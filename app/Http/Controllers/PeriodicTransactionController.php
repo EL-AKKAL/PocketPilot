@@ -11,21 +11,7 @@ class PeriodicTransactionController extends Controller
 {
     public function index()
     {
-        $account = Auth::user()->account;
-
-        $periodics = $account
-            ->periodicTransactions()
-            ->select(['id', 'amount',     'category',
-                'description',
-                'start_date',
-                'end_date',
-                'frequency',
-                'is_active',
-                'next_apply_date',
-                'created_at'])
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        $periodics = PeriodicTransaction::dataTable()->getResponse();
 
         return Inertia::render('periodic/List', [
             'periodics' => $periodics,
