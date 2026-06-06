@@ -10,14 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $account = Auth::user()->account;
-
-        $categories = $account
-            ->categories()
-            ->select(['id', 'value', 'description', 'type'])
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        $categories = Category::dataTable()->getResponse();
 
         return Inertia::render('categories/List', [
             'categories' => $categories,
