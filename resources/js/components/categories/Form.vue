@@ -51,7 +51,7 @@ defineProps<{
                       }
                     : store.form()
             "
-            :reset-on-success="['value', 'description']"
+            :reset-on-success="['value', 'type']"
             v-slot="{ processing }"
             class="flex flex-col gap-6"
         >
@@ -70,9 +70,13 @@ defineProps<{
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="category">Type</Label>
+                        <Label for="type">Type</Label>
                     </div>
-                    <Select name="category" :default-value="category?.type">
+                    <Select
+                        id="type"
+                        name="type"
+                        :default-value="category?.type"
+                    >
                         <SelectTrigger class="w-full" :tabindex="2">
                             <SelectValue placeholder="Select a type" />
                         </SelectTrigger>
@@ -80,7 +84,7 @@ defineProps<{
                             <SelectGroup>
                                 <SelectLabel>Type</SelectLabel>
                                 <SelectItem
-                                    v-for="type in ['income', 'expense']"
+                                    v-for="type in ['Income', 'Expense']"
                                     :key="type"
                                     :value="type"
                                 >
