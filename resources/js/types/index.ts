@@ -24,11 +24,6 @@ export interface PeriodicTransaction {
     created_at: string;
 }
 
-export interface Category {
-    expense: string[];
-    income: string[];
-}
-
 export interface Goal {
     id: number;
     value: number;
@@ -65,4 +60,11 @@ export interface MostUsedCategories {
         count: number;
         total_amount: number;
     } | null;
+}
+
+export interface Category {
+    id: number;
+    value: string;
+    type: string;
+    created_at: string;
 }
