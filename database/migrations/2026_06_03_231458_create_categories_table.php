@@ -15,7 +15,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('value');
-            $table->string('description')->nullable();
 
             $table->string('type')->default('income');
 

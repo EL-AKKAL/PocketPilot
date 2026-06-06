@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['account_id', 'value', 'description', 'type'])]
+#[Fillable(['account_id', 'value', 'type'])]
 class Category extends Model
 {
     protected $fillable = [
         'account_id',
         'value',
-        'description',
         'type',
     ];
 
