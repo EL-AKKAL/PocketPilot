@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\DataTable\Column;
+use App\Services\DataTable\Table;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -24,5 +26,19 @@ class Transaction extends Model
         return $query->whereHas('account', function ($q) {
             $q->where('user_id', Auth::id());
         });
+    }
+
+    public static function dataTable(): Table
+    {
+        $query = static::query()->whereBelongsTo(Auth::user()->account);
+
+        return Table::make($query)
+            ->columns([
+                Column::make('id'),
+                Column::make('amount'),
+                Column::make('category')->sortable(),
+                Column::make('description')->sortable(),
+                Column::make('created_at')->sortable()->date(),
+            ]);
     }
 }

@@ -11,14 +11,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $account = Auth::user()->account;
-
-        $transactions = $account
-            ->transactions()
-            ->select(['id', 'amount', 'category', 'description', 'created_at'])
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        $transactions = Transaction::dataTable()->getResponse();
 
         return Inertia::render('transactions/List', [
             'transactions' => $transactions,
