@@ -15,8 +15,8 @@ class TransactionRequest extends FormRequest
     {
         return [
             'description' => 'nullable|string',
-            'amount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
-            'category' => ['required', 'string', 'exists:categories,value'],
+            'amount' => ['required', 'numeric', 'between:-999999,999999'],
+            'category_id' => ['required', 'string', 'exists:categories,id'],
         ];
     }
 }

@@ -21,11 +21,11 @@ class PeriodicTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|between:-999999,999999',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date',
             'frequency' => 'required|in:daily,weekly,monthly,yearly',
-            'category' => ['required', 'string', 'exists:categories,value'],
+            'category' => ['required', 'string', 'exists:categories,id'],
             'description' => 'nullable|string',
             'is_active' => 'required|boolean',
         ];
