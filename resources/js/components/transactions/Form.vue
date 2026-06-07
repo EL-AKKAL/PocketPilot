@@ -2,7 +2,6 @@
 import { Form, usePage } from '@inertiajs/vue3';
 import type { AcceptableValue } from 'reka-ui';
 import { ref } from 'vue';
-import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -25,13 +24,13 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
-import type { Category, Transaction } from '@/types';
+import type { Categories, Transaction } from '@/types';
 
 const props = defineProps<{
     transaction?: Transaction;
 }>();
 
-const categories = usePage().props.categories as Category;
+const categories = usePage().props.categories as Categories;
 
 const lastCategory = ref<string | null | AcceptableValue>(
     typeof window !== 'undefined'
@@ -69,7 +68,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                     : store.form()
             "
             :reset-on-success="['amount', 'description']"
-            v-slot="{ errors, processing }"
+            v-slot="{ processing }"
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
@@ -85,14 +84,13 @@ const setLastCategory = (val: string | AcceptableValue) => {
                         :tabindex="1"
                         placeholder="ex: 500$"
                     />
-                    <InputError :message="errors.amount" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="category">Category</Label>
                     </div>
                     <Select
-                        name="category"
+                        name="category_id"
                         :default-value="selectedCategory"
                         @update:modelValue="setLastCategory"
                     >
@@ -104,25 +102,24 @@ const setLastCategory = (val: string | AcceptableValue) => {
                                 <SelectLabel>Income</SelectLabel>
                                 <SelectItem
                                     v-for="income in categories.income"
-                                    :key="income"
-                                    :value="income"
+                                    :key="income.id"
+                                    :value="income.id"
                                 >
-                                    {{ income }}
+                                    {{ income.value }}
                                 </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                                 <SelectLabel>Expense</SelectLabel>
                                 <SelectItem
                                     v-for="expense in categories.expense"
-                                    :key="expense"
-                                    :value="expense"
+                                    :key="expense.id"
+                                    :value="expense.id"
                                 >
-                                    {{ expense }}
+                                    {{ expense.value }}
                                 </SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.category" />
                 </div>
 
                 <div class="grid gap-2">
@@ -136,7 +133,6 @@ const setLastCategory = (val: string | AcceptableValue) => {
                         :default-value="transaction?.description"
                         placeholder="Description of the transaction"
                     />
-                    <InputError :message="errors.description" />
                 </div>
 
                 <AlertDialogFooter>

@@ -68,3 +68,8 @@ export interface Category {
     type: string;
     created_at: string;
 }
+
+export interface Categories {
+    income: Category[];
+    expense: Category[];
+}
