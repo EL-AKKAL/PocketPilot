@@ -6,15 +6,16 @@ export * from './data-table';
 export interface Transaction {
     id: number;
     amount: number;
-    category: string;
+    category_id: number;
     description: string;
     created_at: string;
+    category?: Category;
 }
 
 export interface PeriodicTransaction {
     id: number;
     amount: number;
-    category: string;
+    category_id: number;
     description: string;
     start_date: string;
     end_date: string;

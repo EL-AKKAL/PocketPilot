@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
-import type { AcceptableValue } from 'reka-ui';
-import { ref } from 'vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -26,26 +24,11 @@ import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
 import type { Categories, Transaction } from '@/types';
 
-const props = defineProps<{
+defineProps<{
     transaction?: Transaction;
 }>();
 
 const categories = usePage().props.categories as Categories;
-
-const lastCategory = ref<string | null | AcceptableValue>(
-    typeof window !== 'undefined'
-        ? window.localStorage.getItem('last_category')
-        : null,
-);
-
-const selectedCategory = ref(props.transaction?.category || lastCategory.value);
-const setLastCategory = (val: string | AcceptableValue) => {
-    if (val) {
-        const value = val.toString();
-        selectedCategory.value = value;
-        window.localStorage.setItem('last_category', value);
-    }
-};
 </script>
 
 <template>
@@ -91,8 +74,7 @@ const setLastCategory = (val: string | AcceptableValue) => {
                     </div>
                     <Select
                         name="category_id"
-                        :default-value="selectedCategory"
-                        @update:modelValue="setLastCategory"
+                        :default-value="transaction?.category_id"
                     >
                         <SelectTrigger class="w-full" :tabindex="2">
                             <SelectValue placeholder="Select a category" />
