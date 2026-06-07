@@ -2,40 +2,37 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\CategoryEnum;
 use App\Enums\GoalPeriodEnum;
 use App\Enums\GoalTypeEnum;
+use App\Enums\TypeEnum;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    /**
-     * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
-     *
-     * @var string
-     */
     protected $rootView = 'app';
 
-    /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
-     */
     public function version(Request $request): ?string
     {
         return parent::version($request);
     }
 
-    /**
-     * Define the props that are shared by default.
-     *
-     * @see https://inertiajs.com/shared-data
-     *
-     * @return array<string, mixed>
-     */
+    public function categories(): array
+    {
+        $income = Category::whereBelongsTo(Auth::user()->account)
+            ->where('type', TypeEnum::INCOME);
+
+        $expense = Category::whereBelongsTo(Auth::user()->account)
+            ->where('type', TypeEnum::EXPENSE);
+
+        return [
+            'expense' => $expense->pluck('value', 'id'),
+            'income' => $income->pluck('value', 'id'),
+        ];
+    }
+
     public function share(Request $request): array
     {
         return [
@@ -44,10 +41,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'categories' => [
-                'expense' => CategoryEnum::expense(),
-                'income' => CategoryEnum::income(),
-            ],
+            'categories' => $this->categories(),
             'goalPeriods' => GoalPeriodEnum::cases(),
             'goalTypes' => GoalTypeEnum::cases(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
