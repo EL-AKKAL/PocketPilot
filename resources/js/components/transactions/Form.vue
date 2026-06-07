@@ -74,7 +74,7 @@ const categories = usePage().props.categories as Categories;
                     </div>
                     <Select
                         name="category_id"
-                        :default-value="transaction?.category_id"
+                        :default-value="transaction?.category?.id"
                     >
                         <SelectTrigger class="w-full" :tabindex="2">
                             <SelectValue placeholder="Select a category" />
