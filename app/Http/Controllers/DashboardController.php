@@ -135,58 +135,51 @@ class DashboardController extends Controller
     private function expensesByCategory(Account $account)
     {
         return $account->transactions()
-            ->selectRaw('category, SUM(amount) as total')
-            ->where('amount', '<', 0) // only expenses
-            ->groupBy('category')
+            ->with('category:id,value')
+            ->where('amount', '<', 0)
             ->get()
-            ->map(function ($item) {
-                return [
-                    'category' => $item->category,
-                    'total' => abs((float) $item->total), // make positive
-                ];
-            });
+            ->groupBy('category.value')
+            ->map(fn ($transactions, $category) => [
+                'category' => $category,
+                'total' => abs($transactions->sum('amount')),
+            ])
+            ->values();
     }
 
     private function mostUsedCategories(Account $account): array
     {
-        $baseQuery = $account->transactions()
+        $transactions = $account->transactions()
+            ->with('category:id,value')
             ->whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month);
+            ->whereMonth('created_at', now()->month)
+            ->get();
 
-        $topIncome = (clone $baseQuery)
+        $topIncome = $transactions
             ->where('amount', '>', 0)
-            ->selectRaw('
-            category,
-            COUNT(*) as total,
-            SUM(amount) as total_amount
-        ')
-            ->groupBy('category')
-            ->orderByDesc('total_amount')
+            ->groupBy('category.value')
+            ->map(fn ($items, $category) => [
+                'category' => $category,
+                'count' => $items->count(),
+                'total_amount' => $items->sum('amount'),
+            ])
+            ->sortByDesc('total_amount')
             ->first();
 
-        $topExpense = (clone $baseQuery)
+        $topExpense = $transactions
             ->where('amount', '<', 0)
-            ->selectRaw('
-            category,
-            COUNT(*) as total,
-            SUM(ABS(amount)) as total_amount
-        ')
-            ->groupBy('category')
-            ->orderByDesc('total_amount')
+            ->groupBy('category.value')
+            ->map(fn ($items, $category) => [
+                'category' => $category,
+                'count' => $items->count(),
+                'total_amount' => abs($items->sum('amount')),
+            ])
+            ->sortByDesc('total_amount')
             ->first();
 
         return [
-            'income' => $topIncome ? [
-                'category' => $topIncome->category,
-                'count' => $topIncome->total,
-                'total_amount' => (float) $topIncome->total_amount,
-            ] : null,
-
-            'expense' => $topExpense ? [
-                'category' => $topExpense->category,
-                'count' => $topExpense->total,
-                'total_amount' => (float) $topExpense->total_amount,
-            ] : null,
+            'income' => $topIncome,
+            'expense' => $topExpense,
         ];
+
     }
 }
