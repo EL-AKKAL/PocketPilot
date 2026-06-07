@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\CategoryEnum;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class TransactionRequest extends FormRequest
 {
@@ -18,7 +16,7 @@ class TransactionRequest extends FormRequest
         return [
             'description' => 'nullable|string',
             'amount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
-            'category' => ['required', 'string', new Enum(CategoryEnum::class)],
+            'category' => ['required', 'string', 'exists:categories,value'],
         ];
     }
 }
