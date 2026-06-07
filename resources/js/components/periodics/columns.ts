@@ -35,10 +35,7 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
             return h(
                 'span',
                 {
-                    class: [
-                        categoryStyles[category] ??
-                            'bg-gray-100 text-gray-700 dark:bg-gray-500/10 dark:text-gray-300',
-                    ],
+                    class: categoryStyles,
                 },
                 category,
             );

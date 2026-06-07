@@ -19,9 +19,7 @@ defineProps<{
             <span class="font-medium text-green-600">Income</span>
 
             <span class="flex gap-2 text-sm" v-if="mostUsedCategories.income">
-                <span
-                    :class="categoryStyles[mostUsedCategories.income.category]"
-                >
+                <span :class="categoryStyles">
                     {{ mostUsedCategories.income.category }}
                 </span>
                 ({{ mostUsedCategories.income.count }} transactions •
@@ -38,9 +36,7 @@ defineProps<{
             <span class="font-medium text-red-600">Expense</span>
 
             <span class="flex gap-2 text-sm" v-if="mostUsedCategories.expense">
-                <span
-                    :class="categoryStyles[mostUsedCategories.expense.category]"
-                >
+                <span :class="categoryStyles">
                     {{ mostUsedCategories.expense.category }}
                 </span>
                 ({{ mostUsedCategories.expense.count }} transactions •

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useChartOptions } from '@/composables/useChartOptions';
-import { currency, categoryChartColors } from '@/lib/utils.js';
+import { currency } from '@/lib/utils.js';
 import ChartCard from './ChartCard.vue';
 
 const { baseChart, tooltip } = useChartOptions();
@@ -17,15 +17,26 @@ const series = props.data.map((item) => item.total);
 
 const labels = props.data.map((item) => item.category);
 
-const colors = labels.map((label) => categoryChartColors[label] ?? '#94a3b8');
-
 const options = {
     chart: {
         type: 'donut',
         ...baseChart,
     },
     labels,
-    colors,
+    colors: [
+        '#fca5a5',
+        '#fcd34d',
+        '#bef264',
+        '#f9a8d4',
+        '#67e8f9',
+        '#93c5fd',
+        '#c4b5fd',
+        '#f0abfc',
+        '#86efac',
+        '#d1d5db',
+        '#fde047',
+        '#cbd5e1',
+    ],
 
     stroke: {
         width: 0,
