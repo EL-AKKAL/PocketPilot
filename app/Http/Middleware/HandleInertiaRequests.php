@@ -21,15 +21,24 @@ class HandleInertiaRequests extends Middleware
 
     public function categories(): array
     {
-        $income = Category::whereBelongsTo(Auth::user()->account)
-            ->where('type', TypeEnum::INCOME);
+        $user = Auth::user();
 
-        $expense = Category::whereBelongsTo(Auth::user()->account)
-            ->where('type', TypeEnum::EXPENSE);
+        if (! $user || ! $user->account) {
+            return [
+                'income' => [],
+                'expense' => [],
+            ];
+        }
+
+        $income = Category::whereBelongsTo($user->account)
+            ->where('type', TypeEnum::INCOME)->select(['id', 'value'])->get();
+
+        $expense = Category::whereBelongsTo($user->account)
+            ->where('type', TypeEnum::EXPENSE)->select(['id', 'value'])->get();
 
         return [
-            'expense' => $expense->pluck('value', 'id'),
-            'income' => $income->pluck('value', 'id'),
+            'expense' => $expense,
+            'income' => $income,
         ];
     }
 
