@@ -20,36 +20,12 @@ return new class extends Migration
 
             $table->timestamps();
 
-            Schema::table('transactions', function (Blueprint $table) {
-                $table->foreignId('category_id')
-                    ->nullable()
-                    ->after('account_id')
-                    ->constrained()
-                    ->nullOnDelete();
-            });
-
-            Schema::table('periodic_transactions', function (Blueprint $table) {
-                $table->foreignId('category_id')
-                    ->nullable()
-                    ->after('account_id')
-                    ->constrained()
-                    ->nullOnDelete();
-            });
-
             $table->unique(['account_id', 'value']);
         });
     }
 
     public function down(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('category_id');
-        });
-
-        Schema::table('periodic_transactions', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('category_id');
-        });
-
         Schema::dropIfExists('categories');
     }
 };
