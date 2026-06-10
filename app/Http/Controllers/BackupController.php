@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Goal;
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
@@ -22,14 +23,15 @@ class BackupController extends Controller
         $account = $user->account->makeHidden(['user_id', 'id']);
         $transactions = $account->transactions()->get()->makeHidden(['account_id']);
         $periodicTransactions = $account->periodicTransactions()->get()->makeHidden(['account_id']);
+        $categories = $account->categories()->get()->makeHidden(['account_id']);
         $goals = $account->goals()->get()->makeHidden(['account_id']);
 
         $data = [
             'version' => '1.0',
             'exported_at' => now()->toISOString(),
-            'account' => $account,
             'transactions' => $transactions,
             'periodic_transactions' => $periodicTransactions,
+            'categories' => $categories,
             'goals' => $goals,
         ];
 
@@ -69,6 +71,7 @@ class BackupController extends Controller
         if (
             ! isset($data['transactions']) ||
             ! isset($data['periodic_transactions']) ||
+            ! isset($data['categories']) ||
             ! isset($data['goals'])
         ) {
             Inertia::flash('toast', ['type' => 'error', 'message' => 'Invalid backup structure']);
@@ -82,11 +85,19 @@ class BackupController extends Controller
                 $account->goals()->delete();
                 $account->transactions()->delete();
                 $account->periodicTransactions()->delete();
+                $account->categories()->delete();
             }
 
             // restore goals
             foreach ($data['goals'] as $g) {
                 $this->restoreModel(Goal::class, $g, [
+                    'account_id' => $account->id,
+                ]);
+            }
+
+            // restore categories
+            foreach ($data['categories'] as $c) {
+                $this->restoreModel(Category::class, $c, [
                     'account_id' => $account->id,
                 ]);
             }
@@ -120,6 +131,7 @@ class BackupController extends Controller
                 $account->goals()->delete();
                 $account->transactions()->delete();
                 $account->periodicTransactions()->delete();
+                $account->categories()->delete();
                 $account->delete();
             });
         }
@@ -142,6 +154,7 @@ class BackupController extends Controller
                 'description', 'is_active', 'next_apply_date',
                 'created_at', 'updated_at',
             ],
+            Category::class => ['value', 'type', 'created_at', 'updated_at'],
             default => throw new \Exception("Unsupported model: $modelClass"),
         };
 
