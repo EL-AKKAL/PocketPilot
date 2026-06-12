@@ -47,8 +47,6 @@ export interface GoalStatistic {
     ends_at: string;
     type: string;
     id: number;
-    starts_at: string;
-    account_id: number;
 }
 export interface MostUsedCategories {
     income: {
