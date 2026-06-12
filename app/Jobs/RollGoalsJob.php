@@ -2,8 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Enums\GoalStatusEnum;
 use App\Models\Goal;
-use Carbon\Carbon;
+use App\Services\Goal\GoalLifecycleService;
+use App\Services\Goal\GoalProgressService;
+use App\Services\Goal\GoalRollService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -11,39 +14,32 @@ class RollGoalsJob implements ShouldQueue
 {
     use Queueable;
 
-    public function handle(): void
-    {
-        $now = now();
+    public function handle(
+        GoalProgressService $progressService,
+        GoalLifecycleService $lifecycleService,
+        GoalRollService $rollService
+    ): void {
 
-        $goals = Goal::where('status', 'in_progress')
-            ->where('ends_at', '<', $now)
-            ->get();
+        Goal::where('status', GoalStatusEnum::IN_PROGRESS->value)
+            ->where('ends_at', '<', now())
+            ->each(function (Goal $goal) use (
+                $progressService,
+                $lifecycleService,
+                $rollService
+            ) {
+                $progress = $progressService
+                    ->calculate($goal);
 
-        foreach ($goals as $goal) {
+                $status = $lifecycleService
+                    ->determineStatus(
+                        $goal,
+                        $progress['progress']
+                    );
 
-            // 1. Mark as failed
-            $goal->update([
-                'status' => 'failed',
-            ]);
-
-            // 2. Create next goal
-            $goal->account->goals()->create([
-                'value' => $goal->value,
-                'period' => $goal->period,
-                'type' => $goal->type,
-                'status' => 'in_progress',
-                'starts_at' => $now,
-                'ends_at' => $this->calculateNextEnd($goal->period),
-            ]);
-        }
-    }
-
-    private function calculateNextEnd(string $period): Carbon
-    {
-        return match ($period) {
-            'daily' => now()->endOfDay(),
-            'weekly' => now()->endOfWeek(),
-            'monthly' => now()->endOfMonth(),
-        };
+                $rollService->roll(
+                    $goal,
+                    $status
+                );
+            });
     }
 }
