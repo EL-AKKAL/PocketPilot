@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GoalStatusEnum;
 use App\Models\Account;
-use App\Services\GoalProgressService;
+use App\Services\Goal\GoalLifecycleService;
+use App\Services\Goal\GoalProgressService;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index(GoalProgressService $goalService)
+    public function index(GoalProgressService $goalProgressService, GoalLifecycleService $goalLifecycleService)
     {
         $user = Auth::user();
         $account = $user->account;
@@ -23,7 +25,7 @@ class DashboardController extends Controller
 
         $balanceHistory = $this->balanceHistory($account);
 
-        [$goalData,$canCreateGoal] = $this->currentGoal($account, $goalService);
+        [$goalData,$canCreateGoal] = $this->currentGoal($account, $goalProgressService, $goalLifecycleService);
 
         $expensesByCategory = $this->expensesByCategory($account);
 
@@ -100,7 +102,7 @@ class DashboardController extends Controller
         return $history;
     }
 
-    private function currentGoal(Account $account, GoalProgressService $goalService)
+    private function currentGoal(Account $account, GoalProgressService $goalProgressService, GoalLifecycleService $goalLifecycleService)
     {
         $goal = $account->goals()
             ->orderByDesc('starts_at')
@@ -109,22 +111,24 @@ class DashboardController extends Controller
         $canCreateGoal = true;
 
         if ($goal) {
-            $progressData = $goalService->calculate($goal);
+            $progress = $goalProgressService->calculate($goal);
+            $status = $goalLifecycleService->determineStatus(
+                $goal,
+                $progress['progress']
+            );
 
             $goalData = [
                 'value' => (float) $goal->value,
                 'period' => $goal->period,
-                'progress' => $progressData['progress'],
-                'percentage' => $progressData['percentage'],
-                'status' => $progressData['status'],
+                'progress' => $progress['progress'],
+                'percentage' => $progress['percentage'],
+                'status' => $status->value,
                 'ends_at' => $goal->ends_at,
                 'type' => $goal->type,
-                'starts_at' => $goal->starts_at,
-                'account_id' => $goal->account_id,
                 'id' => $goal->id,
             ];
 
-            $canCreateGoal = $goal->status !== 'in_progress';
+            $canCreateGoal = $status !== GoalStatusEnum::IN_PROGRESS;
         }
 
         return [

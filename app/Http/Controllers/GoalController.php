@@ -6,7 +6,6 @@ use App\Enums\GoalPeriodEnum;
 use App\Http\Requests\StoreGoalRequest;
 use App\Http\Requests\UpdateGoalRequest;
 use App\Models\Goal;
-use App\Services\GoalProgressService;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -65,8 +64,6 @@ class GoalController extends Controller
         }
 
         $goal->update($request->validated());
-
-        app(GoalProgressService::class)->calculate($goal);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Goal updated successfully']);
 
