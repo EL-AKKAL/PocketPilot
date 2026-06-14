@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
+import FormDialog from '@/components/forms/FormDialog.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,18 +27,10 @@ defineProps<{
 </script>
 
 <template>
-    <AlertDialogContent>
-        <AlertDialogHeader>
-            <AlertDialogTitle
-                >{{ category ? 'Update' : 'New' }} Category</AlertDialogTitle
-            >
-            <AlertDialogDescription>
-                Fill in the details of the category you want to
-                {{ category ? 'update' : 'create' }}, and click continue when
-                you're done.
-            </AlertDialogDescription>
-        </AlertDialogHeader>
-
+    <FormDialog
+        :title="category ? 'Update your category' : 'New Category'"
+        description="Fill in the details bellow to create or update a category."
+    >
         <Form
             v-bind="
                 category
@@ -110,5 +99,5 @@ defineProps<{
                 </AlertDialogFooter>
             </div>
         </Form>
-    </AlertDialogContent>
+    </FormDialog>
 </template>

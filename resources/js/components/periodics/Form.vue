@@ -7,11 +7,7 @@ import { ref } from 'vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -27,7 +23,8 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/periodic_transactions';
-import type { Category, PeriodicTransaction } from '@/types';
+import type { Categories, PeriodicTransaction } from '@/types';
+import FormDialog from '../forms/FormDialog.vue';
 
 const props = defineProps<{
     periodic?: PeriodicTransaction;
@@ -46,18 +43,19 @@ const dateRange = ref({
     end,
 }) as Ref<DateRange>;
 
-const categories = usePage().props.categories as Category;
+const categories = usePage().props.categories as Categories;
 </script>
 
 <template>
-    <AlertDialogContent class="max-w-xl!">
-        <AlertDialogHeader>
-            <AlertDialogTitle>New Transaction</AlertDialogTitle>
-            <AlertDialogDescription>
-                Fill in the details of the transaction you want to create, and
-                click continue when you're done.
-            </AlertDialogDescription>
-        </AlertDialogHeader>
+    <FormDialog
+        class="max-w-xl!"
+        :title="
+            periodic
+                ? 'Update periodic transaction'
+                : 'New periodic transaction'
+        "
+        description="Fill in the details of the transaction you want to create or update, and click continue when you're done."
+    >
         <Form
             v-bind="
                 periodic
@@ -69,7 +67,7 @@ const categories = usePage().props.categories as Category;
                     : store.form()
             "
             :reset-on-success="['amount', 'description']"
-            v-slot="{ errors, processing }"
+            v-slot="{ processing }"
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
@@ -88,9 +86,12 @@ const categories = usePage().props.categories as Category;
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="start_date">Category</Label>
+                        <Label for="category_id">Category</Label>
                     </div>
-                    <Select name="category" :default-value="periodic?.category">
+                    <Select
+                        name="category_id"
+                        :default-value="periodic?.category?.id"
+                    >
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
@@ -99,20 +100,20 @@ const categories = usePage().props.categories as Category;
                                 <SelectLabel>Income</SelectLabel>
                                 <SelectItem
                                     v-for="income in categories.income"
-                                    :key="income"
-                                    :value="income"
+                                    :key="income.id"
+                                    :value="income.id"
                                 >
-                                    {{ income }}
+                                    {{ income.value }}
                                 </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                                 <SelectLabel>Expense</SelectLabel>
                                 <SelectItem
                                     v-for="expense in categories.expense"
-                                    :key="expense"
-                                    :value="expense"
+                                    :key="expense.id"
+                                    :value="expense.id"
                                 >
-                                    {{ expense }}
+                                    {{ expense.value }}
                                 </SelectItem>
                             </SelectGroup>
                         </SelectContent>
@@ -172,7 +173,7 @@ const categories = usePage().props.categories as Category;
                     </div>
                     <Select
                         name="is_active"
-                        :default-value="periodic?.is_active"
+                        :default-value="periodic?.is_active ? 1 : 0"
                     >
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a status" />
@@ -223,5 +224,5 @@ const categories = usePage().props.categories as Category;
                 "
             />
         </Form>
-    </AlertDialogContent>
+    </FormDialog>
 </template>

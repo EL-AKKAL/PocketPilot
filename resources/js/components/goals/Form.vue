@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
+import FormDialog from '@/components/forms/FormDialog.vue';
 import {
-    AlertDialogAction,
     AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
+    AlertDialogAction,
     AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,17 +30,10 @@ const types = usePage().props.goalTypes as string[];
 </script>
 
 <template>
-    <AlertDialogContent>
-        <AlertDialogHeader>
-            <AlertDialogTitle>{{
-                goal ? 'Update your goal' : 'New Goal'
-            }}</AlertDialogTitle>
-            <AlertDialogDescription>
-                Fill in the details of the goal you want to create, and click
-                continue when you're done.
-            </AlertDialogDescription>
-        </AlertDialogHeader>
-
+    <FormDialog
+        :title="goal ? 'Update your goal' : 'New Goal'"
+        description="Fill in the details bellow to create or update a goal."
+    >
         <Form
             v-bind="
                 goal
@@ -54,7 +44,7 @@ const types = usePage().props.goalTypes as string[];
                     : store.form()
             "
             :reset-on-success="['value']"
-            v-slot="{ errors, processing }"
+            v-slot="{ processing }"
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
@@ -100,7 +90,7 @@ const types = usePage().props.goalTypes as string[];
                     </div>
                     <Select
                         name="period"
-                        :disabled="goal"
+                        :disabled="!!goal"
                         :default-value="goal?.period"
                     >
                         <SelectTrigger class="w-full">
@@ -122,15 +112,15 @@ const types = usePage().props.goalTypes as string[];
                 </div>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel :tabindex="2">Cancel</AlertDialogCancel>
+                    <AlertDialogCancel> Cancel </AlertDialogCancel>
                     <AlertDialogAction type="submit" :disabled="processing">
                         <Spinner v-if="processing" />
-                        <span v-else>{{
-                            goal ? 'Update' : 'Create'
-                        }}</span></AlertDialogAction
-                    >
+                        <span v-else>
+                            {{ goal ? 'Update' : 'Create' }}
+                        </span>
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </div>
         </Form>
-    </AlertDialogContent>
+    </FormDialog>
 </template>

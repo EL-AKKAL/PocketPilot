@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
+import FormDialog from '@/components/forms/FormDialog.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,15 +29,10 @@ const categories = usePage().props.categories as Categories;
 </script>
 
 <template>
-    <AlertDialogContent>
-        <AlertDialogHeader>
-            <AlertDialogTitle>New Transaction</AlertDialogTitle>
-            <AlertDialogDescription>
-                Fill in the details of the transaction you want to create, and
-                click continue when you're done.
-            </AlertDialogDescription>
-        </AlertDialogHeader>
-
+    <FormDialog
+        :title="transaction ? 'Update your transaction' : 'New Transaction'"
+        description="Fill in the details bellow to create or update a transaction."
+    >
         <Form
             v-bind="
                 transaction
@@ -132,5 +124,5 @@ const categories = usePage().props.categories as Categories;
                 </AlertDialogFooter>
             </div>
         </Form>
-    </AlertDialogContent>
+    </FormDialog>
 </template>

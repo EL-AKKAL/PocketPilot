@@ -2,23 +2,35 @@
 
 namespace App\Services\DataTable;
 
+use Carbon\Carbon;
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
+use Illuminate\Database\Eloquent\Builder;
 
 class Column
 {
     protected string $field;
+
     protected string $headerName;
+
     protected bool $sortable = false;
+
     protected bool $searchable = false;
+
     protected bool $exportable = false;
+
     protected ?Closure $customSearchQuery = null;
+
     protected ?Closure $customSortQuery = null;
+
     protected ?string $filterMatchMode = null;
+
     protected ?Closure $customFilterQuery = null;
+
     protected ?Closure $customFormat = null;
+
     protected ?Closure $customState = null;
+
     protected ?Closure $customExportQuery = null;
 
     public function __construct(string $field)
@@ -39,6 +51,7 @@ class Column
         } else {
             $this->sortable = $sortable;
         }
+
         return $this;
     }
 
@@ -50,12 +63,12 @@ class Column
         } else {
             $this->searchable = $searchable;
         }
+
         return $this;
     }
 
     /**
-     * @param string $headerName
-     * @param Closure $exportableFn (state, record)
+     * @param  Closure  $exportableFn  (state, record)
      */
     public function exportable(string $headerName, ?Closure $exportableFn = null): static
     {
@@ -64,6 +77,7 @@ class Column
         if ($exportableFn instanceof Closure) {
             $this->customExportQuery = $exportableFn;
         }
+
         return $this;
     }
 
@@ -77,10 +91,14 @@ class Column
         return $this->exportable;
     }
 
-    public function filterable(string | Closure $matchMode = 'contains'): static
+    public function filterable(string|Closure $matchMode = 'contains'): static
     {
-        if ($matchMode instanceof Closure) $this->customFilterQuery = $matchMode;
-        else $this->filterMatchMode = $matchMode;
+        if ($matchMode instanceof Closure) {
+            $this->customFilterQuery = $matchMode;
+        } else {
+            $this->filterMatchMode = $matchMode;
+        }
+
         return $this;
     }
 
@@ -93,13 +111,14 @@ class Column
     public function format(Closure $callback)
     {
         $this->customState = $callback;
+
         return $this;
     }
 
     public function date(): static
     {
         $this->customFormat = function ($state) {
-            return $state ? \Carbon\Carbon::parse($state)->format('d/m/Y') : null;
+            return $state ? Carbon::parse($state)->format('Y-m-d') : null;
         };
 
         return $this;
@@ -108,16 +127,17 @@ class Column
     public function getStateUsing(Closure $callback)
     {
         $this->customState = $callback;
+
         return $this;
     }
 
     /**
-     * @param Closure $callback ($state, $record) => $formattedState
-     *
+     * @param  Closure  $callback  ($state, $record) => $formattedState
      */
     public function formatStateUsing(Closure $callback)
     {
         $this->customFormat = $callback;
+
         return $this;
     }
 
@@ -126,6 +146,7 @@ class Column
         if ($this->customState) {
             return call_user_func($this->customState, $record);
         }
+
         return $record->{$this->field};
     }
 
@@ -154,7 +175,7 @@ class Column
         return $this->searchable;
     }
 
-    public function applySearch(Builder | BuilderContract $query, string $search, bool $or = false): void
+    public function applySearch(Builder|BuilderContract $query, string $search, bool $or = false): void
     {
         if ($this->customSearchQuery) {
             $method = $or ? 'orWhere' : 'where';
@@ -167,7 +188,7 @@ class Column
         }
     }
 
-    public function applySort(Builder | BuilderContract $query, string $direction): void
+    public function applySort(Builder|BuilderContract $query, string $direction): void
     {
         if ($this->customSortQuery) {
             call_user_func($this->customSortQuery, $query, $direction);
@@ -176,10 +197,11 @@ class Column
         }
     }
 
-    public function applyFilter(Builder | BuilderContract $query, $value): void
+    public function applyFilter(Builder|BuilderContract $query, $value): void
     {
         if ($this->customFilterQuery) {
             call_user_func($this->customFilterQuery, $query, $value);
+
             return;
         }
 
