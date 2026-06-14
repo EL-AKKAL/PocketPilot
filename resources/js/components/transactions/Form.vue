@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
+import FormInput from '@/components/forms/FormInput.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -47,19 +47,15 @@ const categories = usePage().props.categories as Categories;
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="amount">Amount</Label>
-                    <Input
-                        id="amount"
-                        type="number"
-                        name="amount"
-                        autofocus
-                        :default-value="transaction?.amount"
-                        required
-                        :tabindex="1"
-                        placeholder="ex: 500$"
-                    />
-                </div>
+                <FormInput
+                    label="Amount"
+                    name="amount"
+                    type="number"
+                    :default-value="transaction?.amount"
+                    required
+                    min="0"
+                    placeholder="ex: 500$"
+                />
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="category">Category</Label>
@@ -96,18 +92,13 @@ const categories = usePage().props.categories as Categories;
                     </Select>
                 </div>
 
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="description">Description</Label>
-                    </div>
-                    <Input
-                        id="description"
-                        name="description"
-                        :tabindex="3"
-                        :default-value="transaction?.description"
-                        placeholder="Description of the transaction"
-                    />
-                </div>
+                <FormInput
+                    label="Description"
+                    name="description"
+                    :default-value="transaction?.description"
+                    min="0"
+                    placeholder="Description of the transaction"
+                />
 
                 <AlertDialogFooter>
                     <AlertDialogCancel :tabindex="4">Cancel</AlertDialogCancel>

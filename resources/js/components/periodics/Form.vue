@@ -4,12 +4,12 @@ import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import FormInput from '@/components/forms/FormInput.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RangeCalendar } from '@/components/ui/range-calendar';
 import {
@@ -71,19 +71,15 @@ const categories = usePage().props.categories as Categories;
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="amount">Amount</Label>
-                    <Input
-                        id="amount"
-                        type="number"
-                        name="amount"
-                        :default-value="periodic?.amount"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        placeholder="ex: 500$"
-                    />
-                </div>
+                <FormInput
+                    label="Amount"
+                    name="amount"
+                    type="number"
+                    :default-value="periodic?.amount"
+                    required
+                    min="0"
+                    placeholder="ex: 500$"
+                />
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="category_id">Category</Label>
@@ -119,19 +115,13 @@ const categories = usePage().props.categories as Categories;
                         </SelectContent>
                     </Select>
                 </div>
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="description">Description</Label>
-                    </div>
-                    <Input
-                        id="description"
-                        name="description"
-                        required
-                        :default-value="periodic?.description"
-                        :tabindex="2"
-                        placeholder="Description of the transaction"
-                    />
-                </div>
+                <FormInput
+                    label="Description"
+                    name="description"
+                    :default-value="periodic?.description"
+                    min="0"
+                    placeholder="Description of the transaction"
+                />
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="start_date">Start Date - End Date</Label>
@@ -169,7 +159,7 @@ const categories = usePage().props.categories as Categories;
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="start_date">Status</Label>
+                        <Label for="is_active">Status</Label>
                     </div>
                     <Select
                         name="is_active"
@@ -188,9 +178,7 @@ const categories = usePage().props.categories as Categories;
                     </Select>
                 </div>
                 <AlertDialogFooter>
-                    <AlertDialogCancel class="" :tabindex="2"
-                        >Cancel</AlertDialogCancel
-                    >
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         type="submit"
                         class=""

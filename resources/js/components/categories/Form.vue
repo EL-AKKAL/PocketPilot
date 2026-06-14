@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
+import FormInput from '@/components/forms/FormInput.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -21,9 +21,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/categories';
 import type { Category } from '@/types';
 
-defineProps<{
-    category?: Category;
-}>();
+defineProps<{ category?: Category }>();
 </script>
 
 <template>
@@ -45,18 +43,13 @@ defineProps<{
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="value">Value</Label>
-                    <Input
-                        id="value"
-                        name="value"
-                        autofocus
-                        :default-value="category?.value"
-                        required
-                        :tabindex="1"
-                        placeholder="ex: Bills, Salary, etc."
-                    />
-                </div>
+                <FormInput
+                    label="Value"
+                    name="value"
+                    placeholder="ex: Bills, Salary, etc."
+                    :default-value="category?.value"
+                    required
+                />
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="type">Type</Label>
@@ -66,7 +59,7 @@ defineProps<{
                         name="type"
                         :default-value="category?.type"
                     >
-                        <SelectTrigger class="w-full" :tabindex="2">
+                        <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select a type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -85,12 +78,8 @@ defineProps<{
                 </div>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel :tabindex="4">Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        :tabindex="5"
-                        type="submit"
-                        :disabled="processing"
-                    >
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction type="submit" :disabled="processing">
                         <Spinner v-if="processing" />
                         <span v-else>
                             {{ category ? 'Update' : 'Create' }}
