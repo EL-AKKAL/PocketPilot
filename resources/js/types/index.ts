@@ -23,6 +23,7 @@ export interface PeriodicTransaction {
     is_active: boolean;
     next_apply_date: string;
     created_at: string;
+    category?: Category;
 }
 
 export interface Goal {

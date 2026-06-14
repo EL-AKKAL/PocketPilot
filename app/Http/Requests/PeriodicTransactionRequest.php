@@ -25,7 +25,7 @@ class PeriodicTransactionRequest extends FormRequest
             'start_date' => 'required|date',
             'end_date' => 'nullable|date',
             'frequency' => 'required|in:daily,weekly,monthly,yearly',
-            'category' => ['required', 'string', 'exists:categories,id'],
+            'category_id' => ['required', 'string', 'exists:categories,id'],
             'description' => 'nullable|string',
             'is_active' => 'required|boolean',
         ];

@@ -30,14 +30,12 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
     {
         accessorKey: 'Category',
         cell: ({ row }) => {
-            const category = row.original.category;
-
             return h(
                 'span',
                 {
                     class: categoryStyles,
                 },
-                category,
+                row.original.category?.value || 'No Category',
             );
         },
     },
