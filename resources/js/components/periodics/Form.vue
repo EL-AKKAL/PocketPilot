@@ -4,7 +4,6 @@ import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
-import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -86,7 +85,6 @@ const categories = usePage().props.categories as Category;
                         :tabindex="1"
                         placeholder="ex: 500$"
                     />
-                    <InputError :message="errors.amount" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -119,7 +117,6 @@ const categories = usePage().props.categories as Category;
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.category" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -133,7 +130,6 @@ const categories = usePage().props.categories as Category;
                         :tabindex="2"
                         placeholder="Description of the transaction"
                     />
-                    <InputError :message="errors.description" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -145,7 +141,6 @@ const categories = usePage().props.categories as Category;
                         :number-of-months="2"
                         disable-days-outside-current-view
                     />
-                    <InputError :message="errors.start_date" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -170,7 +165,6 @@ const categories = usePage().props.categories as Category;
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.frequency" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -191,7 +185,6 @@ const categories = usePage().props.categories as Category;
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.is_active" />
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel class="" :tabindex="2"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
-import InputError from '@/components/InputError.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
@@ -72,7 +71,6 @@ const types = usePage().props.goalTypes as string[];
                         :tabindex="1"
                         placeholder="ex: 500$"
                     />
-                    <InputError :message="errors.value" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -95,7 +93,6 @@ const types = usePage().props.goalTypes as string[];
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.type" />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
@@ -122,7 +119,6 @@ const types = usePage().props.goalTypes as string[];
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <InputError :message="errors.period" />
                 </div>
 
                 <AlertDialogFooter>
