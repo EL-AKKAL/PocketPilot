@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
+import FormFooter from '@/components/forms/FormFooter.vue';
 import FormInput from '@/components/forms/FormInput.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogFooter,
-} from '@/components/ui/alert-dialog';
-import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/categories';
 import type { Category } from '@/types';
 
@@ -18,7 +13,7 @@ const types = ['Income', 'Expense'];
 
 <template>
     <FormDialog
-        :title="category ? 'Update your category' : 'New Category'"
+        :title="category ? 'Update Your Category' : 'New Category'"
         description="Fill in the details bellow to create or update a category."
     >
         <Form
@@ -49,15 +44,7 @@ const types = ['Income', 'Expense'];
                     :default-value="category?.type"
                 />
 
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction type="submit" :disabled="processing">
-                        <Spinner v-if="processing" />
-                        <span v-else>
-                            {{ category ? 'Update' : 'Create' }}
-                        </span>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                <FormFooter :processing="processing" :entity="category" />
             </div>
         </Form>
     </FormDialog>

@@ -6,14 +6,8 @@ import type { Ref } from 'vue';
 import { ref } from 'vue';
 import FormCategorySelect from '@/components/forms/FormCategorySelect.vue';
 import FormInput from '@/components/forms/FormInput.vue';
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogFooter,
-} from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { RangeCalendar } from '@/components/ui/range-calendar';
-import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
 import FormDialog from '../forms/FormDialog.vue';
@@ -117,17 +111,7 @@ const statusOptions = [
                     option-label="label"
                     option-value="value"
                 />
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        type="submit"
-                        class=""
-                        :disabled="processing"
-                    >
-                        <Spinner v-if="processing" />
-                        <span v-else>Create</span></AlertDialogAction
-                    >
-                </AlertDialogFooter>
+                <FormFooter :processing="processing" :entity="periodic" />
             </div>
 
             <input

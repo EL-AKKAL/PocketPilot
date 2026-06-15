@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
+import FormFooter from '@/components/forms/FormFooter.vue';
 import FormInput from '@/components/forms/FormInput.vue';
 import FormSelect from '@/components/forms/FormSelect.vue';
-import {
-    AlertDialogCancel,
-    AlertDialogAction,
-    AlertDialogFooter,
-} from '@/components/ui/alert-dialog';
-import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/goals';
 import type { GoalStatistic } from '@/types';
 
@@ -59,15 +54,7 @@ const types = usePage().props.goalTypes as string[];
                     :default-value="goal?.period"
                 />
 
-                <AlertDialogFooter>
-                    <AlertDialogCancel> Cancel </AlertDialogCancel>
-                    <AlertDialogAction type="submit" :disabled="processing">
-                        <Spinner v-if="processing" />
-                        <span v-else>
-                            {{ goal ? 'Update' : 'Create' }}
-                        </span>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                <FormFooter :processing="processing" :entity="goal" />
             </div>
         </Form>
     </FormDialog>

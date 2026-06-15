@@ -2,13 +2,8 @@
 import { Form } from '@inertiajs/vue3';
 import FormCategorySelect from '@/components/forms/FormCategorySelect.vue';
 import FormDialog from '@/components/forms/FormDialog.vue';
+import FormFooter from '@/components/forms/FormFooter.vue';
 import FormInput from '@/components/forms/FormInput.vue';
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogFooter,
-} from '@/components/ui/alert-dialog';
-import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/transactions';
 import type { Transaction } from '@/types';
 
@@ -55,19 +50,7 @@ defineProps<{
                     placeholder="Description of the transaction"
                 />
 
-                <AlertDialogFooter>
-                    <AlertDialogCancel :tabindex="4">Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        :tabindex="5"
-                        type="submit"
-                        :disabled="processing"
-                    >
-                        <Spinner v-if="processing" />
-                        <span v-else>
-                            {{ transaction ? 'Update' : 'Create' }}
-                        </span>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                <FormFooter :processing="processing" :entity="transaction" />
             </div>
         </Form>
     </FormDialog>
