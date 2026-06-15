@@ -25,6 +25,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/periodic_transactions';
 import type { Categories, PeriodicTransaction } from '@/types';
 import FormDialog from '../forms/FormDialog.vue';
+import FormSelect from '../forms/FormSelect.vue';
 
 const props = defineProps<{
     periodic?: PeriodicTransaction;
@@ -44,6 +45,16 @@ const dateRange = ref({
 }) as Ref<DateRange>;
 
 const categories = usePage().props.categories as Categories;
+const frequencies = [
+    { label: 'Daily', value: 'daily' },
+    { label: 'Weekly', value: 'weekly' },
+    { label: 'Monthly', value: 'monthly' },
+    { label: 'Yearly', value: 'yearly' },
+];
+const statusOptions = [
+    { label: 'Active', value: 1 },
+    { label: 'Inactive', value: 0 },
+];
 </script>
 
 <template>
@@ -133,50 +144,22 @@ const categories = usePage().props.categories as Categories;
                         disable-days-outside-current-view
                     />
                 </div>
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="start_date">Frequency</Label>
-                    </div>
-                    <Select
-                        name="frequency"
-                        :default-value="periodic?.frequency"
-                    >
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a frequency" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Frequencies</SelectLabel>
-                                <SelectItem value="daily"> Daily </SelectItem>
-                                <SelectItem value="weekly"> Weekly </SelectItem>
-                                <SelectItem value="monthly">
-                                    Monthly
-                                </SelectItem>
-                                <SelectItem value="yearly"> Yearly </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="is_active">Status</Label>
-                    </div>
-                    <Select
-                        name="is_active"
-                        :default-value="periodic?.is_active ? 1 : 0"
-                    >
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Status</SelectLabel>
-                                <SelectItem :value="1"> Active </SelectItem>
-                                <SelectItem :value="0"> Inactive </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <FormSelect
+                    label="Frequency"
+                    name="frequency"
+                    :options="frequencies"
+                    :default-value="periodic?.frequency"
+                    option-label="label"
+                    option-value="value"
+                />
+                <FormSelect
+                    label="Status"
+                    name="is_active"
+                    :options="statusOptions"
+                    :default-value="periodic?.is_active ? 1 : 0"
+                    option-label="label"
+                    option-value="value"
+                />
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction

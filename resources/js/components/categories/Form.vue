@@ -2,26 +2,18 @@
 import { Form } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
 import FormInput from '@/components/forms/FormInput.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import {
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/categories';
 import type { Category } from '@/types';
 
 defineProps<{ category?: Category }>();
+const types = ['Income', 'Expense'];
 </script>
 
 <template>
@@ -50,32 +42,12 @@ defineProps<{ category?: Category }>();
                     :default-value="category?.value"
                     required
                 />
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="type">Type</Label>
-                    </div>
-                    <Select
-                        id="type"
-                        name="type"
-                        :default-value="category?.type"
-                    >
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Type</SelectLabel>
-                                <SelectItem
-                                    v-for="type in ['Income', 'Expense']"
-                                    :key="type"
-                                    :value="type"
-                                >
-                                    {{ type }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <FormSelect
+                    label="Type"
+                    name="type"
+                    :options="types"
+                    :default-value="category?.type"
+                />
 
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>

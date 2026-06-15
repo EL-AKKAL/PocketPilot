@@ -2,28 +2,17 @@
 import { Form, usePage } from '@inertiajs/vue3';
 import FormDialog from '@/components/forms/FormDialog.vue';
 import FormInput from '@/components/forms/FormInput.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import {
     AlertDialogCancel,
     AlertDialogAction,
     AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/goals';
 import type { GoalStatistic } from '@/types';
 
-defineProps<{
-    goal?: GoalStatistic;
-}>();
+defineProps<{ goal?: GoalStatistic }>();
 
 const periods = usePage().props.goalPeriods as string[];
 const types = usePage().props.goalTypes as string[];
@@ -57,54 +46,18 @@ const types = usePage().props.goalTypes as string[];
                     min="0"
                     placeholder="ex: 500$"
                 />
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="start_date">Type</Label>
-                    </div>
-                    <Select name="type" :default-value="goal?.type">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Types</SelectLabel>
-                                <SelectItem
-                                    v-for="type in types"
-                                    :key="type"
-                                    :value="type"
-                                >
-                                    {{ type }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="start_date">Period</Label>
-                    </div>
-                    <Select
-                        name="period"
-                        :disabled="!!goal"
-                        :default-value="goal?.period"
-                    >
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a period" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Periods</SelectLabel>
-                                <SelectItem
-                                    v-for="period in periods"
-                                    :key="period"
-                                    :value="period"
-                                >
-                                    {{ period }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <FormSelect
+                    label="Type"
+                    name="type"
+                    :options="types"
+                    :default-value="goal?.type"
+                />
+                <FormSelect
+                    label="Period"
+                    name="period"
+                    :options="periods"
+                    :default-value="goal?.period"
+                />
 
                 <AlertDialogFooter>
                     <AlertDialogCancel> Cancel </AlertDialogCancel>
