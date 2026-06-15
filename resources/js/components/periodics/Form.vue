@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { Form, usePage } from '@inertiajs/vue3';
+import { Form } from '@inertiajs/vue3';
 import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import type { DateRange } from 'reka-ui';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import FormCategorySelect from '@/components/forms/FormCategorySelect.vue';
 import FormInput from '@/components/forms/FormInput.vue';
 import {
     AlertDialogAction,
@@ -12,18 +13,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { RangeCalendar } from '@/components/ui/range-calendar';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { store, update } from '@/routes/periodic_transactions';
-import type { Categories, PeriodicTransaction } from '@/types';
+import type { PeriodicTransaction } from '@/types';
 import FormDialog from '../forms/FormDialog.vue';
 import FormSelect from '../forms/FormSelect.vue';
 
@@ -44,7 +36,6 @@ const dateRange = ref({
     end,
 }) as Ref<DateRange>;
 
-const categories = usePage().props.categories as Categories;
 const frequencies = [
     { label: 'Daily', value: 'daily' },
     { label: 'Weekly', value: 'weekly' },
@@ -91,41 +82,7 @@ const statusOptions = [
                     min="0"
                     placeholder="ex: 500$"
                 />
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="category_id">Category</Label>
-                    </div>
-                    <Select
-                        name="category_id"
-                        :default-value="periodic?.category?.id"
-                    >
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Income</SelectLabel>
-                                <SelectItem
-                                    v-for="income in categories.income"
-                                    :key="income.id"
-                                    :value="income.id"
-                                >
-                                    {{ income.value }}
-                                </SelectItem>
-                            </SelectGroup>
-                            <SelectGroup>
-                                <SelectLabel>Expense</SelectLabel>
-                                <SelectItem
-                                    v-for="expense in categories.expense"
-                                    :key="expense.id"
-                                    :value="expense.id"
-                                >
-                                    {{ expense.value }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <FormCategorySelect :id="periodic?.category?.id" />
                 <FormInput
                     label="Description"
                     name="description"
