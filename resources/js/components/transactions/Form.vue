@@ -42,7 +42,7 @@ defineProps<{
                     type="number"
                     :default-value="transaction?.amount"
                     required
-                    min="0"
+                    min="-999999"
                     placeholder="ex: 500$"
                 />
                 <FormCategorySelect :id="transaction?.category?.id" />

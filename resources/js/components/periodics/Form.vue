@@ -79,7 +79,7 @@ const statusOptions = [
                     type="number"
                     :default-value="periodic?.amount"
                     required
-                    min="0"
+                    min="-999999"
                     placeholder="ex: 500$"
                 />
                 <FormCategorySelect :id="periodic?.category?.id" />
