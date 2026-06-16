@@ -35,10 +35,10 @@ class Transaction extends Model
         return Table::make($query)
             ->columns([
                 Column::make('id'),
-                Column::make('amount'),
-                Column::make('category')->sortable(),
-                Column::make('description')->sortable(),
-                Column::make('created_at')->sortable()->date(),
+                Column::make('amount')->searchable(),
+                Column::make('category'),
+                Column::make('description')->searchable(),
+                Column::make('created_at')->date(),
             ]);
     }
 }
