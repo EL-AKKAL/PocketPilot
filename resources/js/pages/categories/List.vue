@@ -3,6 +3,7 @@ import { columns } from '@/components/categories/columns';
 import Form from '@/components/categories/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
+import { index } from '@/routes/categories';
 import type { Category } from '@/types';
 
 defineProps<{
@@ -16,7 +17,11 @@ defineProps<{
 
 <template>
     <div class="container mx-auto py-10">
-        <dataTableTitle title="Categories" action="Create Category">
+        <dataTableTitle
+            title="Categories"
+            action="Create Category"
+            :url="index().url"
+        >
             <Form />
         </dataTableTitle>
         <DataTable
