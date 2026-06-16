@@ -3,6 +3,7 @@ import { columns } from '@/components/periodics/columns';
 import Form from '@/components/periodics/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
+import { index } from '@/routes/periodic_transactions';
 
 import type { PeriodicTransaction } from '@/types';
 
@@ -18,6 +19,7 @@ defineProps<{
 <template>
     <div class="container mx-auto py-10">
         <dataTableTitle
+            :url="index().url"
             title="Periodic Transactions"
             action="Create Periodic Transaction"
         >

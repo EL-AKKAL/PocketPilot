@@ -35,9 +35,9 @@ class PeriodicTransaction extends Model
         return Table::make($query)
             ->columns([
                 Column::make('id'),
-                Column::make('amount'),
+                Column::make('amount')->searchable(),
                 Column::make('category'),
-                Column::make('description'),
+                Column::make('description')->searchable(),
                 Column::make('frequency'),
                 Column::make('start_date')->date(),
                 Column::make('next_apply_date')->date(),
