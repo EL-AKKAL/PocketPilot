@@ -3,6 +3,7 @@ import { columns } from '@/components/goals/columns';
 // import Form from '@/components/goals/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
+import { index } from '@/routes/goals';
 
 import type { Goal } from '@/types';
 
@@ -17,7 +18,11 @@ defineProps<{
 
 <template>
     <div class="container mx-auto py-10">
-        <dataTableTitle title="Goals History" :action="null" />
+        <dataTableTitle
+            :url="index().url"
+            title="Goals History"
+            :action="null"
+        />
         <dataTable
             :columns
             :data="goalsHistory.data"

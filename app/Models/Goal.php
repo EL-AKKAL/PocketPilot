@@ -24,7 +24,7 @@ class Goal extends Model
         return Table::make($query)
             ->columns([
                 Column::make('id'),
-                Column::make('value'),
+                Column::make('value')->searchable(),
                 Column::make('period'),
                 Column::make('status'),
                 Column::make('type'),
