@@ -36,13 +36,13 @@ class PeriodicTransaction extends Model
             ->columns([
                 Column::make('id'),
                 Column::make('amount')->searchable(),
-                Column::make('category'),
+                Column::make('category')->filterable(),
                 Column::make('description')->searchable(),
-                Column::make('frequency'),
+                Column::make('frequency')->filterable(),
                 Column::make('start_date')->date(),
                 Column::make('next_apply_date')->date(),
                 Column::make('end_date')->date(),
-                Column::make('is_active'),
+                Column::make('is_active')->filterable(),
             ]);
     }
 }

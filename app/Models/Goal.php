@@ -25,9 +25,9 @@ class Goal extends Model
             ->columns([
                 Column::make('id'),
                 Column::make('value')->searchable(),
-                Column::make('period'),
-                Column::make('status'),
-                Column::make('type'),
+                Column::make('period')->filterable(),
+                Column::make('status')->filterable(),
+                Column::make('type')->filterable(),
             ]);
     }
 }

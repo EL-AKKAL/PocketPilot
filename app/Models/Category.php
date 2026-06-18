@@ -40,7 +40,7 @@ class Category extends Model
             ->columns([
                 Column::make('id'),
                 Column::make('value')->searchable(),
-                Column::make('type'),
+                Column::make('type')->filterable(),
                 Column::make('created_at')->date(),
             ]);
     }

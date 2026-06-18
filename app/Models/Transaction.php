@@ -36,7 +36,7 @@ class Transaction extends Model
             ->columns([
                 Column::make('id'),
                 Column::make('amount')->searchable(),
-                Column::make('category'),
+                Column::make('category')->filterable(),
                 Column::make('description')->searchable(),
                 Column::make('created_at')->date(),
             ]);
