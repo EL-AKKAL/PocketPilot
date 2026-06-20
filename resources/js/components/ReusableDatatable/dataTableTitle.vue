@@ -1,34 +1,58 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
-import { Search } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { Search, SlidersHorizontal, ListFilterPlus } from 'lucide-vue-next';
+import { reactive, ref } from 'vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input/Input.vue';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import type { FilterDefinition } from '@/types';
 
 const props = defineProps<{
     title: string;
     action: string | null;
     url: string;
+    filters?: FilterDefinition[];
 }>();
 
 const search = ref('');
+const filterValues = reactive<Record<string, string | number | null>>({});
 
 watchDebounced(
-    search,
-    (value) => {
-        router.get(
-            props.url,
-            { search: value },
-            {
-                preserveState: true,
-                replace: true,
-            },
-        );
+    () => ({ search: search.value, ...filterValues }),
+    (params) => {
+        router.get(props.url, params, {
+            preserveState: true,
+            replace: true,
+        });
     },
-    { debounce: 500, maxWait: 2000 },
+    {
+        debounce: 500,
+    },
 );
+
+const clearFilters = () => {
+    search.value = '';
+
+    Object.keys(filterValues).forEach((key) => {
+        delete filterValues[key];
+    });
+
+    router.get(
+        props.url,
+        {},
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
+};
 </script>
 <template>
     <div
@@ -48,7 +72,45 @@ watchDebounced(
                     class="w-full pl-7 lg:w-64"
                 />
             </div>
-
+            <Popover>
+                <PopoverTrigger as-child>
+                    <Button variant="outline">
+                        <SlidersHorizontal class="h-4 w-4" />
+                    </Button>
+                    <Button
+                        v-if="search || Object.keys(filterValues).length"
+                        variant="ghost"
+                        @click="clearFilters"
+                    >
+                        <ListFilterPlus class="h-4 w-4" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-80">
+                    <div class="grid gap-4">
+                        <div class="space-y-2">
+                            <h4 class="leading-none font-medium">Filters</h4>
+                            <p class="text-sm text-muted-foreground">
+                                choose your filters.
+                            </p>
+                        </div>
+                        <div
+                            class="grid gap-2"
+                            v-for="filter in filters"
+                            :key="filter.field"
+                        >
+                            <FormSelect
+                                v-if="filter.type === 'select'"
+                                :label="filter.label"
+                                name="filter"
+                                :options="filter.options"
+                                optionLabel="label"
+                                optionValue="value"
+                                v-model="filterValues[filter.field]"
+                            />
+                        </div>
+                    </div>
+                </PopoverContent>
+            </Popover>
             <AlertDialog class="w-3xl!" v-if="action">
                 <AlertDialogTrigger as-child>
                     <Button variant="outline" size="sm">{{ action }}</Button>

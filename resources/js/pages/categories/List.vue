@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { columns } from '@/components/categories/columns';
+import { filters } from '@/components/categories/filters';
 import Form from '@/components/categories/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
@@ -21,6 +22,7 @@ defineProps<{
             title="Categories"
             action="Create Category"
             :url="index().url"
+            :filters
         >
             <Form />
         </dataTableTitle>

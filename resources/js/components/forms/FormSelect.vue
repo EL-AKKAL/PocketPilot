@@ -9,15 +9,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import type { Option } from '@/types';
 
 defineProps<{
     label: string;
     name: string;
-    options: any[];
+    options: Option[] | any[];
     defaultValue?: string | number;
     placeholder?: string;
     optionLabel?: string;
     optionValue?: string;
+    modelValue?: any; // for filters
+}>();
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: any): void;
 }>();
 </script>
 
@@ -27,7 +33,12 @@ defineProps<{
             {{ label }}
         </Label>
 
-        <Select :name="name" :default-value="defaultValue">
+        <Select
+            :name="name"
+            :default-value="defaultValue"
+            :model-value="modelValue"
+            @update:model-value="emit('update:modelValue', $event)"
+        >
             <SelectTrigger class="w-full">
                 <SelectValue :placeholder="placeholder ?? `Select ${label}`" />
             </SelectTrigger>
