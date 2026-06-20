@@ -72,7 +72,7 @@ const clearFilters = () => {
                     class="w-full pl-7 lg:w-64"
                 />
             </div>
-            <Popover>
+            <Popover v-if="filters">
                 <PopoverTrigger as-child>
                     <Button variant="outline">
                         <SlidersHorizontal class="h-4 w-4" />
