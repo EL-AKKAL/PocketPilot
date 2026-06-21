@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified', 'account'])->group(function () {
     Route::resource('categories', CategoryController::class)->except('show', 'create', 'edit');
     Route::resource('goals', GoalController::class)->except('show', 'create', 'edit', 'delete');
     Route::resource('debts', DebtController::class)->except('show', 'create', 'edit');
+    Route::post('/debts/{debt}/pay', [DebtController::class, 'pay'])->name('debts.pay');
 });
 
 require __DIR__.'/settings.php';

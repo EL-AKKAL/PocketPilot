@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TypeEnum;
 use App\Http\Requests\DebtRequest;
 use App\Models\Debt;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DebtController extends Controller
@@ -52,6 +54,40 @@ class DebtController extends Controller
         return to_route('debts.index');
     }
 
+    public function pay(Debt $debt)
+    {
+        $this->authorizeDebt($debt);
+
+        if ($debt->paid_at) {
+            $this->success('Debt already paid');
+
+            return to_route('debts.index');
+        }
+
+        DB::transaction(function () use ($debt) {
+
+            $category = $this->getDebtCategory();
+
+            Auth::user()
+                ->account
+                ->transactions()
+                ->create([
+                    'amount' => -$debt->amount,
+                    'description' => $debt->description,
+                    'category_id' => $category->id,
+                ]);
+
+            $debt->update([
+                'paid_at' => now(),
+            ]);
+
+        });
+
+        $this->success('debt paid successfully');
+
+        return to_route('debts.index');
+    }
+
     private function authorizeDebt(Debt $debt)
     {
         abort_if($debt->account_id !== Auth::user()->account->id, 403);
@@ -63,5 +99,16 @@ class DebtController extends Controller
             'type' => 'success',
             'message' => $message,
         ]);
+    }
+
+    private function getDebtCategory()
+    {
+        return Auth::user()
+            ->account
+            ->categories()
+            ->firstOrCreate([
+                'value' => 'Debt',
+                'type' => TypeEnum::EXPENSE,
+            ]);
     }
 }
