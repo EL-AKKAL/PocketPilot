@@ -13,8 +13,8 @@ const isDocument = () => typeof document !== 'undefined';
 
 export function updateTheme(value: Appearance) {
     if (!isBrowser()) {
-return;
-}
+        return;
+    }
 
     document.documentElement.classList.toggle(
         'dark',
@@ -24,24 +24,24 @@ return;
 
 const setCookie = (name: string, value: string, days = 365) => {
     if (!isDocument()) {
-return;
-}
+        return;
+    }
 
     document.cookie = `${name}=${value};path=/;max-age=${days * THEME.ONE_DAY};SameSite=Lax`;
 };
 
 const getStoredAppearance = () => {
     if (!isBrowser()) {
-return null;
-}
+        return null;
+    }
 
     return localStorage.getItem(THEME.COOKIE_KEY) as Appearance | null;
 };
 
 export function initializeTheme() {
     if (!isBrowser()) {
-return;
-}
+        return;
+    }
 
     const savedAppearance = getStoredAppearance();
     updateTheme(savedAppearance || THEME.DEFAULT_COLOR);
@@ -56,8 +56,8 @@ export function useAppearance() {
         ) as Appearance | null;
 
         if (savedAppearance) {
-appearance.value = savedAppearance;
-}
+            appearance.value = savedAppearance;
+        }
     });
 
     function updateAppearance(value: Appearance) {
