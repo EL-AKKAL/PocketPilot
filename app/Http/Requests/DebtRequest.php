@@ -16,6 +16,7 @@ class DebtRequest extends FormRequest
         return [
             'description' => 'nullable|string',
             'amount' => ['required', 'numeric', 'between:0,999999'],
+            'due_date' => 'required|date',
         ];
     }
 }
