@@ -7,9 +7,9 @@ import type { Ref } from 'vue';
 import FormDialog from '@/components/forms/FormDialog.vue';
 import FormFooter from '@/components/forms/FormFooter.vue';
 import FormInput from '@/components/forms/FormInput.vue';
+import { Calendar } from '@/components/ui/calendar';
 import { store, update } from '@/routes/debts';
 import type { Debt } from '@/types';
-import { Calendar } from '@/components/ui/calendar';
 
 const props = defineProps<{ debt?: Debt }>();
 

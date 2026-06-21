@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Method } from '@inertiajs/core';
-import { Form } from '@inertiajs/vue3';
+import { Form, router } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
 import {
     AlertDialogAction,
@@ -29,6 +29,7 @@ defineProps<{
         action?: string;
     };
     item: string;
+    payUrl?: string;
 }>();
 </script>
 
@@ -47,6 +48,11 @@ defineProps<{
                     <AlertDialogTrigger> Edit {{ item }} </AlertDialogTrigger>
                     <slot name="edit" />
                 </AlertDialog>
+            </DropdownMenuItem>
+            <DropdownMenuItem v-if="payUrl" @select.prevent>
+                <button class="w-full text-left" @click="router.post(payUrl)">
+                    Pay {{ item }}
+                </button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @select.prevent>
