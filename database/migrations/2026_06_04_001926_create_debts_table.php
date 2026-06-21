@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('description');
 
-            $table->string('status', 20)->default('pending');
+            $table->date('paid_at')->nullable();
 
             $table->date('due_date')->nullable(); // not currently used, but can be used in the future to track due dates for debts
             $table->timestamps();

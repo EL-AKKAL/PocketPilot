@@ -32,4 +32,9 @@ class Account extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function debts()
+    {
+        return $this->hasMany(Debt::class);
+    }
 }
