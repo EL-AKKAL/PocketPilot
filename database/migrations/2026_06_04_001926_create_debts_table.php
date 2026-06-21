@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->decimal('amount', 10, 2)->default(0);
 
-            $table->string('description');
+            $table->string('description')->nullable();
 
             $table->date('paid_at')->nullable();
 
