@@ -1,11 +1,11 @@
 import type { ColumnDef } from '@tanstack/vue-table';
+import { Check, X } from 'lucide-vue-next';
 import { h } from 'vue';
+import Form from '@/components/debts/Form.vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
-import Form from '@/components/transactions/Form.vue';
 import { currency } from '@/lib/utils';
-import { destroy } from '@/routes/debts';
+import { destroy, pay } from '@/routes/debts';
 import type { Debt } from '@/types';
-
 export const columns: ColumnDef<Debt>[] = [
     {
         accessorKey: 'ID',
@@ -36,7 +36,11 @@ export const columns: ColumnDef<Debt>[] = [
     {
         accessorKey: 'Paid',
         cell: ({ row }) => {
-            return h('div', { class: ' font-medium' }, row.original.paid_at);
+            const paid = !!row.original.paid_at;
+
+            return h(paid ? Check : X, {
+                class: paid ? 'h-4 w-4 text-green-500' : 'h-4 w-4 text-red-500',
+            });
         },
     },
     {
@@ -62,6 +66,7 @@ export const columns: ColumnDef<Debt>[] = [
                     DropdownAction,
                     {
                         item: 'Debt',
+                        payUrl: pay({ debt: debt.id }).url,
                         deleteRoute: {
                             ...destroy({
                                 debt: debt.id,
