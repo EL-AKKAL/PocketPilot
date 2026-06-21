@@ -18,8 +18,8 @@ defineProps<{ debt?: Debt }>();
             v-bind="
                 debt
                     ? {
-                          ...update({ transaction: debt.id }),
-                          action: update({ transaction: debt.id }).url,
+                          ...update({ debt: debt.id }),
+                          action: update({ debt: debt.id }).url,
                       }
                     : store.form()
             "
@@ -34,7 +34,7 @@ defineProps<{ debt?: Debt }>();
                     type="number"
                     :default-value="debt?.amount"
                     required
-                    min="-999999"
+                    min="0"
                     placeholder="ex: 500$"
                 />
 

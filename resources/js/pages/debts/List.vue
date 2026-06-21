@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { columns } from '@/components/categories/columns';
-import { filters } from '@/components/categories/filters';
+import { columns } from '@/components/debts/columns';
 import Form from '@/components/debts/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
@@ -18,12 +17,7 @@ defineProps<{
 
 <template>
     <div class="container mx-auto py-10">
-        <dataTableTitle
-            title="Debts"
-            action="Create Debt"
-            :url="index().url"
-            :filters
-        >
+        <dataTableTitle title="Debts" action="Create Debt" :url="index().url">
             <Form />
         </dataTableTitle>
         <DataTable

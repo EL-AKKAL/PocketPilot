@@ -7,6 +7,7 @@ import {
     LayoutGrid,
     Receipt,
     Target,
+    HandCoins,
 } from 'lucide-vue-next';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as categories } from '@/routes/categories';
+import { index as debts } from '@/routes/debts';
 import { index as goals } from '@/routes/goals';
 import { index as periodicTransactions } from '@/routes/periodic_transactions';
 import { index as transactions } from '@/routes/transactions';
@@ -52,6 +54,11 @@ const mainNavItems: NavItem[] = [
         title: 'Categories',
         href: categories(),
         icon: BookOpen,
+    },
+    {
+        title: 'Debts',
+        href: debts(),
+        icon: HandCoins,
     },
 ];
 
