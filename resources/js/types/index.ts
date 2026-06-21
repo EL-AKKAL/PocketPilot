@@ -74,6 +74,15 @@ export interface Categories {
     expense: Category[];
 }
 
+export interface Debt {
+    id: number;
+    amount: number;
+    description: string;
+    due_date: string;
+    paid_at: string;
+    created_at: string;
+}
+
 export interface FilterDefinition {
     type: 'select';
     field: string;
