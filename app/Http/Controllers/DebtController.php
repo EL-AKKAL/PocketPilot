@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Enums\TypeEnum;
 use App\Http\Requests\DebtRequest;
 use App\Models\Debt;
@@ -11,6 +12,8 @@ use Inertia\Inertia;
 
 class DebtController extends Controller
 {
+    use HasToast;
+
     public function index()
     {
         $debts = Debt::dataTable()->getResponse();
@@ -27,7 +30,7 @@ class DebtController extends Controller
             ->debts()
             ->create($request->validated());
 
-        $this->success('debt added successfully');
+        $this->toast('debt added successfully');
 
         return to_route('debts.index');
     }
@@ -38,7 +41,7 @@ class DebtController extends Controller
 
         $debt->update($request->validated());
 
-        $this->success('debt updated successfully');
+        $this->toast('debt updated successfully');
 
         return to_route('debts.index');
     }
@@ -49,7 +52,7 @@ class DebtController extends Controller
 
         $debt->delete();
 
-        $this->success('debt deleted successfully');
+        $this->toast('debt deleted successfully');
 
         return to_route('debts.index');
     }
@@ -59,7 +62,7 @@ class DebtController extends Controller
         $this->authorizeDebt($debt);
 
         if ($debt->paid_at) {
-            $this->success('Debt already paid');
+            $this->toast('Debt already paid');
 
             return to_route('debts.index');
         }
@@ -83,7 +86,7 @@ class DebtController extends Controller
 
         });
 
-        $this->success('debt paid successfully');
+        $this->toast('debt paid successfully');
 
         return to_route('debts.index');
     }
@@ -91,14 +94,6 @@ class DebtController extends Controller
     private function authorizeDebt(Debt $debt)
     {
         abort_if($debt->account_id !== Auth::user()->account->id, 403);
-    }
-
-    private function success(string $message)
-    {
-        Inertia::flash('toast', [
-            'type' => 'success',
-            'message' => $message,
-        ]);
     }
 
     private function getDebtCategory()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Http\Requests\PeriodicTransactionRequest;
 use App\Models\PeriodicTransaction;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Inertia\Inertia;
 
 class PeriodicTransactionController extends Controller
 {
+    use HasToast;
+
     public function index()
     {
         $periodics = PeriodicTransaction::dataTable()->getResponse();
@@ -29,7 +32,7 @@ class PeriodicTransactionController extends Controller
                 'next_apply_date' => $request->start_date,
             ]);
 
-        $this->success('Periodic transaction created successfully');
+        $this->toast('Periodic transaction created successfully');
 
         return to_route('periodic_transactions.index');
     }
@@ -40,7 +43,7 @@ class PeriodicTransactionController extends Controller
 
         $periodicTransaction->update($request->validated());
 
-        $this->success('Periodic transaction updated successfully');
+        $this->toast('Periodic transaction updated successfully');
 
         return to_route('periodic_transactions.index');
     }
@@ -51,7 +54,7 @@ class PeriodicTransactionController extends Controller
 
         $periodic_transaction->delete();
 
-        $this->success('Periodic transaction deleted successfully');
+        $this->toast('Periodic transaction deleted successfully');
 
         return to_route('periodic_transactions.index');
     }
@@ -59,13 +62,5 @@ class PeriodicTransactionController extends Controller
     private function authorizeTransaction(PeriodicTransaction $periodic_transaction)
     {
         abort_if($periodic_transaction->account_id !== Auth::user()->account->id, 403);
-    }
-
-    private function success(string $message)
-    {
-        Inertia::flash('toast', [
-            'type' => 'success',
-            'message' => $message,
-        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Enums\GoalPeriodEnum;
 use App\Http\Requests\StoreGoalRequest;
 use App\Http\Requests\UpdateGoalRequest;
@@ -13,6 +14,8 @@ use Inertia\Inertia;
 
 class GoalController extends Controller
 {
+    use HasToast;
+
     public function index()
     {
         $goalsHistory = Goal::dataTable()->getResponse();
@@ -47,7 +50,7 @@ class GoalController extends Controller
                 'ends_at' => $this->calculateEndDate($period),
             ]);
 
-            Inertia::flash('toast', ['type' => 'success', 'message' => 'Goal created successfully']);
+            $this->toast('Goal created successfully');
 
             return back();
         });
@@ -56,7 +59,7 @@ class GoalController extends Controller
     public function update(Goal $goal, UpdateGoalRequest $request)
     {
         if ($goal->status !== 'in_progress') {
-            Inertia::flash('toast', ['type' => 'error', 'message' => 'You can only edit an active goal']);
+            $this->toast('You can only edit an active goal', 'error');
 
             return back()->withErrors([
                 'goal' => 'You can only edit an active goal',
@@ -65,7 +68,7 @@ class GoalController extends Controller
 
         $goal->update($request->validated());
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => 'Goal updated successfully']);
+        $this->toast('Goal updated successfully');
 
         return back();
     }

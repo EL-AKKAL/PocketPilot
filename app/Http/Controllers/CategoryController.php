@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
+    use HasToast;
+
     public function index()
     {
         $categories = Category::dataTable()->getResponse();
@@ -25,7 +28,7 @@ class CategoryController extends Controller
             ->categories()
             ->create($request->validated());
 
-        $this->success('category added successfully');
+        $this->toast('category added successfully');
 
         return to_route('categories.index');
     }
@@ -36,7 +39,7 @@ class CategoryController extends Controller
 
         $category->update($request->validated());
 
-        $this->success('category updated successfully');
+        $this->toast('category updated successfully');
 
         return to_route('categories.index');
     }
@@ -47,7 +50,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        $this->success('category deleted successfully');
+        $this->toast('category deleted successfully');
 
         return to_route('categories.index');
     }
@@ -55,13 +58,5 @@ class CategoryController extends Controller
     private function authorizeCategory(Category $category)
     {
         abort_if($category->account_id !== Auth::user()->account->id, 403);
-    }
-
-    private function success(string $message)
-    {
-        Inertia::flash('toast', [
-            'type' => 'success',
-            'message' => $message,
-        ]);
     }
 }

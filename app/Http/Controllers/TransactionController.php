@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Http\Requests\TransactionRequest;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
+    use HasToast;
+
     public function index()
     {
         $transactions = Transaction::dataTable()->getResponse();
@@ -25,7 +28,7 @@ class TransactionController extends Controller
             ->transactions()
             ->create($request->validated());
 
-        $this->success('transaction added successfully');
+        $this->toast('transaction added successfully');
 
         return to_route('transactions.index');
     }
@@ -36,7 +39,7 @@ class TransactionController extends Controller
 
         $transaction->update($request->validated());
 
-        $this->success('transaction updated successfully');
+        $this->toast('transaction updated successfully');
 
         return to_route('transactions.index');
     }
@@ -47,7 +50,7 @@ class TransactionController extends Controller
 
         $transaction->delete();
 
-        $this->success('transaction deleted successfully');
+        $this->toast('transaction deleted successfully');
 
         return to_route('transactions.index');
     }
@@ -55,13 +58,5 @@ class TransactionController extends Controller
     private function authorizeTransaction(Transaction $transaction)
     {
         abort_if($transaction->account_id !== Auth::user()->account->id, 403);
-    }
-
-    private function success(string $message)
-    {
-        Inertia::flash('toast', [
-            'type' => 'success',
-            'message' => $message,
-        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Goal;
 use App\Models\PeriodicTransaction;
@@ -10,10 +11,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
 class BackupController extends Controller
 {
+    use HasToast;
+
     private $VERSION = '1.0';
 
     public function export()
@@ -56,13 +58,13 @@ class BackupController extends Controller
         $data = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            Inertia::flash('toast', ['type' => 'error', 'message' => 'Invalid JSON file']);
+            $this->toast('Invalid JSON file', 'error');
 
             return back();
         }
 
         if (($data['version'] ?? null) !== $this->VERSION) {
-            Inertia::flash('toast', ['type' => 'error', 'message' => 'Unsupported backup version']);
+            $this->toast('Unsupported backup version', 'error');
 
             return back();
         }
@@ -74,7 +76,7 @@ class BackupController extends Controller
             ! isset($data['categories']) ||
             ! isset($data['goals'])
         ) {
-            Inertia::flash('toast', ['type' => 'error', 'message' => 'Invalid backup structure']);
+            $this->toast('Invalid backup structure', 'error');
 
             return back()->withErrors(['file' => 'Invalid backup structure']);
         }
@@ -117,7 +119,7 @@ class BackupController extends Controller
             }
         });
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => 'Data restored successfully']);
+        $this->toast('Data restored successfully');
 
         return back()->with('success', 'Data restored successfully');
     }
@@ -136,7 +138,7 @@ class BackupController extends Controller
             });
         }
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => 'All data deleted successfully']);
+        $this->toast('All data deleted successfully');
 
         return back();
     }
