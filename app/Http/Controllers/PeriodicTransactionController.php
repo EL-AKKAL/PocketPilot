@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\AuthorizeAction;
 use App\Concerns\HasToast;
 use App\Http\Requests\PeriodicTransactionRequest;
 use App\Models\PeriodicTransaction;
@@ -10,7 +11,7 @@ use Inertia\Inertia;
 
 class PeriodicTransactionController extends Controller
 {
-    use HasToast;
+    use AuthorizeAction,HasToast;
 
     public function index()
     {
@@ -39,7 +40,7 @@ class PeriodicTransactionController extends Controller
 
     public function update(PeriodicTransactionRequest $request, PeriodicTransaction $periodicTransaction)
     {
-        $this->authorizeTransaction($periodicTransaction);
+        $this->authorizeAccountOwnership($periodicTransaction);
 
         $periodicTransaction->update($request->validated());
 
@@ -50,17 +51,12 @@ class PeriodicTransactionController extends Controller
 
     public function destroy(PeriodicTransaction $periodic_transaction)
     {
-        $this->authorizeTransaction($periodic_transaction);
+        $this->authorizeAccountOwnership($periodic_transaction);
 
         $periodic_transaction->delete();
 
         $this->toast('Periodic transaction deleted successfully');
 
         return to_route('periodic_transactions.index');
-    }
-
-    private function authorizeTransaction(PeriodicTransaction $periodic_transaction)
-    {
-        abort_if($periodic_transaction->account_id !== Auth::user()->account->id, 403);
     }
 }

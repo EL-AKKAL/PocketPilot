@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\AuthorizeAction;
 use App\Concerns\HasToast;
 use App\Http\Requests\TransactionRequest;
 use App\Models\Transaction;
@@ -10,7 +11,7 @@ use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
-    use HasToast;
+    use AuthorizeAction,HasToast;
 
     public function index()
     {
@@ -35,7 +36,7 @@ class TransactionController extends Controller
 
     public function update(TransactionRequest $request, Transaction $transaction)
     {
-        $this->authorizeTransaction($transaction);
+        $this->authorizeAccountOwnership($transaction);
 
         $transaction->update($request->validated());
 
@@ -46,17 +47,12 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        $this->authorizeTransaction($transaction);
+        $this->authorizeAccountOwnership($transaction);
 
         $transaction->delete();
 
         $this->toast('transaction deleted successfully');
 
         return to_route('transactions.index');
-    }
-
-    private function authorizeTransaction(Transaction $transaction)
-    {
-        abort_if($transaction->account_id !== Auth::user()->account->id, 403);
     }
 }

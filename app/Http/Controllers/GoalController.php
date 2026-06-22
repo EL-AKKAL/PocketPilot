@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\AuthorizeAction;
 use App\Concerns\HasToast;
 use App\Enums\GoalPeriodEnum;
 use App\Http\Requests\StoreGoalRequest;
@@ -14,7 +15,7 @@ use Inertia\Inertia;
 
 class GoalController extends Controller
 {
-    use HasToast;
+    use AuthorizeAction,HasToast;
 
     public function index()
     {
@@ -58,6 +59,8 @@ class GoalController extends Controller
 
     public function update(Goal $goal, UpdateGoalRequest $request)
     {
+        $this->authorizeAccountOwnership($goal);
+
         if ($goal->status !== 'in_progress') {
             $this->toast('You can only edit an active goal', 'error');
 

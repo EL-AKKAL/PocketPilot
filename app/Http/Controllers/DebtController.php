@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\AuthorizeAction;
 use App\Concerns\HasToast;
 use App\Enums\TypeEnum;
 use App\Http\Requests\DebtRequest;
@@ -12,7 +13,7 @@ use Inertia\Inertia;
 
 class DebtController extends Controller
 {
-    use HasToast;
+    use AuthorizeAction,HasToast;
 
     public function index()
     {
@@ -37,7 +38,7 @@ class DebtController extends Controller
 
     public function update(DebtRequest $request, Debt $debt)
     {
-        $this->authorizeDebt($debt);
+        $this->authorizeAccountOwnership($debt);
 
         $debt->update($request->validated());
 
@@ -48,7 +49,7 @@ class DebtController extends Controller
 
     public function destroy(Debt $debt)
     {
-        $this->authorizeDebt($debt);
+        $this->authorizeAccountOwnership($debt);
 
         $debt->delete();
 
@@ -59,7 +60,7 @@ class DebtController extends Controller
 
     public function pay(Debt $debt)
     {
-        $this->authorizeDebt($debt);
+        $this->authorizeAccountOwnership($debt);
 
         if ($debt->paid_at) {
             $this->toast('Debt already paid');
@@ -80,20 +81,13 @@ class DebtController extends Controller
                     'category_id' => $category->id,
                 ]);
 
-            $debt->update([
-                'paid_at' => now(),
-            ]);
+            $debt->update(['paid_at' => now()]);
 
         });
 
         $this->toast('debt paid successfully');
 
         return to_route('debts.index');
-    }
-
-    private function authorizeDebt(Debt $debt)
-    {
-        abort_if($debt->account_id !== Auth::user()->account->id, 403);
     }
 
     private function getDebtCategory()
