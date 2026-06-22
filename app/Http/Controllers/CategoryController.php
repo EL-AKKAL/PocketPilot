@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\AuthorizeAction;
 use App\Concerns\HasToast;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
@@ -10,7 +11,7 @@ use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
-    use HasToast;
+    use AuthorizeAction, HasToast;
 
     public function index()
     {
@@ -35,7 +36,7 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
-        $this->authorizeCategory($category);
+        $this->authorizeAccountOwnership($category);
 
         $category->update($request->validated());
 
@@ -46,17 +47,12 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $this->authorizeCategory($category);
+        $this->authorizeAccountOwnership($category);
 
         $category->delete();
 
         $this->toast('category deleted successfully');
 
         return to_route('categories.index');
-    }
-
-    private function authorizeCategory(Category $category)
-    {
-        abort_if($category->account_id !== Auth::user()->account->id, 403);
     }
 }
