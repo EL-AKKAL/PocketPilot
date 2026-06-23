@@ -34,31 +34,37 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+        id: 'dashboard-link',
     },
     {
         title: 'Transactions',
         href: transactions(),
         icon: Receipt,
+        id: 'transactions-link',
     },
     {
         title: 'Periodic Transactions',
         href: periodicTransactions(),
         icon: CalendarSync,
+        id: 'periodic-link',
     },
     {
         title: 'Goals History',
         href: goals(),
         icon: Target,
+        id: 'goals-link',
     },
     {
         title: 'Categories',
         href: categories(),
         icon: BookOpen,
+        id: 'categories-link',
     },
     {
         title: 'Debts',
         href: debts(),
         icon: HandCoins,
+        id: 'debts-link',
     },
 ];
 

@@ -23,7 +23,7 @@ const { isMobile, state } = useSidebar();
 
 <template>
     <SidebarMenu>
-        <SidebarMenuItem>
+        <SidebarMenuItem id="settings-link">
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <SidebarMenuButton

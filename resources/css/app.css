@@ -180,3 +180,16 @@
     -ms-overflow-style: none; /* IE/Edge */
     scrollbar-width: none; /* Firefox */
 }
+
+.driver-popover {
+     @apply bg-background! text-foreground!;
+}
+.driver-popover-close-btn ,.driver-popover-progress-text ,.driver-popover-prev-btn ,.driver-popover-next-btn {
+    @apply text-primary!;
+
+}
+.driver-popover-prev-btn ,.driver-popover-next-btn {
+    @apply text-primary! bg-background! border-none! text-shadow-none!;
+
+}
+
