@@ -99,3 +99,10 @@ export interface Option {
     value: string;
     label: string;
 }
+
+export interface MonthlyNetWorthTrend {
+    month: string;
+    income: number;
+    expense: number;
+    net: number;
+}

@@ -4,6 +4,7 @@ import CategorySuggestionsModal from '@/components/categories/CategorySuggestion
 import BalanceHistoryLineChart from '@/components/dashboard/charts/BalanceHistoryLineChart.vue';
 import ExpensesByCategoryDonutChart from '@/components/dashboard/charts/ExpensesByCategoryDonutChart.vue';
 import MonthlyIncomeVsExpenseColumnChart from '@/components/dashboard/charts/MonthlyIncomeVsExpenseColumnChart.vue';
+import MonthlyNetWorthTrendColumnChart from '@/components/dashboard/charts/MonthlyNetWorthTrendColumnChart.vue';
 import RecentTransactionsTable from '@/components/dashboard/tables/RecentTransactionsTable.vue';
 import GoalWidget from '@/components/dashboard/widgets/GoalWidget.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
@@ -13,6 +14,7 @@ import type {
     GoalStatistic,
     MostUsedCategories,
     SuggestedCategories,
+    MonthlyNetWorthTrend,
 } from '@/types';
 
 defineProps<{
@@ -31,6 +33,7 @@ defineProps<{
         total: number;
     }[];
     mostUsedCategories: MostUsedCategories;
+    monthlyNetWorthTrend: MonthlyNetWorthTrend[];
 }>();
 
 const page = usePage();
@@ -77,7 +80,7 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
                 :expense="expense"
             />
         </div>
-
+        <MonthlyNetWorthTrendColumnChart :monthlyNetWorthTrend />
         <CategorySuggestionsModal
             :suggestedCategories="flash.suggestedCategories"
             v-if="flash.showCategorySuggestions"

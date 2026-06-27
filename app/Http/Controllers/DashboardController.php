@@ -31,6 +31,8 @@ class DashboardController extends Controller
 
         $mostUsed = $this->mostUsedCategories($account);
 
+        $monthlyNetWorthTrend = $this->MonthlyNetWorthTrend($account);
+
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
@@ -41,6 +43,7 @@ class DashboardController extends Controller
             'canCreateGoal' => $canCreateGoal,
             'expensesByCategory' => $expensesByCategory,
             'mostUsedCategories' => $mostUsed,
+            'monthlyNetWorthTrend' => $monthlyNetWorthTrend,
         ]);
     }
 
@@ -185,5 +188,23 @@ class DashboardController extends Controller
             'expense' => $topExpense,
         ];
 
+    }
+
+    private function MonthlyNetWorthTrend(Account $account)
+    {
+        return $account->transactions()->selectRaw("
+                DATE_FORMAT(created_at, '%b %Y') as month,
+                SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) as income,
+                SUM(CASE WHEN amount < 0 THEN ABS(amount) ELSE 0 END) as expense
+            ")
+            ->groupByRaw("DATE_FORMAT(created_at, '%Y-%m'), DATE_FORMAT(created_at, '%b %Y')")
+            ->orderByRaw("DATE_FORMAT(created_at, '%Y-%m')")
+            ->get()
+            ->map(fn ($month) => [
+                'month' => $month->month,
+                'income' => (float) $month->income,
+                'expense' => (float) $month->expense,
+                'net' => (float) ($month->income - $month->expense),
+            ]);
     }
 }
