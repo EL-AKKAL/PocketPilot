@@ -54,6 +54,13 @@ class HandleInertiaRequests extends Middleware
             'goalPeriods' => GoalPeriodEnum::cases(),
             'goalTypes' => GoalTypeEnum::cases(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'flash' => [
+                'toast' => fn () => $request->session()->get('toast'),
+
+                'showCategorySuggestions' => fn () => $request->session()->get('showCategorySuggestions'),
+
+                'suggestedCategories' => fn () => $request->session()->get('suggestedCategories'),
+            ],
         ];
     }
 }

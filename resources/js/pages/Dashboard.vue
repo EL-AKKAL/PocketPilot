@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
+import CategorySuggestionsModal from '@/components/categories/CategorySuggestionsModal.vue';
 import BalanceHistoryLineChart from '@/components/dashboard/charts/BalanceHistoryLineChart.vue';
 import ExpensesByCategoryDonutChart from '@/components/dashboard/charts/ExpensesByCategoryDonutChart.vue';
 import MonthlyIncomeVsExpenseColumnChart from '@/components/dashboard/charts/MonthlyIncomeVsExpenseColumnChart.vue';
@@ -6,7 +8,12 @@ import RecentTransactionsTable from '@/components/dashboard/tables/RecentTransac
 import GoalWidget from '@/components/dashboard/widgets/GoalWidget.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
-import type { Transaction, GoalStatistic, MostUsedCategories } from '@/types';
+import type {
+    Transaction,
+    GoalStatistic,
+    MostUsedCategories,
+    SuggestedCategories,
+} from '@/types';
 
 defineProps<{
     balance: number;
@@ -25,6 +32,13 @@ defineProps<{
     }[];
     mostUsedCategories: MostUsedCategories;
 }>();
+
+const page = usePage();
+
+const flash = page.props.flash as {
+    showCategorySuggestions?: boolean;
+    suggestedCategories?: SuggestedCategories;
+};
 
 const month = new Date().toLocaleString('en-US', { month: 'short' });
 </script>
@@ -63,5 +77,10 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
                 :expense="expense"
             />
         </div>
+
+        <CategorySuggestionsModal
+            :suggestedCategories="flash.suggestedCategories"
+            v-if="flash.showCategorySuggestions"
+        />
     </div>
 </template>

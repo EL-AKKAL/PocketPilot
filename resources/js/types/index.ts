@@ -62,6 +62,11 @@ export interface MostUsedCategories {
     } | null;
 }
 
+export interface SuggestedCategories {
+    income: string[];
+    expense: string[];
+}
+
 export interface Category {
     id: number;
     value: string;

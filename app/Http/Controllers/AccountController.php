@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
 use App\Http\Requests\AccountRequest;
+use App\Http\Requests\StoreInitialCategoriesRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AccountController extends Controller
@@ -23,6 +25,37 @@ class AccountController extends Controller
         );
 
         $this->toast('account created successfully');
+
+        return redirect()->route('dashboard')->with([
+            'showCategorySuggestions' => true,
+            'suggestedCategories' => [
+                'expense' => ['Food', 'Transport', 'Rent', 'Fixes', 'Bills', 'Needs'],
+                'income' => ['Salary', 'Freelance',  'Gift', 'Sells', 'Skills', 'Arts'],
+            ]]);
+    }
+
+    public function storeStarterCategories(StoreInitialCategoriesRequest $request)
+    {
+        $validated = $request->validated();
+
+        $categories = collect($validated['income'] ?? [])
+            ->map(fn ($value) => [
+                'value' => $value,
+                'type' => 'income',
+            ])
+            ->merge(
+                collect($validated['expense'] ?? [])
+                    ->map(fn ($value) => [
+                        'value' => $value,
+                        'type' => 'expense',
+                    ])
+            );
+
+        DB::transaction(function () use ($categories) {
+            Auth::user()->account->categories()->createMany($categories);
+        });
+
+        $this->toast('Starter categories imported successfully');
 
         return redirect()->route('dashboard');
     }
