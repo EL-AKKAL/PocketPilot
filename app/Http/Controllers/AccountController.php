@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
+use App\Enums\TypeEnum;
 use App\Http\Requests\AccountRequest;
 use App\Http\Requests\StoreInitialCategoriesRequest;
 use Illuminate\Support\Facades\Auth;
@@ -41,13 +42,13 @@ class AccountController extends Controller
         $categories = collect($validated['income'] ?? [])
             ->map(fn ($value) => [
                 'value' => $value,
-                'type' => 'income',
+                'type' => TypeEnum::INCOME,
             ])
             ->merge(
                 collect($validated['expense'] ?? [])
                     ->map(fn ($value) => [
                         'value' => $value,
-                        'type' => 'expense',
+                        'type' => TypeEnum::EXPENSE,
                     ])
             );
 
