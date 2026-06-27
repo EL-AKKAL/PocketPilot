@@ -5,13 +5,14 @@ import type { DateRange } from 'reka-ui';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import FormCategorySelect from '@/components/forms/FormCategorySelect.vue';
+import FormDialog from '@/components/forms/FormDialog.vue';
+import FormFooter from '@/components/forms/FormFooter.vue';
 import FormInput from '@/components/forms/FormInput.vue';
+import FormSelect from '@/components/forms/FormSelect.vue';
 import { Label } from '@/components/ui/label';
 import { RangeCalendar } from '@/components/ui/range-calendar';
 import { store, update } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
-import FormDialog from '../forms/FormDialog.vue';
-import FormSelect from '../forms/FormSelect.vue';
 
 const props = defineProps<{
     periodic?: PeriodicTransaction;
