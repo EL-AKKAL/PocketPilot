@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
+use App\Http\Requests\ImportRequest;
+use App\Models\Account;
 use App\Models\Category;
+use App\Models\Debt;
 use App\Models\Goal;
 use App\Models\PeriodicTransaction;
 use App\Models\Transaction;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,25 +18,38 @@ class BackupController extends Controller
 {
     use HasToast;
 
-    private $VERSION = '1.0';
+    private const VERSION = '1.0';
+
+    private const DATE_FIELDS = [
+        'created_at',
+        'updated_at',
+        'starts_at',
+        'ends_at',
+        'start_date',
+        'end_date',
+        'next_apply_date',
+    ];
+
+    private const RESTORABLE_FIELDS = [
+        Goal::class => ['value', 'period', 'status', 'starts_at', 'ends_at', 'type', 'created_at', 'updated_at'],
+        Transaction::class => ['amount', 'category_id', 'description', 'created_at', 'updated_at'],
+        PeriodicTransaction::class => ['amount', 'category_id', 'start_date', 'end_date', 'frequency', 'description', 'is_active', 'next_apply_date', 'created_at', 'updated_at'],
+        Category::class => ['value', 'type', 'created_at', 'updated_at'],
+        Debt::class => ['amount', 'description', 'paid_at', 'due_date', 'created_at', 'updated_at'],
+    ];
 
     public function export()
     {
-        $user = Auth::user();
-
-        $account = $user->account->makeHidden(['user_id', 'id']);
-        $transactions = $account->transactions()->get()->makeHidden(['account_id']);
-        $periodicTransactions = $account->periodicTransactions()->get()->makeHidden(['account_id']);
-        $categories = $account->categories()->get()->makeHidden(['account_id']);
-        $goals = $account->goals()->get()->makeHidden(['account_id']);
+        $account = Auth::user()->account;
 
         $data = [
-            'version' => '1.0',
+            'version' => self::VERSION,
             'exported_at' => now()->toISOString(),
-            'transactions' => $transactions,
-            'periodic_transactions' => $periodicTransactions,
-            'categories' => $categories,
-            'goals' => $goals,
+            'transactions' => $account->transactions()->get()->makeHidden(['account_id', 'id']),
+            'periodic_transactions' => $account->periodicTransactions()->get()->makeHidden(['account_id', 'id']),
+            'categories' => $account->categories()->get()->makeHidden(['account_id']),
+            'goals' => $account->goals()->get()->makeHidden(['account_id', 'id']),
+            'debts' => $account->debts()->get()->makeHidden(['account_id', 'id']),
         ];
 
         $json = json_encode($data, JSON_PRETTY_PRINT);
@@ -45,17 +60,11 @@ class BackupController extends Controller
             ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
     }
 
-    public function import(Request $request)
+    public function import(ImportRequest $request)
     {
-        $request->validate([
-            'file' => ['required', 'file', 'mimes:json'],
-        ]);
+        $account = Auth::user()->account;
 
-        $user = Auth::user();
-        $account = $user->account;
-
-        $content = file_get_contents($request->file('file')->getRealPath());
-        $data = json_decode($content, true);
+        $data = json_decode($request->file('file')->get(), true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             $this->toast('Invalid JSON file', 'error');
@@ -63,84 +72,82 @@ class BackupController extends Controller
             return back();
         }
 
-        if (($data['version'] ?? null) !== $this->VERSION) {
+        if (($data['version'] ?? null) !== self::VERSION) {
             $this->toast('Unsupported backup version', 'error');
 
             return back();
         }
 
         // Validate structure
-        if (
-            ! isset($data['transactions']) ||
-            ! isset($data['periodic_transactions']) ||
-            ! isset($data['categories']) ||
-            ! isset($data['goals'])
-        ) {
-            $this->toast('Invalid backup structure', 'error');
+        $required = ['transactions', 'periodic_transactions', 'categories', 'goals', 'debts'];
 
-            return back()->withErrors(['file' => 'Invalid backup structure']);
+        foreach ($required as $key) {
+            if (! array_key_exists($key, $data)) {
+                $this->toast('Invalid backup structure', 'error');
+
+                return back();
+            }
         }
 
         DB::transaction(function () use ($account, $data) {
 
-            if ($account) {
-                $account->goals()->delete();
-                $account->transactions()->delete();
-                $account->periodicTransactions()->delete();
-                $account->categories()->delete();
-            }
+            $this->deleteAccountModules($account);
 
-            // restore goals
-            foreach ($data['goals'] as $g) {
-                $this->restoreModel(Goal::class, $g, [
-                    'account_id' => $account->id,
-                ]);
-            }
+            $this->restoreCollection(Goal::class, $data['goals'], fn () => ['account_id' => $account->id]);
+            $this->restoreCollection(Debt::class, $data['debts'], fn () => ['account_id' => $account->id]);
 
-            // restore categories
-            foreach ($data['categories'] as $c) {
-                $this->restoreModel(Category::class, $c, [
-                    'account_id' => $account->id,
-                ]);
-            }
+            $this->restoreCollection(Category::class, $data['categories'], fn ($category) => [
+                'account_id' => $account->id,
+                'id' => $category['id'],
+            ]);
 
-            // restore transactions
-            foreach ($data['transactions'] as $t) {
-                $this->restoreModel(Transaction::class, $t, [
+            // Preserve original IDs so transactions keep their category references.
+            $this->restoreCollection(
+                Transaction::class,
+                $data['transactions'],
+                fn ($transaction) => [
                     'account_id' => $account->id,
-                ]);
-            }
+                    'category_id' => $transaction['category_id'],
+                ]
+            );
 
-            // restore periodic transactions
-            foreach ($data['periodic_transactions'] as $p) {
-                $this->restoreModel(PeriodicTransaction::class, $p, [
+            $this->restoreCollection(
+                PeriodicTransaction::class,
+                $data['periodic_transactions'],
+                fn ($transaction) => [
                     'account_id' => $account->id,
-                ]);
-            }
+                    'category_id' => $transaction['category_id'],
+                ]
+            );
+
         });
 
         $this->toast('Data restored successfully');
 
-        return back()->with('success', 'Data restored successfully');
+        return back();
     }
 
     public function delete()
     {
         $account = Auth::user()->account;
 
-        if ($account) {
-            DB::transaction(function () use ($account) {
-                $account->goals()->delete();
-                $account->transactions()->delete();
-                $account->periodicTransactions()->delete();
-                $account->categories()->delete();
-                $account->delete();
-            });
-        }
+        DB::transaction(function () use ($account) {
+            $this->deleteAccountModules($account);
+            $account->delete();
+        });
 
         $this->toast('All data deleted successfully');
 
         return back();
+    }
+
+    private function deleteAccountModules(Account $account): void
+    {
+        $account->goals()->delete();
+        $account->transactions()->delete();
+        $account->periodicTransactions()->delete();
+        $account->categories()->delete();
+        $account->debts()->delete();
     }
 
     private function restoreModel(string $modelClass, array $data, array $extra = []): mixed
@@ -148,28 +155,18 @@ class BackupController extends Controller
         $model = new $modelClass;
         $model->timestamps = false;
 
-        $allowed = match ($modelClass) {
-            Goal::class => ['value', 'period', 'status', 'starts_at', 'ends_at', 'type', 'created_at', 'updated_at'],
-            Transaction::class => ['amount', 'category', 'description', 'created_at', 'updated_at'],
-            PeriodicTransaction::class => [
-                'amount', 'category', 'start_date', 'end_date', 'frequency',
-                'description', 'is_active', 'next_apply_date',
-                'created_at', 'updated_at',
-            ],
-            Category::class => ['value', 'type', 'created_at', 'updated_at'],
-            default => throw new \Exception("Unsupported model: $modelClass"),
-        };
+        $allowed = self::RESTORABLE_FIELDS[$modelClass] ?? throw new \Exception("Unsupported model: {$modelClass}");
 
         foreach ($data as $key => $value) {
-            if (! in_array($key, $allowed)) {
+            if (! in_array($key, $allowed, true)) {
                 continue;
             }
-            if (in_array($key, ['created_at', 'updated_at', 'starts_at', 'ends_at', 'start_date', 'end_date', 'next_apply_date']) && $value) {
-                $model->$key = Carbon::parse($value)->format('Y-m-d H:i:s');
 
-                continue;
+            if ($value && in_array($key, self::DATE_FIELDS, true)) {
+                $value = Carbon::parse($value)->format('Y-m-d H:i:s');
             }
-            $model->$key = $value;
+
+            $model->{$key} = $value;
         }
 
         foreach ($extra as $key => $value) {
@@ -179,5 +176,12 @@ class BackupController extends Controller
         $model->save();
 
         return $model;
+    }
+
+    private function restoreCollection(string $model, array $items, callable $extra): void
+    {
+        foreach ($items as $item) {
+            $this->restoreModel($model, $item, $extra($item));
+        }
     }
 }
