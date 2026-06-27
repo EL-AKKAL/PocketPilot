@@ -13,4 +13,11 @@ export function initializeFlashToast(): void {
 
         toast[data.type](data.message);
     });
+    router.on('error', (event: any) => {
+        const errors = event.detail.errors;
+
+        Object.values(errors).forEach((message) => {
+            toast.error(String(message));
+        });
+    });
 }
