@@ -106,3 +106,11 @@ export interface MonthlyNetWorthTrend {
     expense: number;
     net: number;
 }
+
+export interface UpcomingObligations {
+    type: string;
+    title: string;
+    amount: number;
+    date: string;
+    human_date: string;
+}

@@ -6,6 +6,7 @@ use App\Enums\GoalStatusEnum;
 use App\Models\Account;
 use App\Services\Goal\GoalLifecycleService;
 use App\Services\Goal\GoalProgressService;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -33,6 +34,8 @@ class DashboardController extends Controller
 
         $monthlyNetWorthTrend = $this->MonthlyNetWorthTrend($account);
 
+        $upcomingObligations = $this->UpcomingObligations($account);
+
         return Inertia::render('Dashboard', [
             'balance' => $balance,
             'recentTransactions' => $recentTransactions,
@@ -44,6 +47,7 @@ class DashboardController extends Controller
             'expensesByCategory' => $expensesByCategory,
             'mostUsedCategories' => $mostUsed,
             'monthlyNetWorthTrend' => $monthlyNetWorthTrend,
+            'upcomingObligations' => $upcomingObligations,
         ]);
     }
 
@@ -206,5 +210,56 @@ class DashboardController extends Controller
                 'expense' => (float) $month->expense,
                 'net' => (float) ($month->income - abs($month->expense)),
             ]);
+    }
+
+    private function UpcomingObligations(Account $account)
+    {
+        $debts = $account->debts()
+            ->whereNull('paid_at')
+            ->whereDate('due_date', '>=', today())
+            ->select([
+                'description',
+                'amount',
+                'due_date as date',
+            ])
+            ->get()
+            ->map(fn ($debt) => [
+                'type' => 'Debt',
+                'title' => $debt->description ?: 'Debt',
+                'amount' => $debt->amount,
+                'date' => $debt->date,
+                'human_date' => $this->humanDate($debt->date),
+            ]);
+
+        $periodic = $account->periodicTransactions()
+            ->where('is_active', true)
+            ->whereDate('next_apply_date', '>=', today())
+            ->select([
+                'description',
+                'amount',
+                'next_apply_date as date',
+            ])
+            ->get()
+            ->map(fn ($transaction) => [
+                'type' => 'Periodic',
+                'title' => $transaction->description ?: 'Recurring transaction',
+                'amount' => $transaction->amount,
+                'date' => $transaction->date,
+                'human_date' => $this->humanDate($transaction->date),
+            ]);
+
+        return collect($debts)
+            ->merge($periodic)
+            ->sortBy('date')
+            ->take(10)
+            ->values();
+    }
+
+    private function humanDate($date): string
+    {
+        return Carbon::parse($date)->diffForHumans([
+            'syntax' => Carbon::DIFF_RELATIVE_TO_NOW,
+            'parts' => 1,
+        ]);
     }
 }

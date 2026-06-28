@@ -6,6 +6,7 @@ import ExpensesByCategoryDonutChart from '@/components/dashboard/charts/Expenses
 import MonthlyIncomeVsExpenseColumnChart from '@/components/dashboard/charts/MonthlyIncomeVsExpenseColumnChart.vue';
 import MonthlyNetWorthTrendColumnChart from '@/components/dashboard/charts/MonthlyNetWorthTrendColumnChart.vue';
 import RecentTransactionsTable from '@/components/dashboard/tables/RecentTransactionsTable.vue';
+import UpcomingObligationsTable from '@/components/dashboard/tables/UpcomingObligationsTable.vue';
 import GoalWidget from '@/components/dashboard/widgets/GoalWidget.vue';
 import MostUsedCategoriesWidget from '@/components/dashboard/widgets/MostUsedCategoriesWidget.vue';
 import StatsWidget from '@/components/dashboard/widgets/StatsWidget.vue';
@@ -15,6 +16,7 @@ import type {
     MostUsedCategories,
     SuggestedCategories,
     MonthlyNetWorthTrend,
+    UpcomingObligations,
 } from '@/types';
 
 defineProps<{
@@ -34,6 +36,7 @@ defineProps<{
     }[];
     mostUsedCategories: MostUsedCategories;
     monthlyNetWorthTrend: MonthlyNetWorthTrend[];
+    upcomingObligations: UpcomingObligations[];
 }>();
 
 const page = usePage();
@@ -85,5 +88,6 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
             :suggestedCategories="flash.suggestedCategories"
             v-if="flash.showCategorySuggestions"
         />
+        <UpcomingObligationsTable :upcomingObligations />
     </div>
 </template>
