@@ -10,6 +10,7 @@ const props = defineProps<{
     monthlyNetWorthTrend: MonthlyNetWorthTrend[];
 }>();
 
+const chartWidth = props.monthlyNetWorthTrend.length * 100;
 const series = [
     {
         name: 'Income',
@@ -34,12 +35,15 @@ const options = {
     colors: ['#00E396', '#FF4560', '#008FFB'],
     plotOptions: {
         bar: {
-            columnWidth: '60%',
+            columnWidth: '40%',
             borderRadius: 6,
         },
     },
     dataLabels: {
         enabled: false,
+    },
+    legend: {
+        show: false,
     },
     xaxis: {
         categories: props.monthlyNetWorthTrend.map((m) => m.month),
@@ -58,6 +62,19 @@ const hasData = computed(() => props.monthlyNetWorthTrend.length > 0);
         description="Compare your total income and expenses for the current month."
         :hasData
     >
-        <apexchart :options="options" height="300" :series />
+        <div
+            class="no-scrollbar w-full overflow-x-auto overflow-y-hidden"
+            style="
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            "
+        >
+            <div
+                :style="{ minWidth: chartWidth + 'px' }"
+                style="scroll-snap-align: center"
+            >
+                <apexchart :options="options" height="300" :series />
+            </div>
+        </div>
     </ChartCard>
 </template>
