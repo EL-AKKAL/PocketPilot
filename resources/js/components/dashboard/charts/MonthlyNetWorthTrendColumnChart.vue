@@ -32,6 +32,10 @@ const options = {
         stacked: false,
         ...baseChart,
     },
+    stroke: {
+        curve: 'smooth',
+        width: 3,
+    },
     colors: ['#00E396', '#FF4560', '#008FFB'],
     plotOptions: {
         bar: {
