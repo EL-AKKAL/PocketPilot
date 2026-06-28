@@ -7,7 +7,7 @@ defineProps<{
 }>();
 </script>
 <template>
-    <div class="space-y-4 rounded-2xl border p-4">
+    <div class="space-y-6 rounded-2xl border p-4 py-5">
         <h3 class="text-lg font-semibold">
             Most Used Categories of {{ month }}
         </h3>

@@ -54,6 +54,9 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div class="space-y-5">
                 <StatsWidget :value="balance" title="Total Balance" />
+                <MostUsedCategoriesWidget :mostUsedCategories :month="month" />
+            </div>
+            <div class="grid grid-cols-1 gap-6">
                 <div class="grid grid-cols-2 gap-4">
                     <StatsWidget
                         variant="success"
@@ -68,12 +71,12 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
                         :title="'Expense : ' + month"
                     />
                 </div>
+                <GoalWidget :canCreateGoal :goal="goal" />
             </div>
-            <RecentTransactionsTable :transactions="recentTransactions" />
         </div>
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <GoalWidget :canCreateGoal :goal="goal" />
-            <MostUsedCategoriesWidget :mostUsedCategories :month="month" />
+        <div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
+            <RecentTransactionsTable :transactions="recentTransactions" />
+            <UpcomingObligationsTable :upcomingObligations />
         </div>
         <BalanceHistoryLineChart :balanceHistory />
         <div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
@@ -84,10 +87,10 @@ const month = new Date().toLocaleString('en-US', { month: 'short' });
             />
         </div>
         <MonthlyNetWorthTrendColumnChart :monthlyNetWorthTrend />
+
         <CategorySuggestionsModal
             :suggestedCategories="flash.suggestedCategories"
             v-if="flash.showCategorySuggestions"
         />
-        <UpcomingObligationsTable :upcomingObligations />
     </div>
 </template>

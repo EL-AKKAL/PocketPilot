@@ -23,20 +23,16 @@ defineProps<{
             <li
                 v-for="obligation in upcomingObligations"
                 :key="obligation.title"
-                class="flex justify-between border-b pb-2"
+                class="flex items-center justify-between gap-2 border-b pb-2"
             >
-                <span>{{ obligation.type }}</span>
-                <span>{{ obligation.title }}</span>
-
                 <span
+                    class="block size-3 rounded-full"
                     :class="
-                        obligation?.amount > 0
-                            ? 'text-green-600'
-                            : 'text-red-600'
+                        obligation.type == 'Debt' ? 'bg-primary' : 'bg-blue-500'
                     "
-                >
-                    {{ currency(obligation?.amount) }}
-                </span>
+                />
+                <span class="hidden lg:block">{{ obligation.title }}</span>
+                <span>{{ currency(obligation?.amount) }}</span>
                 <span>{{ obligation.human_date }}</span>
             </li>
         </ul>
