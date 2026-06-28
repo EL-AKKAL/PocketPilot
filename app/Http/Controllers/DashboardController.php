@@ -75,7 +75,7 @@ class DashboardController extends Controller
 
     private function balanceHistory(Account $account)
     {
-        $startDate = now()->subDays(10)->startOfDay();
+        $startDate = now()->subDays(30)->startOfDay();
         $endDate = now()->endOfDay();
 
         // 1. Get daily sums
