@@ -62,8 +62,8 @@ const hasData = computed(() => props.monthlyNetWorthTrend.length > 0);
 </script>
 <template>
     <ChartCard
-        title="Income vs Expense this Month"
-        description="Compare your total income and expenses for the current month."
+        title="Net Worth by Month"
+        description="Compare your total income and expenses for each month."
         :hasData
     >
         <div
