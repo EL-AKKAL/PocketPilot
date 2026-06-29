@@ -73,7 +73,6 @@ const statusOptions = [
                     name="amount"
                     type="number"
                     :default-value="periodic?.amount"
-                    required
                     min="-999999"
                     placeholder="ex: 500$"
                 />

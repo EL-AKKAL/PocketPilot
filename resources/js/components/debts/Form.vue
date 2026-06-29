@@ -44,7 +44,6 @@ const dueDate = ref(
                     name="amount"
                     type="number"
                     :default-value="debt?.amount"
-                    required
                     min="0"
                     placeholder="ex: 500$"
                 />

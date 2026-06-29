@@ -37,7 +37,6 @@ const types = usePage().props.goalTypes as string[];
                     name="value"
                     type="number"
                     :default-value="goal?.value"
-                    required
                     min="0"
                     placeholder="ex: 500$"
                 />

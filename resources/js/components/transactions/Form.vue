@@ -36,7 +36,6 @@ defineProps<{
                     name="amount"
                     type="number"
                     :default-value="transaction?.amount"
-                    required
                     min="-999999"
                     placeholder="ex: 500$"
                 />

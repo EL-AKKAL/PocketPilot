@@ -76,7 +76,6 @@ const downloadBackup = () => (window.location.href = backup.export().url);
                             type="file"
                             name="file"
                             accept="application/json"
-                            required
                             class="block w-full text-sm"
                         />
                         <DialogFooter class="gap-2">
