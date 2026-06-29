@@ -1,140 +1,84 @@
-# PocketPilot — 48h Challenge
+# PocketPilot V3 — Requirements
 
-## 🚀 Description and overview
+## Overview
 
-PocketPilot is a personal finance web application built through a **48-hour iterative development challenge** (24h v1 + 24h v2).
+PocketPilot V3 focuses on customization, better data management, improved financial insights, and overall usability.
 
-The goal was to simulate real-world startup conditions by designing, building, and refining a complete financial tracking product under strict time constraints.
-
-## 🧩 What is PocketPilot?
-
-PocketPilot helps users:
-
-- Track income and expenses
-- Manage recurring transactions
-- Set and monitor financial goals
-- Visualize financial data through a clean dashboard
-
-All within a fast, intuitive, and production-ready interface.
-
-## 🛠 Tech Stack
-- Laravel
-- Vue 3 + Inertia
-- TailwindCSS
-- ApexCharts
-- Shadcn-vue
-
-## ⚡ Challenge Concept
-
-This project was built in **two intensive phases**:
-
-### 🥇 V1 — 24h MVP
-Focus: Core functionality & full-stack delivery
-
-- Transactions system (income & expenses)
-- Recurring transactions (automation)
-- Basic dashboard
-- Reusable DataTable system
-- Authentication & deployment
+This release introduces custom categories, debt management, search and filtering, a redesigned backup system, dashboard improvements, and numerous UI and codebase refinements.
 - 
-## 📊 Key Features
+## 📊  Features
 
-- User authentication and account creation  
-- Income & expense tracking system  
-- Recurring (periodic) transaction automation  
-- Editable and deletable transaction history  
-- Basic Dashboard with financial charts and summaries  
-- Responsive UI with reusable components  
+### Custom Categories (MUST)
 
-Fully deployed production-ready application  
+ - Users have complete control over their transaction categories.
+
+### Global Search
+
+ - Search has been added across multiple modules.
+ 
+ - Supported modules:
+    Transactions
+    Recurring Transactions
+    Goals
+    Categories
+    Debts
+
+### Simple Filters
+
+ - Quick filtering has been introduced.
+
+ - Available filters include:
+    Transaction type
+    Goal status
+    Recurring frequency
+    Debt status
+
+### Debt Management
+
+ - A completely new module for tracking money owed.
+
+### Starter Categories
+
+ - New users can now choose from predefined starter categories during onboarding instead of creating everything manually.
+
+### Dashboard Upgrade
+
+ - Two new dashboard widgets have been added.
+
+ 1. Monthly Net Worth Trend
+
+    - Displays monthly: Income , Expenses , Net result
+
+    - making long-term financial trends easier to understand.
+
+ 2. Upcoming Obligations
+
+    - Shows the next upcoming financial commitments by combining: Unpaid debts , Upcoming recurring transactions
+
+## ✨ Improvements
+
+- Refactored reusable forms
+- Better validation behavior
+- Improved dropdown interactions
+- Category search integration
+- User Experience
+- Help modal
+- Better empty states
+- Improved mobile experience
+- Code Quality
+
+Large portions of the codebase were refactored to improve maintainability.
+
+- Highlights include:
+
+    Cleaner controllers
+    Reusable form components
+    Reusable import/restore helpers
+    Reduced code duplication
+    Better separation of concerns
 ---
 
-### 🥈 V2 — 24h Expansion
-Focus: Features, performance, and UX polish
+## Bug Fix
 
-- Backup & restore system
-- Categories system
-- Goals system with history tracking
-- Server-side pagination
-- Dashboard improvements (charts + insights)
-- Performance optimization
-- UX improvements (faster forms, better workflows)
-- Data reset feature (start fresh anytime)
-  
-## 📊 Key Features
-
-- 💰 Income & expense tracking  
-- 🎯 Periodic goals tracking with history  
-- 📊 Interactive dashboard with responsive charts 
-- 🗂️ Categories system included in transactions (income & expense)  
-- 💾 Backup & restore functionality  
-- ⚡ Optimized performance & server-side pagination  
-- 🧼 Clean UI with reusable components  
-- 🔄 “Reset all data” feature  
-
----
-## 🧠 Development Breakdown
-
-### ⏱ Total Time: ~48 hours
-
-#### V1 (~23h)
-- Planning & Analysis: 3h 30min  
-- Setup & Initialization: 1h  
-- Backend Development: 3h  
-- Auth + Dashboard: 30min  
-- DataTable System: 1h  
-- Transactions + Recurring UI: 2h  
-- CRUD Improvements: 2h  
-- Deployment: 1h 30min  
-- Optimization: 1h  
-- Refactor: 45min  
-- Landing Page: 4h  
-- Dashboard + Charts: 2h  
-- Bug Fixes: 45min  
-
----
-
-#### V2 (~20h+ focused execution)
-
-- Planning & Architecture: 2h  
-- Backup & Restore System: 3h+  
-- Categories System: ~2h  
-- Goals System + History: 4h 30min  
-- Server-Side Pagination: ~40min  
-- Dashboard Improvements: ~1h 30min  
-- Performance Optimization: ~1h  
-- UX Improvements (Forms): 2h  
-- Data Reset Feature: ~25min  
-- Refactor & UI Polish: ~3h+  
-
----
-
-## 🎯 Key Takeaways
-
-This project demonstrates:
-
-- Ability to build **full-stack applications under pressure**
-- Strong focus on **MVP prioritization**
-- Designing **scalable and reusable components**
-- Iterating quickly from **v1 → v2**
-- Balancing **speed, performance, and UX**
-
----
-## 🌍 Deployment
-
-Production-ready application deployed with:
-
-- Custom domain / subdomain
-- Backend + frontend integration
-- Real-world usage conditions
-
----
-
-## 🧠 Final Thoughts
-
-PocketPilot is not just a finance app — it's a proof of execution.
-
-Built in 48 hours, it reflects the ability to:
-- Ship fast
-- Iterate quickly
-- Deliver real value under constraints
+- fixing goals process
+- validation errors issue
