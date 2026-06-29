@@ -35,7 +35,6 @@ const types = ['Income', 'Expense'];
                     name="value"
                     placeholder="ex: Bills, Salary, etc."
                     :default-value="category?.value"
-                    required
                 />
                 <FormSelect
                     label="Type"
