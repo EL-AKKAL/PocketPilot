@@ -1,8 +1,8 @@
-# PocketPilot — 48h Challenge
+# PocketPilot — 72h Challenge
 
 ## 🚀 Description and overview
 
-PocketPilot is a personal finance web application built through a **48-hour iterative development challenge** (24h v1 + 24h v2).
+PocketPilot is a personal finance web application built through a **72-hour iterative development challenge** (24h v1 + 24h v2 + 24h v3).
 
 The goal was to simulate real-world startup conditions by designing, building, and refining a complete financial tracking product under strict time constraints.
 
@@ -26,7 +26,7 @@ All within a fast, intuitive, and production-ready interface.
 
 ## ⚡ Challenge Concept
 
-This project was built in **two intensive phases**:
+This project was built in **three intensive phases**:
 
 ### 🥇 V1 — 24h MVP
 Focus: Core functionality & full-stack delivery
@@ -73,6 +73,16 @@ Focus: Features, performance, and UX polish
 - 🔄 “Reset all data” feature  
 
 ---
+
+### 🥈 V3 — 24h Refactor
+Focus: Features, refactor, and UX polish
+
+- Custom categories
+- Debts system
+- Dashboard improvements (charts + insights)
+- huge code refactor
+- Filters , Search system
+---
 ## 🧠 Development Breakdown
 
 ### ⏱ Total Time: ~48 hours
@@ -106,6 +116,22 @@ Focus: Features, performance, and UX polish
 - UX Improvements (Forms): 2h  
 - Data Reset Feature: ~25min  
 - Refactor & UI Polish: ~3h+  
+
+---
+#### V3 (~20h+ focused execution)
+
+- planning : 1h45min
+- Custom Categories 3h
+- fixing bugs : Form validation modal issue 45min.
+- refactor goals system 1h.
+- refactor components 2h.
+- Search system 1h20min
+- Simple Filters 1h
+- Debts System 2h:30min 
+- Help modal 1h
+- Choose starter categories after account creation 2h.
+- Import / Export V2 2h
+- Dashboard Upgrade 1h30min.
 
 ---
 
