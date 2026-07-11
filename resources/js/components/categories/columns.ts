@@ -1,9 +1,10 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
-import Form from '@/components/categories/Form.vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { destroy } from '@/routes/categories';
 import type { Category } from '@/types';
+import { details, inputs } from './index';
 
 export const columns: ColumnDef<Category>[] = [
     {
@@ -53,7 +54,10 @@ export const columns: ColumnDef<Category>[] = [
                     {
                         edit: () =>
                             h(Form, {
-                                category,
+                                inputs: inputs,
+                                details: details,
+                                resourceKey: 'category',
+                                element: category,
                             }),
                     },
                 ),

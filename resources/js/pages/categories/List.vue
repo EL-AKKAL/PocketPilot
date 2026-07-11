@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { details, inputs } from '@/components/categories';
 import { columns } from '@/components/categories/columns';
 import { filters } from '@/components/categories/filters';
-import Form from '@/components/categories/Form.vue';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { index } from '@/routes/categories';
 import type { Category } from '@/types';
 
@@ -24,7 +25,7 @@ defineProps<{
             :url="index().url"
             :filters
         >
-            <Form />
+            <Form :inputs :details />
         </dataTableTitle>
         <DataTable
             :columns

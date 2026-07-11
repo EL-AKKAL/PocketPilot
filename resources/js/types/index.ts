@@ -32,6 +32,7 @@ export interface InputType {
     placeholder?: string;
     min?: number;
     getValue?: (element: any) => any;
+    options?: string[];
 }
 
 export interface FormDetails {
