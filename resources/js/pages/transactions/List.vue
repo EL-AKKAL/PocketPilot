@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
-import { columns } from '@/components/transactions/columns';
-import Form from '@/components/transactions/Form.vue';
+import Form from '@/components/ReusableForm/Form.vue';
+import { details, inputs, columns } from '@/components/transactions';
 import { index } from '@/routes/transactions';
 import type { Transaction } from '@/types';
 
@@ -22,7 +22,7 @@ defineProps<{
             title="Transactions"
             action="Create Transaction"
         >
-            <Form />
+            <Form :inputs :details />
         </dataTableTitle>
         <DataTable
             :columns

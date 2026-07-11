@@ -1,10 +1,11 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
-import Form from '@/components/transactions/Form.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { categoryStyles, currency } from '@/lib/utils';
 import { destroy } from '@/routes/transactions';
 import type { Transaction } from '@/types';
+import { details, inputs } from './index';
 
 export const columns: ColumnDef<Transaction>[] = [
     {
@@ -74,7 +75,10 @@ export const columns: ColumnDef<Transaction>[] = [
                     {
                         edit: () =>
                             h(Form, {
-                                transaction,
+                                inputs: inputs,
+                                details: details,
+                                resourceKey: 'transaction',
+                                element: transaction,
                             }),
                     },
                 ),
