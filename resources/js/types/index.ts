@@ -114,3 +114,31 @@ export interface UpcomingObligations {
     date: string;
     human_date: string;
 }
+
+export interface InputType {
+    name: string;
+    type: string;
+    label: string;
+    component?: any;
+    defaultValue?: any;
+    placeholder?: string;
+    min?: number;
+    getValue?: (element: any) => any;
+}
+
+export interface FormDetails {
+    title: {
+        store: string;
+        update: string;
+        description: string;
+    };
+    store: StoreMethod;
+    update: UpdateMethod;
+    resourceKey: string;
+}
+
+export type StoreMethod = {
+    form: () => any;
+};
+
+export type UpdateMethod = (...args: any[]) => any;

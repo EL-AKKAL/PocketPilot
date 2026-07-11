@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/select';
 import type { Categories } from '@/types';
 
-defineProps<{ id?: number }>();
+defineProps<{ defaultValue?: number }>();
 const categories = usePage().props.categories as Categories;
 </script>
 
@@ -21,7 +21,7 @@ const categories = usePage().props.categories as Categories;
         <div class="flex items-center justify-between">
             <Label for="category_id">Category</Label>
         </div>
-        <Select name="category_id" :default-value="id">
+        <Select name="category_id" :default-value="defaultValue?.toString()">
             <SelectTrigger class="w-full">
                 <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -31,7 +31,7 @@ const categories = usePage().props.categories as Categories;
                     <SelectItem
                         v-for="income in categories.income"
                         :key="income.id"
-                        :value="income.id"
+                        :value="income.id.toString()"
                     >
                         {{ income.value }}
                     </SelectItem>
@@ -41,7 +41,7 @@ const categories = usePage().props.categories as Categories;
                     <SelectItem
                         v-for="expense in categories.expense"
                         :key="expense.id"
-                        :value="expense.id"
+                        :value="expense.id.toString()"
                     >
                         {{ expense.value }}
                     </SelectItem>
