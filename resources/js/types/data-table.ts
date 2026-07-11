@@ -1,6 +1,11 @@
-export interface Payment {
-    id: string;
-    amount: number;
-    status: 'pending' | 'processing' | 'success' | 'failed';
-    email: string;
+export interface FilterDefinition {
+    type: 'select';
+    field: string;
+    label: string;
+    options: Option[];
+}
+
+export interface Option {
+    value: string;
+    label: string;
 }
