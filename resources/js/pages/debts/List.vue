@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { columns } from '@/components/debts/columns';
-import Form from '@/components/debts/Form.vue';
+import { details, inputs, columns } from '@/components/debts';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { index } from '@/routes/debts';
 import type { Debt } from '@/types';
 
@@ -18,7 +18,7 @@ defineProps<{
 <template>
     <div class="container mx-auto py-10">
         <dataTableTitle title="Debts" action="Create Debt" :url="index().url">
-            <Form />
+            <Form :inputs :details />
         </dataTableTitle>
         <DataTable
             :columns

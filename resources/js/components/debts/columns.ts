@@ -1,11 +1,13 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { Check, X } from 'lucide-vue-next';
 import { h } from 'vue';
-import Form from '@/components/debts/Form.vue';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { currency } from '@/lib/utils';
 import { destroy, pay } from '@/routes/debts';
 import type { Debt } from '@/types';
+import { details, inputs } from './index';
+
 export const columns: ColumnDef<Debt>[] = [
     {
         accessorKey: 'ID',
@@ -79,7 +81,10 @@ export const columns: ColumnDef<Debt>[] = [
                     {
                         edit: () =>
                             h(Form, {
-                                debt,
+                                inputs: inputs,
+                                details: details,
+                                resourceKey: 'debt',
+                                element: debt,
                             }),
                     },
                 ),
