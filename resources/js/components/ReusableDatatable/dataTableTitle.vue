@@ -3,7 +3,7 @@ import { router } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
 import { Search, SlidersHorizontal, ListFilterPlus } from 'lucide-vue-next';
 import { reactive, ref } from 'vue';
-import FormSelect from '@/components/forms/FormSelect.vue';
+import FormSelect from '@/components/ReusableForm/inputs/FormSelect.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input/Input.vue';

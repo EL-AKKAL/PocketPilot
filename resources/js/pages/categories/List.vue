@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { details, inputs } from '@/components/categories';
 import { columns } from '@/components/categories/columns';
-import { filters } from '@/components/categories/filters';
+import { filters } from '@/components/categories/index';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
 import Form from '@/components/ReusableForm/Form.vue';

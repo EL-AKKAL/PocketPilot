@@ -1,5 +1,5 @@
-import FormCategorySelect from '../forms/FormCategorySelect.vue';
-import FormInput from '../forms/FormInput.vue';
+import FormCategorySelect from '../ReusableForm/inputs/FormCategorySelect.vue';
+import FormInput from '../ReusableForm/inputs/FormInput.vue';
 
 export const inputs = [
     {

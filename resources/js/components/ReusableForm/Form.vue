@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import FormDialog from '@/components/forms/FormDialog.vue';
-import FormFooter from '@/components/forms/FormFooter.vue';
+import FormDialog from '@/components/ReusableForm/FormDialog.vue';
+import FormFooter from '@/components/ReusableForm/FormFooter.vue';
 import type { FormDetails, InputType } from '@/types';
 
 const props = defineProps<{

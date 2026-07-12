@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Form, usePage } from '@inertiajs/vue3';
-import FormDialog from '@/components/forms/FormDialog.vue';
-import FormFooter from '@/components/forms/FormFooter.vue';
-import FormInput from '@/components/forms/FormInput.vue';
-import FormSelect from '@/components/forms/FormSelect.vue';
+import FormDialog from '@/components/ReusableForm/FormDialog.vue';
+import FormFooter from '@/components/ReusableForm/FormFooter.vue';
+import FormInput from '@/components/ReusableForm/inputs/FormInput.vue';
+import FormSelect from '@/components/ReusableForm/inputs/FormSelect.vue';
 import { store, update } from '@/routes/goals';
 import type { GoalStatistic } from '@/types';
 

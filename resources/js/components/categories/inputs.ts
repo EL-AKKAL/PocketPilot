@@ -1,5 +1,5 @@
-import FormInput from '../forms/FormInput.vue';
-import FormSelect from '../forms/FormSelect.vue';
+import FormInput from '../ReusableForm/inputs/FormInput.vue';
+import FormSelect from '../ReusableForm/inputs/FormSelect.vue';
 
 export const inputs = [
     {

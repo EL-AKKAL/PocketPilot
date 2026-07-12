@@ -2,7 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { reactive } from 'vue';
-import FormDialog from '@/components/forms/FormDialog.vue';
+import FormDialog from '@/components/ReusableForm/FormDialog.vue';
 import Checkbox from '@/components/ui/checkbox/Checkbox.vue';
 import { starter_categories } from '@/routes/account/index.js';
 import type { SuggestedCategories } from '@/types/index.js';
