@@ -33,6 +33,7 @@ export interface InputType {
     min?: number;
     getValue?: (element: any) => any;
     options?: string[];
+    getOptions?: () => string[];
 }
 
 export interface FormDetails {
