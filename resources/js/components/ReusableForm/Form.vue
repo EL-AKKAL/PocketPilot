@@ -53,6 +53,16 @@ const formAction = computed(() => {
                                 ? input.getValue(element)
                                 : (element?.[input.name] ?? input.defaultValue)
                         "
+                        :start-default="
+                            input.getStartValue
+                                ? input.getStartValue(element)
+                                : undefined
+                        "
+                        :end-default="
+                            input.getEndValue
+                                ? input.getEndValue(element)
+                                : undefined
+                        "
                     />
                 </template>
                 <FormFooter :processing="processing" :entity="element" />

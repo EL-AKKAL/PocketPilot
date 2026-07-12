@@ -1,7 +1,8 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue';
-import Form from '@/components/periodics/Form.vue';
+import { details, inputs } from '@/components/periodics';
 import DropdownAction from '@/components/ReusableDatatable/dataTableDropdown.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { categoryStyles, currency } from '@/lib/utils';
 import { destroy } from '@/routes/periodic_transactions';
 import type { PeriodicTransaction } from '@/types';
@@ -91,7 +92,7 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
         id: 'actions',
         accessorKey: 'actions',
         cell: ({ row }) => {
-            const periodic = row.original as PeriodicTransaction;
+            const element = row.original as PeriodicTransaction;
 
             return h(
                 'div',
@@ -102,18 +103,15 @@ export const columns: ColumnDef<PeriodicTransaction>[] = [
                         item: 'Periodic Transaction',
                         deleteRoute: {
                             ...destroy({
-                                periodic_transaction: periodic.id,
+                                periodic_transaction: element.id,
                             }),
                             action: destroy({
-                                periodic_transaction: periodic.id,
+                                periodic_transaction: element.id,
                             }).url,
                         },
                     },
                     {
-                        edit: () =>
-                            h(Form, {
-                                periodic,
-                            }),
+                        edit: () => h(Form, { element, details, inputs }),
                     },
                 ),
             );

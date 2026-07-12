@@ -32,8 +32,19 @@ export interface InputType {
     placeholder?: string;
     min?: number;
     getValue?: (element: any) => any;
-    options?: string[];
+    options?: string[] | SelectOption[];
     getOptions?: () => string[];
+    getStartValue?: (element: any) => any;
+    getEndValue?: (element: any) => any;
+    startName?: string;
+    endName?: string;
+    optionLabel?: string;
+    optionValue?: string;
+}
+
+export interface SelectOption {
+    label: string;
+    value: string | number | boolean;
 }
 
 export interface FormDetails {
