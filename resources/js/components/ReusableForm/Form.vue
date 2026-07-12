@@ -43,6 +43,11 @@ const formAction = computed(() => {
                     <component
                         :is="input.component"
                         v-bind="input"
+                        :options="
+                            input.getOptions
+                                ? input.getOptions()
+                                : input.options
+                        "
                         :default-value="
                             input.getValue
                                 ? input.getValue(element)
