@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Pen, Plus } from 'lucide-vue-next';
-import Form from '@/components/goals/Form.vue';
+import { inputs, details } from '@/components/goals';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
+import Form from '@/components/ReusableForm/Form.vue';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent } from '@/components/ui/card';
@@ -65,7 +66,7 @@ defineProps<{
                                         <Pen class="h-3 w-3!" />
                                     </Button>
                                 </AlertDialogTrigger>
-                                <Form :goal />
+                                <Form :inputs :details :element="goal" />
                             </AlertDialog>
                             <AlertDialog class="w-3xl!">
                                 <AlertDialogTrigger as-child>
@@ -77,7 +78,7 @@ defineProps<{
                                         <Plus class="h-3 w-3!" />
                                     </Button>
                                 </AlertDialogTrigger>
-                                <Form />
+                                <Form :inputs :details />
                             </AlertDialog>
                         </div>
                     </div>
@@ -99,7 +100,7 @@ defineProps<{
                             <Plus class="h-5 w-5" />
                         </Button>
                     </AlertDialogTrigger>
-                    <Form />
+                    <Form :inputs :details />
                 </AlertDialog>
             </div>
         </CardContent>

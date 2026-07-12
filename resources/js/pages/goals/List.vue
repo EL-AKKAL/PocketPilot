@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { columns } from '@/components/goals/columns';
-import { filters } from '@/components/goals/filters';
-// import Form from '@/components/goals/Form.vue';
+import { columns, filters } from '@/components/goals';
 import DataTable from '@/components/ReusableDatatable/dataTable.vue';
 import dataTableTitle from '@/components/ReusableDatatable/dataTableTitle.vue';
 import { index } from '@/routes/goals';
