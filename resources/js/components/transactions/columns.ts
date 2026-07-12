@@ -54,7 +54,7 @@ export const columns: ColumnDef<Transaction>[] = [
         id: 'actions',
         accessorKey: 'actions',
         cell: ({ row }) => {
-            const transaction = row.original as Transaction;
+            const element = row.original as Transaction;
 
             return h(
                 'div',
@@ -65,21 +65,15 @@ export const columns: ColumnDef<Transaction>[] = [
                         item: 'Transaction',
                         deleteRoute: {
                             ...destroy({
-                                transaction: transaction.id,
+                                transaction: element.id,
                             }),
                             action: destroy({
-                                transaction: transaction.id,
+                                transaction: element.id,
                             }).url,
                         },
                     },
                     {
-                        edit: () =>
-                            h(Form, {
-                                inputs: inputs,
-                                details: details,
-                                resourceKey: 'transaction',
-                                element: transaction,
-                            }),
+                        edit: () => h(Form, { inputs, details, element }),
                     },
                 ),
             );

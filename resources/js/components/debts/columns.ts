@@ -59,7 +59,7 @@ export const columns: ColumnDef<Debt>[] = [
         id: 'actions',
         accessorKey: 'actions',
         cell: ({ row }) => {
-            const debt = row.original as Debt;
+            const element = row.original as Debt;
 
             return h(
                 'div',
@@ -68,24 +68,18 @@ export const columns: ColumnDef<Debt>[] = [
                     DropdownAction,
                     {
                         item: 'Debt',
-                        payUrl: pay({ debt: debt.id }).url,
+                        payUrl: pay({ debt: element.id }).url,
                         deleteRoute: {
                             ...destroy({
-                                debt: debt.id,
+                                debt: element.id,
                             }),
                             action: destroy({
-                                debt: debt.id,
+                                debt: element.id,
                             }).url,
                         },
                     },
                     {
-                        edit: () =>
-                            h(Form, {
-                                inputs: inputs,
-                                details: details,
-                                resourceKey: 'debt',
-                                element: debt,
-                            }),
+                        edit: () => h(Form, { inputs, details, element }),
                     },
                 ),
             );

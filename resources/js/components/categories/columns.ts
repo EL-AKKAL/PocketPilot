@@ -33,7 +33,7 @@ export const columns: ColumnDef<Category>[] = [
         id: 'actions',
         accessorKey: 'actions',
         cell: ({ row }) => {
-            const category = row.original as Category;
+            const element = row.original as Category;
 
             return h(
                 'div',
@@ -44,21 +44,15 @@ export const columns: ColumnDef<Category>[] = [
                         item: 'Category',
                         deleteRoute: {
                             ...destroy({
-                                category: category.id,
+                                category: element.id,
                             }),
                             action: destroy({
-                                category: category.id,
+                                category: element.id,
                             }).url,
                         },
                     },
                     {
-                        edit: () =>
-                            h(Form, {
-                                inputs: inputs,
-                                details: details,
-                                resourceKey: 'category',
-                                element: category,
-                            }),
+                        edit: () => h(Form, { inputs, details, element }),
                     },
                 ),
             );
